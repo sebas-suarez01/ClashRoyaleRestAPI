@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ClashRoyaleRestAPI.Application\ClashRoyaleRestAPI.Application.csproj" />
   </ItemGroup>
 
