@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClashRoyaleRestAPI.Domain.Card.ValueObjects
+namespace ClashRoyaleRestAPI.Domain.Player.ValueObjects
 {
-    public sealed class CardId : BaseIdValueObject
+    public sealed class PlayerId : BaseIdValueObject
     {
-        public CardId(Guid value) : base(value)
+        public PlayerId(Guid value) : base(value)
         {
         }
     }
+}
 }

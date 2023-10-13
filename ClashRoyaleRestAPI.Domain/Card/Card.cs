@@ -11,6 +11,22 @@ namespace ClashRoyaleRestAPI.Domain.Card
 {
     public abstract class Card : AggregateRoot<CardId>
     {
+        protected Card(CardId id, string? name, TypeCardEnum type, string? description, int elixir,
+                       QualityCardEnum quality, int damage, bool areaDamage, TargetCardEnum target, int initialLevel,
+                       string? imageUrl) : base(id)
+        {
+            Name = name;
+            Type = type;
+            Description = description;
+            Elixir = elixir;
+            Quality = quality;
+            Damage = damage;
+            AreaDamage = areaDamage;
+            Target = target;
+            InitialLevel = initialLevel;
+            ImageUrl = imageUrl;
+        }
+
         public string? Name { get; set; }
         public TypeCardEnum Type { get; set; }
         public string? Description { get; set; }
