@@ -6,6 +6,12 @@
         public int TowerDamage { get; set; }
         public int LifeTime { get; set; }
 
+        public SpellModel AddId(int id)
+        {
+            Id = id;
+            return this;
+        }
+
         /*private SpellModel(CardId id,
                       string? name,
                       TypeCardEnum type,

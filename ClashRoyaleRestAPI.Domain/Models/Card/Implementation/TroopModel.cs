@@ -11,6 +11,11 @@ namespace ClashRoyaleRestAPI.Domain.Models.Card.Implementation
         public float HitSpeed { get; set; }
         public TransportCardEnum Transport { get; set; }
 
+        public TroopModel AddId(int id)
+        {
+            Id = id;
+            return this;
+        }
         /*private TroopModel(CardId id,
                       string? name,
                       TypeCardEnum type,

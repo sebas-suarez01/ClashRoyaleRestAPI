@@ -8,6 +8,7 @@ using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Domain.Models.War;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relationships;
+using ClashRoyaleRestAPI.Infrastructure.Persistance.Seed;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance
             ApplyModelsConfiguration(modelBuilder);
             ApplyRelationshipsConfiguration(modelBuilder);
 
+            modelBuilder.SeedCards();
 
         }
         private void ApplyRelationshipsConfiguration(ModelBuilder modelBuilder)

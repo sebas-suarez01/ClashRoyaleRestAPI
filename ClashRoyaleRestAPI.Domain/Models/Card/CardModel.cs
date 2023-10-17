@@ -33,5 +33,7 @@ namespace ClashRoyaleRestAPI.Domain.Models.Card
         public TargetCardEnum Target { get; set; }
         public int InitialLevel { get; set; }
         public string? ImageUrl { get; set; }
+
+        
     }
 }

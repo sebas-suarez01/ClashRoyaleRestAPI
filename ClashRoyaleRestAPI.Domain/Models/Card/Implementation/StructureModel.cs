@@ -8,6 +8,11 @@
         public int LifeTime { get; set; }
         public float Range { get; set; }
 
+        public StructureModel AddId(int id)
+        {
+            Id = id;
+            return this;
+        }
         /*private StructureModel(CardId id,
                       string? name,
                       TypeCardEnum type,
