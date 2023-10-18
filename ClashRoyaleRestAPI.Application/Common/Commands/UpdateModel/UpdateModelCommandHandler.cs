@@ -12,7 +12,7 @@ namespace ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel
 {
     public class UpdateModelCommandHandler<TRequest, TModel, UId> : IRequestHandler<TRequest>
         where TModel : IEntity<UId>
-        where TRequest : DeleteModelCommand<TModel, UId>
+        where TRequest : UpdateModelCommand<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public UpdateModelCommandHandler(IBaseRepository<TModel, UId> repository)

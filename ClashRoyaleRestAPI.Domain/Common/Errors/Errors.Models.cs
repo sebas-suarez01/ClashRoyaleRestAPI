@@ -17,6 +17,9 @@ namespace ClashRoyaleRestAPI.Domain.Common.Errors
             public static Error IdNotFound => Error.NotFound(
                 code: "Model.IdNotFound",
                 description: "Id not found");
+            public static Error IdsNotMatch => Error.Conflict(
+                code: "Model.IdsNotMatch",
+                description: "Ids does not match");
         }
     }
 }

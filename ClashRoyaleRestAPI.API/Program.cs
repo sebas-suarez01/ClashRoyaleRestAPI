@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddInfrastructure()
         .AddApplication();
 
+    builder.Services.AddAutoMapper(typeof(Program));
+
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }

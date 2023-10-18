@@ -10,12 +10,6 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Seed;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance
 {
@@ -41,7 +35,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             ApplyModelsConfiguration(modelBuilder);
             ApplyRelationshipsConfiguration(modelBuilder);
 

@@ -1,10 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Enum;
-using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ClashRoyaleRestAPI.Domain.Models.Card.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Domain.Models.Card
+namespace ClashRoyaleRestAPI.API.Common.Mapping.Objects
 {
-    public abstract class CardModel : IEntity<int>
+    public class CardRequest
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -17,7 +15,14 @@ namespace ClashRoyaleRestAPI.Domain.Models.Card
         public TargetCardEnum Target { get; set; }
         public int InitialLevel { get; set; }
         public string? ImageUrl { get; set; }
-
-        
+        public int HitPoints { get; set; }
+        public int Amount { get; set; }
+        public float Range { get; set; }
+        public SpeedCardEnum Speed { get; set; }
+        public float HitSpeed { get; set; }
+        public TransportCardEnum Transport { get; set; }
+        public float Radius { get; set; }
+        public int TowerDamage { get; set; }
+        public int LifeTime { get; set; }
     }
 }
