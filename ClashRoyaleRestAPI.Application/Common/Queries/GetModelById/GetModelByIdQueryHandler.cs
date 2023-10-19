@@ -1,25 +1,28 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Common.Errors;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ErrorOr;
-using MediatR;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.GetModelById
 {
-    public class GetModelByIdHandler<TRequest, TModel, UId> : IRequestHandler<TRequest, ErrorOr<TModel>>
+    public class GetModelByIdHandler<TModel, UId> : IQueryHandler<GetModelByIdQuery<TModel, UId>, TModel>
         where TModel : IEntity<UId>
-        where TRequest : GetModelByIdQuery<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public GetModelByIdHandler(IBaseRepository<TModel, UId> repository)
         {
             _repository = repository;
         }
-        public async Task<ErrorOr<TModel>> Handle(TRequest request, CancellationToken cancellationToken)
+
+        public async Task<Result<TModel>> Handle(GetModelByIdQuery<TModel, UId> request, CancellationToken cancellationToken)
         {
             var model = await _repository.GetSingleByIdAsync(request.Id);
 
-            return model ?? (ErrorOr<TModel>)Errors.Models.IdNotFound;
+            if (model is null)
+                return Result.Failure<TModel>(ErrorTypes.Models.IdNotFound);
+
+            return model;
         }
     }
 }

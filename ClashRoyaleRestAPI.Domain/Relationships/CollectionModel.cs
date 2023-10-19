@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClashRoyaleRestAPI.Domain.Common.Relationships
+namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class CollectionModel
     {

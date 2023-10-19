@@ -1,6 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ClashRoyaleRestAPI.Domain.Common.Relationships;
 using ClashRoyaleRestAPI.Domain.Models.Card;
+using ClashRoyaleRestAPI.Domain.Relationships;
 
 namespace ClashRoyaleRestAPI.Domain.Models.Player
 {

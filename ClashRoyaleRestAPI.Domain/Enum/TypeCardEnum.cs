@@ -1,4 +1,4 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Common.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum
 {
     public enum TypeCardEnum
     {

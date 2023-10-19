@@ -2,7 +2,7 @@
 using ClashRoyaleRestAPI.Domain.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Models.Player;
 
-namespace ClashRoyaleRestAPI.Domain.Common.Relationships
+namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class DonationModel
     {

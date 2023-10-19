@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using ClashRoyaleRestAPI.Domain.Errors;
+using ClashRoyaleRestAPI.Domain.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleRestAPI.API.Controllers
@@ -10,27 +11,20 @@ namespace ClashRoyaleRestAPI.API.Controllers
         {
             var firstError = errors[0];
 
-            var statusCode = firstError.Type switch
-            {
-                ErrorType.Conflict => StatusCodes.Status409Conflict,
-                ErrorType.NotFound => StatusCodes.Status404NotFound,
-                _ => StatusCodes.Status500InternalServerError
-            };
-
-            return Problem(statusCode: statusCode, title: firstError.Description);
+            return Problem(firstError);
         }
 
         protected IActionResult Problem(Error error)
         {
 
-            var statusCode = error.Type switch
-            {
-                ErrorType.NotFound => StatusCodes.Status404NotFound,
-                ErrorType.Conflict => StatusCodes.Status409Conflict,
-                _ => StatusCodes.Status500InternalServerError
-            };
+            if (error == ErrorTypes.Models.IdNotFound)
+                return NotFound(error.Description);
+            if (error == ErrorTypes.Models.ModelNotFound)
+                return NotFound(error.Description);
+            if (error == ErrorTypes.Models.IdsNotMatch)
+                return NotFound(error.Description);
 
-            return Problem(statusCode: statusCode, title: error.Description);
+            return Problem();
         }
     }
 }

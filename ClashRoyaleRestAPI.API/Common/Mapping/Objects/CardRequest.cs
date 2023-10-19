@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Enum;
+﻿using ClashRoyaleRestAPI.Domain.Enum;
 
 namespace ClashRoyaleRestAPI.API.Common.Mapping.Objects
 {

@@ -1,13 +1,8 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 
 namespace ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel
 {
-    public record UpdateModelCommand<TModel, UId>(TModel Model): IRequest
+    public record UpdateModelCommand<TModel, UId>(TModel Model) : ICommand
         where TModel : IEntity<UId>;
 }

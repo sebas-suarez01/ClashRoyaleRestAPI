@@ -1,25 +1,22 @@
-﻿using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.ExistsModelId
 {
-    public class ExistsModelIdQueryHandler<TRequest, TModel, UId> : IRequestHandler<TRequest, bool>
+    public class ExistsModelIdQueryHandler<TModel, UId> : IQueryHandler<ExistsModelIdQuery<TModel, UId>, bool>
         where TModel : IEntity<UId>
-        where TRequest : ExistsModelIdQuery<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public ExistsModelIdQueryHandler(IBaseRepository<TModel, UId> repository)
         {
             _repository = repository;
         }
-        public async Task<bool> Handle(TRequest request, CancellationToken cancellationToken) =>
-            await _repository.ExistsId(request.Id);
+
+        public async Task<Result<bool>> Handle(ExistsModelIdQuery<TModel, UId> request, CancellationToken cancellationToken)
+        {
+            return await _repository.ExistsId(request.Id);
+        }
     }
 }

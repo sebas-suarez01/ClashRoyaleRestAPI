@@ -1,7 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Common.Relationships;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Models.Player;
+using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;

@@ -1,28 +1,24 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Common.Exceptions;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ErrorOr;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel
 {
-    public class DeleteModelCommandHandler<TRequest, TModel, UId> : IRequestHandler<TRequest>
+    public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteModelCommand<TModel, UId>>
         where TModel : IEntity<UId>
-        where TRequest : DeleteModelCommand<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public DeleteModelCommandHandler(IBaseRepository<TModel, UId> repository)
         {
             _repository = repository;
         }
-        public async Task Handle(TRequest request, CancellationToken cancellationToken)
+
+        public async Task<Result> Handle(DeleteModelCommand<TModel, UId> request, CancellationToken cancellationToken)
         {
             await _repository.Delete(request.Model);
+
+            return Result.Success();
         }
     }
 }

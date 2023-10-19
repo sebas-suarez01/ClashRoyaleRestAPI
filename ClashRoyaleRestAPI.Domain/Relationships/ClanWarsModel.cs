@@ -1,7 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Models.War;
 
-namespace ClashRoyaleRestAPI.Domain.Common.Relationships
+namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class ClanWarsModel
     {

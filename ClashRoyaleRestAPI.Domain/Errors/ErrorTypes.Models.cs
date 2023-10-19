@@ -1,23 +1,25 @@
-﻿using ErrorOr;
+﻿
+using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Domain.Common.Errors
+namespace ClashRoyaleRestAPI.Domain.Errors
 {
-    public static  partial class Errors
+    public static partial class ErrorTypes
     {
         public static class Models
         {
-            public static Error DuplicateId => Error.Conflict(
+            public static readonly Error DuplicateId = new(
                 code: "Model.DuplicateId",
                 description: "Id already exists");
 
-            public static Error ModelNotFound => Error.NotFound(
+            public static readonly Error ModelNotFound = new(
                 code: "Model.NotFound",
                 description: "Model not found");
 
-            public static Error IdNotFound => Error.NotFound(
+            public static readonly Error IdNotFound = new(
                 code: "Model.IdNotFound",
                 description: "Id not found");
-            public static Error IdsNotMatch => Error.Conflict(
+
+            public static readonly Error IdsNotMatch = new(
                 code: "Model.IdsNotMatch",
                 description: "Ids does not match");
         }

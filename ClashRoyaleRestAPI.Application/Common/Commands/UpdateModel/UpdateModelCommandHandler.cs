@@ -1,27 +1,24 @@
-﻿using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel
 {
-    public class UpdateModelCommandHandler<TRequest, TModel, UId> : IRequestHandler<TRequest>
+    public class UpdateModelCommandHandler<TModel, UId> : ICommandHandler<UpdateModelCommand<TModel, UId>>
         where TModel : IEntity<UId>
-        where TRequest : UpdateModelCommand<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public UpdateModelCommandHandler(IBaseRepository<TModel, UId> repository)
         {
             _repository = repository;
         }
-        public async Task Handle(TRequest request, CancellationToken cancellationToken)
+
+        public async Task<Result> Handle(UpdateModelCommand<TModel, UId> request, CancellationToken cancellationToken)
         {
             await _repository.Update(request.Model);
+
+            return Result.Success();
         }
     }
 }

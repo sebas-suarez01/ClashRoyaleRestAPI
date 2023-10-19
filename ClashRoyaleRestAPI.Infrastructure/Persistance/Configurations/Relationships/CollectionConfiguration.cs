@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Relationships;
+﻿using ClashRoyaleRestAPI.Domain.Relationships;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

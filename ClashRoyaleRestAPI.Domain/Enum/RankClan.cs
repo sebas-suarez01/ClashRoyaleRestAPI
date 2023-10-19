@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClashRoyaleRestAPI.Domain.Common.Enum
+namespace ClashRoyaleRestAPI.Domain.Enum
 {
     public enum RankClan
     {

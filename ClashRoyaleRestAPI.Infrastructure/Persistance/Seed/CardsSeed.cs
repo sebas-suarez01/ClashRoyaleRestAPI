@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Enum;
+﻿using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;
 using System;
 using System.Collections.Generic;

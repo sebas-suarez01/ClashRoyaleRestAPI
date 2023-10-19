@@ -1,13 +1,8 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.ExistsModelId
 {
-    public record ExistsModelIdQuery<TModel, UId>(UId Id) : IRequest<bool>
+    public record ExistsModelIdQuery<TModel, UId>(UId Id) : IQuery<bool>
         where TModel : IEntity<UId>;
 }

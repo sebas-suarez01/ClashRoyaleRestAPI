@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Application.Card.Commands
 {
-    public class UpdateCardHandler : UpdateModelCommandHandler<UpdateModelCommand<CardModel, int>, CardModel, int>
+    public class UpdateCardHandler : UpdateModelCommandHandler<CardModel, int>
     {
         public UpdateCardHandler(ICardRepository repository) : base(repository)
         {

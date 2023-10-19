@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Application.Card.Queries
 {
-    public class ExistsCardId : ExistsModelIdQueryHandler<ExistsModelIdQuery<CardModel, int>, CardModel, int>
+    public class ExistsCardId : ExistsModelIdQueryHandler<CardModel, int>
     {
         public ExistsCardId(ICardRepository repository) : base(repository)
         {

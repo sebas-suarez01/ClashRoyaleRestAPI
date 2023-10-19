@@ -1,17 +1,12 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Commands.AddModel
 {
-    public class AddModelCommandHandler<TRequest, TModel, UId> : IRequestHandler<TRequest, UId>
+    public class AddModelCommandHandler<TModel, UId> : ICommandHandler<AddModelCommand<TModel, UId>, UId>
         where TModel : IEntity<UId>
-        where TRequest : AddModelCommand<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public AddModelCommandHandler(IBaseRepository<TModel, UId> repository)
@@ -19,7 +14,11 @@ namespace ClashRoyaleRestAPI.Application.Common.Commands.AddModel
             _repository = repository;
         }
 
-        public async Task<UId> Handle(TRequest request, CancellationToken cancellationToken)=>
+        public async Task<Result<UId>> Handle(AddModelCommand<TModel, UId> request, CancellationToken cancellationToken)
+        {
             await _repository.Add(request.Model);
+
+            return request.Model.Id;
+        }
     }
 }

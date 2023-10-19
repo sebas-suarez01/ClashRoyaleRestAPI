@@ -5,9 +5,8 @@ using ClashRoyaleRestAPI.Application.Card.Queries.GetCardsByName;
 using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
-using ClashRoyaleRestAPI.Domain.Common.Errors;
+using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models.Card;
-using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,11 +29,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
         {
             var query = new GetModelByIdQuery<CardModel, int>(id);
 
-            ErrorOr<CardModel> response = await _sender.Send(query);
+            var result= await _sender.Send(query);
 
-            return response.Match(
-                response => Ok(response),
-                errors => Problem(errors));
+            return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors.ToList());
 
         }
 
@@ -43,9 +40,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
         {
             var query = new GetAllModelQuery<CardModel, int>();
 
-            IEnumerable<CardModel> cards = await _sender.Send(query);
+            var result = await _sender.Send(query);
 
-            return Ok(cards);
+            return Ok(result.Value);
         }
 
         // GET api/cards/{name:string}
@@ -54,9 +51,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
         {
             var query = new GetCardsByNameQuery(name);
 
-            IEnumerable<CardModel> cards = await _sender.Send(query);
+            var result = await _sender.Send(query);
 
-            return Ok(cards);
+            return Ok(result.Value);
         }
 
         // PUT api/cards/{id:int}
@@ -64,7 +61,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] CardRequest cardRequest)
         {
             if (id != cardRequest.Id)
-                return Problem(Errors.Models.IdsNotMatch);
+                return Problem(ErrorTypes.Models.IdsNotMatch);
 
             var card = MapCardFromTypeEnum.MapCard(cardRequest, _mapper);
 

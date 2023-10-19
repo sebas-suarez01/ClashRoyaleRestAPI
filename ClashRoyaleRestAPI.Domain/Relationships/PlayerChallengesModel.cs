@@ -1,7 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models.Challenge;
 using ClashRoyaleRestAPI.Domain.Models.Player;
 
-namespace ClashRoyaleRestAPI.Domain.Common.Relationships
+namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class PlayerChallengesModel
     {

@@ -1,12 +1,12 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using MediatR;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel
 {
-    public class GetAllModelQueryHandler<TRequest, TModel, UId> : IRequestHandler<TRequest, IEnumerable<TModel>>
+    public class GetAllModelQueryHandler<TModel, UId> : IQueryHandler<GetAllModelQuery<TModel, UId>, IEnumerable<TModel>>
         where TModel : IEntity<UId>
-        where TRequest : GetAllModelQuery<TModel, UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public GetAllModelQueryHandler(IBaseRepository<TModel, UId> repository)
@@ -14,11 +14,11 @@ namespace ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel
             _repository = repository;
         }
 
-        public async Task<IEnumerable<TModel>> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<TModel>>> Handle(GetAllModelQuery<TModel, UId> request, CancellationToken cancellationToken)
         {
-            IEnumerable<TModel?> models = await _repository.GetAllAsync();
+            IEnumerable<TModel> models = await _repository.GetAllAsync();
 
-            return models!;
+            return Result.Create(models);
         }
     }
 }
