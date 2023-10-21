@@ -30,7 +30,7 @@ namespace ClashRoyaleRestAPI.Application.Player.Queries.GetAllCardOfPlayer
             {
                 cards = await _repository.GetAllCardsOfPlayerAsync(request.Id);
             }
-            catch (IdNotFoundException<PlayerModel, int>)
+            catch (IdNotFoundException)
             {
                 return Result.Failure<IEnumerable<CardModel>>(ErrorTypes.Models.IdNotFound);
             }

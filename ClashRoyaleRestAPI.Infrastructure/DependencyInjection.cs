@@ -20,12 +20,14 @@ namespace ClashRoyaleRestAPI.Infrastructure
                     triggerOpt.AddTrigger<UpdateMaxEloInsertPlayerTrigger>();
                     triggerOpt.AddTrigger<UpdateDateBattleTrigger>();
                     triggerOpt.AddTrigger<UpdatePlayerStatsInsertBattleTrigger>();
+                    triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>();
                 });
             });
 
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IBattleRepository, BattleRepository>();
+            services.AddScoped<IClanRepository, ClanRepository>();
 
             return services;
         }

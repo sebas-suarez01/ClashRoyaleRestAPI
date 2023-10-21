@@ -40,21 +40,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 
         public async Task AddCard(int playerId, int cardId)
         {
+            var player = await GetSingleByIdAsync(playerId) ?? throw new IdNotFoundException();
+
+            var card = await _cardRepository.GetSingleByIdAsync(cardId) ?? throw new IdNotFoundException();
+
             if (await ExistsCollection(playerId, cardId)) throw new DuplicationIdException();
-
-            var player = await GetSingleByIdAsync(playerId);
-
-            var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
             player!.Cards ??= new List<CollectionModel>();
 
-            var collect = new CollectionModel
-            {
-                Player = player,
-                Card = card,
-                Level = card!.InitialLevel,
-                Date = DateTime.UtcNow
-            };
+            var collect = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
 
             await _context.Collection.AddAsync(collect);
 
@@ -63,7 +57,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 
         public async Task<IEnumerable<CardModel>> GetAllCardsOfPlayerAsync(int playerId)
         {
-            PlayerModel player = await GetSingleByIdAsync(playerId, true) ?? throw new IdNotFoundException<PlayerModel, int>(playerId);
+            PlayerModel player = await GetSingleByIdAsync(playerId, true) ?? throw new IdNotFoundException();
 
             return player.Cards?.Select(c => c.Card)!;
         }
@@ -75,7 +69,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 
         public async Task UpdateAlias(int playerId, string alias)
         {
-            var player = await GetSingleByIdAsync(playerId) ?? throw new IdNotFoundException<PlayerModel, int>(playerId);
+            var player = await GetSingleByIdAsync(playerId) ?? throw new IdNotFoundException();
             player.Alias = alias;
 
             await Save();
@@ -85,15 +79,5 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
         {
             return (await _context.Collection.FindAsync(playerId, cardId)) is not null;
         }
-
-        /*
-        public override async Task Delete(PlayerModel player)
-        {
-            player.Cards?.Clear();
-
-            _context.Players.Remove(player);
-
-            await Save();
-        }*/
     }
 }

@@ -19,8 +19,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
         }
         public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
         {
-            if (!await _playerRepository.ExistsId(winnerId)) throw new IdNotFoundException<PlayerModel, int>(winnerId);
-            if (!await _playerRepository.ExistsId(loserId)) throw new IdNotFoundException<PlayerModel, int>(loserId);
+            if (!await _playerRepository.ExistsId(winnerId)) throw new IdNotFoundException();
+            if (!await _playerRepository.ExistsId(loserId)) throw new IdNotFoundException();
 
             var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
             var loser = await _playerRepository.GetSingleByIdAsync(loserId);

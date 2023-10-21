@@ -2,7 +2,6 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Exceptions;
-using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Battle.Command.AddBattle
@@ -23,7 +22,7 @@ namespace ClashRoyaleRestAPI.Application.Battle.Command.AddBattle
             {
                 id = await _repository.Add(request.Battle, request.WinnerId, request.LoserId);
             }
-            catch (IdNotFoundException<PlayerModel, int>)
+            catch (IdNotFoundException)
             {
                 return Result.Failure<Guid>(ErrorTypes.Models.IdNotFound);
             }

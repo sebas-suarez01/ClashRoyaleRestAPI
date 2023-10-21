@@ -2,25 +2,27 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Exceptions;
+using ClashRoyaleRestAPI.Domain.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Models.Player;
+using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Player.Commands.UpdateAlias
+namespace ClashRoyaleRestAPI.Application.Clan.Commands.RemovePlayerClan
 {
-    public class UpdatePlayerAliasCommandHandler : ICommandHandler<UpdatePlayerAliasCommand>
+    public class RemovePlayerClanCommandHandler : ICommandHandler<RemovePlayerClanCommand>
     {
-        private readonly IPlayerRepository _repository;
+        private readonly IClanRepository _repository;
 
-        public UpdatePlayerAliasCommandHandler(IPlayerRepository repository)
+        public RemovePlayerClanCommandHandler(IClanRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<Result> Handle(UpdatePlayerAliasCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(RemovePlayerClanCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                await _repository.UpdateAlias(request.Id, request.Alias);
+                await _repository.RemovePlayer(request.ClanId, request.PlayerId);
             }
             catch (IdNotFoundException)
             {

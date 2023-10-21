@@ -1,5 +1,4 @@
-﻿
-using ClashRoyaleRestAPI.Domain.Shared;
+﻿using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Domain.Errors
 {
