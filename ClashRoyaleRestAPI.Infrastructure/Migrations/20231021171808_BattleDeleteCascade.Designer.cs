@@ -4,6 +4,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    partial class ClashRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021171808_BattleDeleteCascade")]
+    partial class BattleDeleteCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2552,13 +2555,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("LoserId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .HasConstraintName("FK_Battles_Players_LoserId");
+                        .HasConstraintName("FK_Battle_Player_LoserId");
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.Player.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_Battles_Players_WinnerId");
+                        .HasConstraintName("FK_Battle_Player_WinnerId");
 
                     b.Navigation("Loser");
 

@@ -20,13 +20,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
             builder.HasOne(b => b.Winner)
                 .WithMany()
                 .HasForeignKey("WinnerId")
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Battles_Players_WinnerId");
 
 
             builder.HasOne(b => b.Loser)
                 .WithMany()
                 .HasForeignKey("LoserId")
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasConstraintName("FK_Battles_Players_LoserId");
 
             builder.HasIndex("WinnerId", "LoserId", "Date").IsUnique();
         }

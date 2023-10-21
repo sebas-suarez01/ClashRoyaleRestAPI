@@ -22,7 +22,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
             if (error == ErrorTypes.Models.ModelNotFound)
                 return NotFound(error.Description);
             if (error == ErrorTypes.Models.IdsNotMatch)
-                return NotFound(error.Description);
+                return BadRequest(error.Description);
             if (error == ErrorTypes.Models.DuplicateId)
                 return Conflict(error.Description);
 
