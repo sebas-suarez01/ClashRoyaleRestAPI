@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="EntityFrameworkCore.Triggered" Version="3.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
       <PrivateAssets>all</PrivateAssets>

@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
 using ClashRoyaleRestAPI.API.Common.Mapping.Utils;
 using ClashRoyaleRestAPI.Application.Card.Queries.GetCardsByName;
+using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
@@ -29,9 +30,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
         {
             var query = new GetModelByIdQuery<CardModel, int>(id);
 
-            var result= await _sender.Send(query);
+            var result = await _sender.Send(query);
 
-            return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors.ToList());
+            return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
 
         }
 
@@ -73,6 +74,17 @@ namespace ClashRoyaleRestAPI.API.Controllers
             await _sender.Send(command);
 
             return NoContent();
+        }
+
+        // DELETE api/cards/{id:int}
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var commandDelete = new DeleteModelCommand<CardModel, int>(id);
+
+            var result = await _sender.Send(commandDelete);
+
+            return result.IsSuccess ? NoContent() : Problem(result.Errors);
         }
     }
 }

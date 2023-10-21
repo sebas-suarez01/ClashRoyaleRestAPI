@@ -1,16 +1,11 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces;
-using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 {
@@ -24,8 +19,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
         }
         public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
         {
-            if (await _playerRepository.ExistsId(winnerId)) ;// throw new IdNotFoundException<PlayerModel, int>(winnerId);
-            if (await _playerRepository.ExistsId(loserId)); //throw new IdNotFoundException<PlayerModel, int>(loserId);
+            if (!await _playerRepository.ExistsId(winnerId)) throw new IdNotFoundException<PlayerModel, int>(winnerId);
+            if (!await _playerRepository.ExistsId(loserId)) throw new IdNotFoundException<PlayerModel, int>(loserId);
 
             var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
             var loser = await _playerRepository.GetSingleByIdAsync(loserId);
@@ -33,13 +28,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
             battle.Winner = winner;
             battle.Loser = loser;
 
+            battle.GetId();
+
             _context.Battles.Add(battle);
             await Save();
 
             return battle.Id.Value;
         }
 
-        public override async Task<IEnumerable<BattleModel?>> GetAllAsync()
+        public override async Task<IEnumerable<BattleModel>> GetAllAsync()
         {
             return await _context.Battles
                             .Include(b => b.Winner)
@@ -47,12 +44,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
                             .ToListAsync();
         }
 
-        public async Task<BattleModel> GetSingleByIdAsync(Guid id, bool fullLoad = false)
+        public async Task<BattleModel?> GetSingleByIdAsync(Guid id, bool fullLoad = false)
         {
             BattleModel? battle = fullLoad ? _context.Battles
                                                 .Include(c => c.Winner)
+                                                .Include(c => c.Loser)
                                                 .Where(c => c.Id == BattleId.Create(id))
-                                                .First()
+                                                .FirstOrDefault()
                                             :
                                              await GetSingleByIdAsync(id);
 

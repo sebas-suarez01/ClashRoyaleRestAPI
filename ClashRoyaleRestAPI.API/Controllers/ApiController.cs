@@ -7,7 +7,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
-        protected IActionResult Problem(List<Error> errors)
+        protected IActionResult Problem(Error[] errors)
         {
             var firstError = errors[0];
 
@@ -23,6 +23,8 @@ namespace ClashRoyaleRestAPI.API.Controllers
                 return NotFound(error.Description);
             if (error == ErrorTypes.Models.IdsNotMatch)
                 return NotFound(error.Description);
+            if (error == ErrorTypes.Models.DuplicateId)
+                return Conflict(error.Description);
 
             return Problem();
         }

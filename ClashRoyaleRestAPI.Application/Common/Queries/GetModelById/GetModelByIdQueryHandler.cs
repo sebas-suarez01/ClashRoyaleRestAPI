@@ -6,11 +6,11 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.GetModelById
 {
-    public class GetModelByIdHandler<TModel, UId> : IQueryHandler<GetModelByIdQuery<TModel, UId>, TModel>
+    public class GetModelByIdQueryHandler<TModel, UId> : IQueryHandler<GetModelByIdQuery<TModel, UId>, TModel>
         where TModel : IEntity<UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
-        public GetModelByIdHandler(IBaseRepository<TModel, UId> repository)
+        public GetModelByIdQueryHandler(IBaseRepository<TModel, UId> repository)
         {
             _repository = repository;
         }

@@ -13,17 +13,17 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
             builder.Property(c => c.Name)
                 .HasMaxLength(64)
                 .IsRequired();
-            
+
             builder.Property(c => c.Region)
                 .HasMaxLength(32)
                 .IsRequired();
-            
+
             builder.Property(c => c.TrophiesInWar)
                 .HasDefaultValue(0);
-            
+
             builder.Property(c => c.AmountMembers)
                 .HasDefaultValue(0);
-            
+
             builder.Property(c => c.MinTrophies)
                 .HasDefaultValue(0);
         }

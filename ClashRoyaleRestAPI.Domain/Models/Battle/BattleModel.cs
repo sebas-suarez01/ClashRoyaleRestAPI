@@ -12,5 +12,7 @@ namespace ClashRoyaleRestAPI.Domain.Models.Battle
         public PlayerModel? Loser { get; set; }
         public int DurationInSeconds { get; set; }
         public DateTime Date { get; set; }
+
+        public void GetId() => Id = BattleId.CreateUnique();
     }
 }

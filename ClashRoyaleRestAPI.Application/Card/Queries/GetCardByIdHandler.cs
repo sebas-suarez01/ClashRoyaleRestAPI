@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Application.Card.Queries
 {
-    public class GetCardByIdHandler : GetModelByIdHandler<CardModel, int>
+    public class GetCardByIdHandler : GetModelByIdQueryHandler<CardModel, int>
     {
         public GetCardByIdHandler(ICardRepository repository) : base(repository)
         {

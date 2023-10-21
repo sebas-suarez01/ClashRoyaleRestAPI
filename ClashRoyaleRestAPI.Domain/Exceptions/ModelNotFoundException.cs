@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClashRoyaleRestAPI.Domain.Common.Exceptions
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions
 {
     public class ModelNotFoundException<T> : Exception
     {

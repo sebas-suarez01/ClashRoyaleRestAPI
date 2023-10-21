@@ -9,13 +9,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
     {
         public void Configure(EntityTypeBuilder<BattleModel> builder)
         {
-            builder.HasKey(x=> x.Id);
+            builder.HasKey(x => x.Id);
 
-            builder.Property(x=> x.Id)
+            builder.Property(x => x.Id)
                 .ValueGeneratedNever()
                 .HasConversion(
-                    id=> id.Value,
-                    value=> BattleId.Create(value));
+                    id => id.Value,
+                    value => BattleId.Create(value));
 
             builder.HasOne(b => b.Winner)
                 .WithMany()

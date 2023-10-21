@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Shared;
+using ClashRoyaleRestAPI.Domain.Errors;
 
 namespace ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel
 {
@@ -16,7 +17,12 @@ namespace ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel
 
         public async Task<Result> Handle(DeleteModelCommand<TModel, UId> request, CancellationToken cancellationToken)
         {
-            await _repository.Delete(request.Model);
+            var model = await _repository.GetSingleByIdAsync(request.Id);
+
+            if (model is null)
+                return Result.Failure(ErrorTypes.Models.IdNotFound);
+
+            await _repository.Delete(model);
 
             return Result.Success();
         }

@@ -12,7 +12,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
         {
             builder.HasKey(c => c.Id);
 
-            builder.Property(c=> c.Id)
+            builder.Property(c => c.Id)
                 .ValueGeneratedNever();
 
             builder.Property(c => c.Name)

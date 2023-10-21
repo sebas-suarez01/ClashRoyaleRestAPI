@@ -1,13 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Common.Exceptions;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Common
 {
@@ -24,7 +18,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Common
 
             return entity;
         }
-        public virtual async Task<IEnumerable<T?>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }
