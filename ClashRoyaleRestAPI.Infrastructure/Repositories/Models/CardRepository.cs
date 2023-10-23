@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Repositories
+namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
     public class CardRepository : BaseRepository<CardModel, int>, ICardRepository
     {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
 using ClashRoyaleRestAPI.API.Common.Mapping.Utils;
+using ClashRoyaleRestAPI.Application.Auth.Utils;
 using ClashRoyaleRestAPI.Application.Card.Queries.GetCardsByName;
 using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
@@ -9,6 +10,7 @@ using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleRestAPI.API.Controllers
@@ -36,6 +38,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
 
         }
 
+        // GET api/cards
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -77,6 +80,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
         }
 
         // DELETE api/cards/{id:int}
+        [Authorize(Roles = UserRoles.SUPERADMIN)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

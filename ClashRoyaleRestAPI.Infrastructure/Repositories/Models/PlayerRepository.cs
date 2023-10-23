@@ -9,7 +9,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Repositories
+namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
     public class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepository
     {
@@ -77,7 +77,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 
         public async Task<bool> ExistsCollection(int playerId, int cardId)
         {
-            return (await _context.Collection.FindAsync(playerId, cardId)) is not null;
+            return await _context.Collection.FindAsync(playerId, cardId) is not null;
         }
     }
 }

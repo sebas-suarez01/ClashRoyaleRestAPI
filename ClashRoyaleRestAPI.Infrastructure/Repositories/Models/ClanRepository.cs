@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Exceptions;
+using ClashRoyaleRestAPI.Domain.Exceptions.Models;
 using ClashRoyaleRestAPI.Domain.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Domain.Relationships;
@@ -10,7 +11,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Repositories
+namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
     public class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
     {
@@ -44,12 +45,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
         {
             await Add(clan);
 
-            var player = await _playerRepository.GetSingleByIdAsync(playerId) 
+            var player = await _playerRepository.GetSingleByIdAsync(playerId)
                 ?? throw new IdNotFoundException();
 
             var playerClan = ClanPlayersModel.Create(player, clan, RankClan.Leader);
 
-            await _context.PlayerClans.AddAsync(playerClan);
+            await _context.ClanPlayers.AddAsync(playerClan);
             await Save();
 
             return clan.Id;
@@ -84,28 +85,28 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 
             clan.Players ??= new List<ClanPlayersModel>();
 
-            await _context.PlayerClans.AddAsync(newPlayerClan);
+            await _context.ClanPlayers.AddAsync(newPlayerClan);
 
             await Save();
         }
-        
+
         public async Task RemovePlayer(int clanId, int playerId)
         {
-            _= await GetSingleByIdAsync(clanId)
+            _ = await GetSingleByIdAsync(clanId)
                 ?? throw new IdNotFoundException();
 
-            _= await _playerRepository.GetSingleByIdAsync(playerId)
+            _ = await _playerRepository.GetSingleByIdAsync(playerId)
                 ?? throw new IdNotFoundException();
 
-            ClanPlayersModel? playerClan = await _context.PlayerClans
+            ClanPlayersModel? playerClan = await _context.ClanPlayers
                                         .Include(pc => pc.Clan)
                                         .Include(pc => pc.Player)
-                                        .Where(pc => (pc.Player!.Id == playerId) && (pc.Clan!.Id == clanId))
+                                        .Where(pc => pc.Player!.Id == playerId && pc.Clan!.Id == clanId)
                                         .FirstOrDefaultAsync()
                                         ?? throw new IdNotFoundException();
 
 
-            _context.PlayerClans.Remove(playerClan!);
+            _context.ClanPlayers.Remove(playerClan!);
 
             await _context.SaveChangesAsync();
         }
@@ -118,7 +119,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
             _ = await _playerRepository.GetSingleByIdAsync(playerId)
                 ?? throw new IdNotFoundException();
 
-            var playerClan = await _context.PlayerClans.FindAsync(playerId, clanId)
+            var playerClan = await _context.ClanPlayers.FindAsync(playerId, clanId)
             ?? throw new IdNotFoundException();
 
             playerClan.Rank = rank;
@@ -136,7 +137,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories
 
         public async Task<bool> ExistsClanPlayer(int playerId, int clandId)
         {
-            return (await _context.PlayerClans.FindAsync(playerId, clandId)) is not null;
+            return await _context.ClanPlayers.FindAsync(playerId, clandId) is not null;
         }
 
     }

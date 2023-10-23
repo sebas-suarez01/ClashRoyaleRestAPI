@@ -1,4 +1,4 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Models
 {
     public class ModelNotFoundException<T> : Exception
     {

@@ -9,13 +9,20 @@ using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Seed;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance
 {
-    public class ClashRoyaleDbContext : DbContext
+    public class ClashRoyaleDbContext : IdentityDbContext
     {
-        public ClashRoyaleDbContext(DbContextOptions<ClashRoyaleDbContext> options) : base(options) { }
+        private readonly IConfiguration _configuration;
+        public ClashRoyaleDbContext(DbContextOptions<ClashRoyaleDbContext> options, IConfiguration configuration) : base(options)
+        {
+            _configuration = configuration;
+        }
 
         public DbSet<BattleModel> Battles => Set<BattleModel>();
         public DbSet<CardModel> Cards => Set<CardModel>();
@@ -25,7 +32,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance
         public DbSet<CollectionModel> Collection => Set<CollectionModel>();
         public DbSet<DonationModel> Donations => Set<DonationModel>();
         public DbSet<PlayerChallengesModel> PlayerChallenges => Set<PlayerChallengesModel>();
-        public DbSet<ClanPlayersModel> PlayerClans => Set<ClanPlayersModel>();
+        public DbSet<ClanPlayersModel> ClanPlayers => Set<ClanPlayersModel>();
         public DbSet<PlayerModel> Players => Set<PlayerModel>();
         public DbSet<SpellModel> Spells => Set<SpellModel>();
         public DbSet<StructureModel> Structures => Set<StructureModel>();
@@ -38,11 +45,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance
 
             ApplyModelsConfiguration(modelBuilder);
             ApplyRelationshipsConfiguration(modelBuilder);
+            RenameIdentityTables(modelBuilder);
 
+            modelBuilder.SeedRoles(_configuration["SuperAdmin:Password"]!);
             modelBuilder.SeedCards();
 
         }
-        private void ApplyRelationshipsConfiguration(ModelBuilder modelBuilder)
+        private static void ApplyRelationshipsConfiguration(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClanWarsConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CollectionConfiguration).Assembly);
@@ -51,7 +60,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClanPlayersConfiguration).Assembly);
         }
 
-        private void ApplyModelsConfiguration(ModelBuilder modelBuilder)
+        private static void ApplyModelsConfiguration(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BattleConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CardConfiguration).Assembly);
@@ -62,6 +71,17 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpellConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(StructureConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WarConfiguration).Assembly);
+        }
+
+        private static void RenameIdentityTables(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<IdentityUser>(m => m.ToTable("Users"));
+            modelBuilder.Entity<IdentityRole>(m => m.ToTable("Roles"));
+            modelBuilder.Entity<IdentityRoleClaim<string>>(m => m.ToTable("RoleClaims"));
+            modelBuilder.Entity<IdentityUserClaim<string>>(m => m.ToTable("UserClaims"));
+            modelBuilder.Entity<IdentityUserLogin<string>>(m => m.ToTable("UserLogins"));
+            modelBuilder.Entity<IdentityUserRole<string>>(m => m.ToTable("UserRoles"));
+            modelBuilder.Entity<IdentityUserToken<string>>(m => m.ToTable("UserTokens"));
         }
     }
 }

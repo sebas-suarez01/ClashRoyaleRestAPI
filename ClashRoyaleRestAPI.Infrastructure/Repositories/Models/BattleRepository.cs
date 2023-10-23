@@ -7,7 +7,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Repositories
+namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
     public class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattleRepository
     {

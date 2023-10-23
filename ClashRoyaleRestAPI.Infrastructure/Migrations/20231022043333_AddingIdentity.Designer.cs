@@ -4,6 +4,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    partial class ClashRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022043333_AddingIdentity")]
+    partial class AddingIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,30 +371,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "bda61c6b-857b-4faa-8d91-17b06f0ac464",
-                            ConcurrencyStamp = "d68e8cd3-8057-4669-8256-4fcca45feb28",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "81faf4d6-1873-4be6-9d0b-34032c961946",
-                            ConcurrencyStamp = "2917cad5-4a43-4517-8817-3de2e1cce2d4",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "59759cfd-d920-403a-964b-512b32e0b190",
-                            ConcurrencyStamp = "761ce22b-260a-48a8-89ca-5e6355c7effd",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        });
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -416,7 +396,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -481,23 +461,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "cfd1f264-1e3f-4cc9-afaf-cac289cdaaf9",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "6777f960-51a3-4270-a881-163c439e3abb",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE21Xr7ZheyZx0S2YFEpQtP9tyQKE/ACmHf7MhsossDYzX5HWltvqnlJXJmX4elSYw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "9cde4f10-366a-43a2-8ecc-84c62fd8636d",
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin"
-                        });
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -522,7 +486,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -544,7 +508,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -559,14 +523,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "cfd1f264-1e3f-4cc9-afaf-cac289cdaaf9",
-                            RoleId = "59759cfd-d920-403a-964b-512b32e0b190"
-                        });
+                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -585,7 +542,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Card.Implementation.SpellModel", b =>

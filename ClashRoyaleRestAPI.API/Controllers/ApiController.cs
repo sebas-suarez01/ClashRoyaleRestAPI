@@ -17,14 +17,20 @@ namespace ClashRoyaleRestAPI.API.Controllers
         protected IActionResult Problem(Error error)
         {
 
-            if (error == ErrorTypes.Models.IdNotFound)
+            if (error == ErrorTypes.Models.IdNotFound ||
+                error == ErrorTypes.Models.ModelNotFound ||
+                error == ErrorTypes.Auth.UsernameNotFound)
                 return NotFound(error.Description);
-            if (error == ErrorTypes.Models.ModelNotFound)
-                return NotFound(error.Description);
-            if (error == ErrorTypes.Models.IdsNotMatch)
+
+            if (error == ErrorTypes.Models.IdsNotMatch ||
+                error == ErrorTypes.Auth.InvalidCredentials ||
+                error == ErrorTypes.Auth.InvalidPassword)
                 return BadRequest(error.Description);
-            if (error == ErrorTypes.Models.DuplicateId)
+
+            if (error == ErrorTypes.Models.DuplicateId ||
+                error == ErrorTypes.Auth.DuplicateUsername)
                 return Conflict(error.Description);
+
 
             return Problem();
         }

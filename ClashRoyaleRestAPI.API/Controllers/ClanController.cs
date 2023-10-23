@@ -15,7 +15,6 @@ using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models.Clan;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleRestAPI.API.Controllers
@@ -64,8 +63,8 @@ namespace ClashRoyaleRestAPI.API.Controllers
 
             var result = await _sender.Send(command);
 
-            return result.IsSuccess ? 
-                Created($"api/clans/{result.Value}", result.Value) 
+            return result.IsSuccess ?
+                Created($"api/clans/{result.Value}", result.Value)
                 : Problem(result.Errors);
         }
 
@@ -96,7 +95,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
             return result.IsSuccess ? NoContent() : Problem(result.Errors);
         }
 
-        //GET api/clans/availables/{trophies:int}
+        // GET api/clans/availables/{trophies:int}
         [HttpGet("availables/{trophies:int}")]
         public async Task<IActionResult> GetClanAvailables(int trophies)
         {
@@ -107,7 +106,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
             return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
         }
 
-        //GET api/clans/name/{clanName}
+        // GET api/clans/name/{clanName}
         [HttpGet("name/{clanName}")]
         public async Task<IActionResult> GetClansByName(string clanName)
         {
@@ -118,7 +117,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
             return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
         }
 
-        //GET api/clans/{clanId:int}/players
+        // GET api/clans/{clanId:int}/players
         [HttpGet("{clanId:int}/players")]
         public async Task<IActionResult> GetPlayers(int clanId)
         {
@@ -129,7 +128,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
             return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
         }
 
-        //POST api/clans/{clanId:int}/players/{playerId:int}
+        // POST api/clans/{clanId:int}/players/{playerId:int}
         [HttpPost("{clanId:int}/players/{playerId:int}")]
         public async Task<IActionResult> AddPlayer(int clanId, int playerId)
         {
@@ -137,10 +136,10 @@ namespace ClashRoyaleRestAPI.API.Controllers
 
             var result = await _sender.Send(command);
 
-            return result.IsSuccess? NoContent() : Problem(result.Errors);
+            return result.IsSuccess ? NoContent() : Problem(result.Errors);
         }
 
-        //DELETE api/clans/{clanId:int}/players/{playerId:int}
+        // DELETE api/clans/{clanId:int}/players/{playerId:int}
         [HttpDelete("{clanId:int}/players/{playerId:int}")]
         public async Task<IActionResult> RemovePlayer(int clanId, int playerId)
         {
@@ -151,7 +150,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
             return result.IsSuccess ? NoContent() : Problem(result.Errors);
         }
 
-        //PATCH api/clans/{clanId:int}/players/{playerId}/rank/{rank:int}
+        // PATCH api/clans/{clanId:int}/players/{playerId}/rank/{rank:int}
         [HttpPatch("{clanId:int}/players/{playerId:int}/rank/{rank:int}")]
         public async Task<IActionResult> UpdatePlayerRank(int clanId, int playerId, RankClan rank)
         {
@@ -159,7 +158,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
 
             var result = await _sender.Send(command);
 
-            return result.IsSuccess ? NoContent() : Problem(result.Errors); 
+            return result.IsSuccess ? NoContent() : Problem(result.Errors);
         }
     }
 }
