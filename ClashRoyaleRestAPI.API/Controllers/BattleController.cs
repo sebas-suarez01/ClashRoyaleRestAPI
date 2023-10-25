@@ -12,11 +12,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
     [Route("api/battles")]
     public class BattleController : ApiController
     {
-        private readonly ISender _sender;
         private readonly IMapper _mapper;
-        public BattleController(ISender sender, IMapper mapper)
+        public BattleController(ISender sender, IMapper mapper) : base(sender)
         {
-            _sender = sender;
             _mapper = mapper;
         }
 

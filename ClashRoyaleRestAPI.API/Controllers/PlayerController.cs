@@ -19,11 +19,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
     [Route("api/players")]
     public class PlayerController : ApiController
     {
-        private readonly ISender _sender;
         private readonly IMapper _mapper;
-        public PlayerController(ISender sender, IMapper mapper)
+        public PlayerController(ISender sender, IMapper mapper) : base(sender)
         {
-            _sender = sender;
             _mapper = mapper;
         }
 

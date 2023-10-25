@@ -10,12 +10,7 @@ namespace ClashRoyaleRestAPI.API.Controllers
     [Route("api/users")]
     public class UserController : ApiController
     {
-        private readonly ISender _sender;
-
-        public UserController(ISender sender)
-        {
-            _sender = sender;
-        }
+        public UserController(ISender sender) : base(sender) { }
 
         // GET: api/users
         [HttpGet]

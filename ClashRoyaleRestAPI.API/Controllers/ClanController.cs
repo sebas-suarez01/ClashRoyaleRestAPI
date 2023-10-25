@@ -22,12 +22,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
     [Route("api/clans")]
     public class ClanController : ApiController
     {
-        private readonly ISender _sender;
         private readonly IMapper _mapper;
-
-        public ClanController(ISender sender, IMapper mapper)
+        public ClanController(ISender sender, IMapper mapper) : base(sender)
         {
-            _sender = sender;
             _mapper = mapper;
         }
 

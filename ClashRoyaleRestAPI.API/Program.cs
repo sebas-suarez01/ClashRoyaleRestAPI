@@ -39,6 +39,15 @@ var builder = WebApplication.CreateBuilder(args);
 
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("NewPolicy", app =>
+        {
+            app.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+                .AllowAnyHeader().AllowAnyMethod();
+        });
+    });
 }
 
 
@@ -49,6 +58,8 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseCors("NewPolicy");
 
     app.UseHttpsRedirection();
 

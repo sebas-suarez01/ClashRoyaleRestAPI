@@ -18,11 +18,9 @@ namespace ClashRoyaleRestAPI.API.Controllers
     [Route("api/cards")]
     public class CardController : ApiController
     {
-        private readonly ISender _sender;
         private readonly IMapper _mapper;
-        public CardController(IMediator sender, IMapper mapper)
+        public CardController(ISender sender, IMapper mapper) : base(sender)
         {
-            _sender = sender;
             _mapper = mapper;
         }
 
