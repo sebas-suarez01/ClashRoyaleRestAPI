@@ -1,15 +1,18 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Models.Challenge
+﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+
+namespace ClashRoyaleRestAPI.Domain.Models.Challenge
 {
-    public class ChallengeModel
+    public class ChallengeModel : IEntity<int>
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public int Cost { get; set; }
-        public int AmountReward { get; set; }
-        public DateTime StartDate { get; set; }
-        public int DurationInHours { get; set; }
-        public int MinLevel { get; set; }
-        public int LossLimit { get; set; }
+        public int Id { get; private set; }
+        public string? Name { get; private set; }
+        public string? Description { get; private set; }
+        public int Cost { get; private set; }
+        public int AmountReward { get; private set; }
+        public DateTime StartDate { get; private set; }
+        public int DurationInHours { get; private set; }
+        public bool IsOpen { get; private set; }
+        public int MinLevel { get; private set; }
+        public int LossLimit { get; private set; }
     }
 }

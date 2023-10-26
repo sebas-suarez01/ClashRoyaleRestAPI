@@ -1,13 +1,13 @@
 ﻿namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {
-    public interface IBaseRepository<T, U>
+    public interface IBaseRepository<TModel, UId>
     {
-        public Task<T?> GetSingleByIdAsync(U id);
-        public Task<IEnumerable<T>> GetAllAsync();
-        public Task<U> Add(T model);
-        public Task Update(T model);
-        public Task Delete(T model);
-        public Task<bool> ExistsId(U id);
+        public Task<TModel?> GetSingleByIdAsync(UId id);
+        public Task<IEnumerable<TModel>> GetAllAsync();
+        public Task<UId> Add(TModel model);
+        public Task Update(TModel model);
+        public Task Delete(TModel model);
+        public Task<bool> ExistsId(UId id);
         public Task Save();
 
     }

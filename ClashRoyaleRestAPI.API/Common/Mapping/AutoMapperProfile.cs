@@ -5,6 +5,7 @@ using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Common.Mapping;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;
+using ClashRoyaleRestAPI.Domain.Models.Challenge;
 using ClashRoyaleRestAPI.Domain.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Domain.Models.War;
@@ -42,6 +43,9 @@ namespace ClashRoyaleRestAPI.API.Common.Mapping
 
             CreateMap<LoginRequest, LoginModel>();
             CreateMap<RegisterRequest, RegisterModel>();
+
+            CreateMap<AddChallengeRequest, ChallengeModel>();
+            CreateMap<UpdateChallengeRequest, ChallengeModel>();
         }
     }
 }

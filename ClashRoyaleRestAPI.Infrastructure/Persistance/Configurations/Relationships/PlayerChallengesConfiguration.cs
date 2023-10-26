@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relationships
 {
-    public class PlayerChallengesConfiguration : IEntityTypeConfiguration<PlayerChallengesModel>
+    public class PlayerChallengesConfiguration : IEntityTypeConfiguration<ChallengePlayersModel>
     {
-        public void Configure(EntityTypeBuilder<PlayerChallengesModel> builder)
+        public void Configure(EntityTypeBuilder<ChallengePlayersModel> builder)
         {
             builder.Property<int>("PlayerId");
             builder.Property<int>("ChallengeId");

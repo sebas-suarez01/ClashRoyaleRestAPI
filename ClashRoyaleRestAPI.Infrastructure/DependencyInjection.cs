@@ -35,6 +35,7 @@ namespace ClashRoyaleRestAPI.Infrastructure
             services.AddScoped<IBattleRepository, BattleRepository>();
             services.AddScoped<IClanRepository, ClanRepository>();
             services.AddScoped<IWarRepository, WarRepository>();
+            services.AddScoped<IChallengeRepository, ChallengeRepository>();
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

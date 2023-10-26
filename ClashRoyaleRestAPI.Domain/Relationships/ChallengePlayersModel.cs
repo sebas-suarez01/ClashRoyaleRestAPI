@@ -3,16 +3,16 @@ using ClashRoyaleRestAPI.Domain.Models.Player;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {
-    public class PlayerChallengesModel
+    public class ChallengePlayersModel
     {
-        private PlayerChallengesModel() { }
+        private ChallengePlayersModel() { }
         public PlayerModel? Player { get; private set; }
         public ChallengeModel? Challenge { get; private set; }
         public int PrizeAmount { get; private set; }
 
-        public static PlayerChallengesModel Create(PlayerModel player, ChallengeModel challenge, int prizeAmount)
+        public static ChallengePlayersModel Create(PlayerModel player, ChallengeModel challenge, int prizeAmount)
         {
-            return new PlayerChallengesModel
+            return new ChallengePlayersModel
             {
                 Player = player,
                 Challenge = challenge,

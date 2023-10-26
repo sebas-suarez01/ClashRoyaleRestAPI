@@ -4,6 +4,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    partial class ClashRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231026043652_ChangeNameTableChallengePlayers")]
+    partial class ChangeNameTableChallengePlayers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,9 +121,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.Property<int>("DurationInHours")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("bit");
 
                     b.Property<int>("LossLimit")
                         .HasColumnType("int");
@@ -376,22 +376,22 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be5d76f3-3ba2-419c-869e-f91b1b6c3199",
-                            ConcurrencyStamp = "4cdb1b84-c5f2-4f00-bf90-1ea7fcc6efea",
+                            Id = "6149c78a-91b3-4194-babf-a891f770504c",
+                            ConcurrencyStamp = "76ea9e78-ec9c-4f21-88aa-919e6574d8f5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "dde9fbf0-02a4-4263-88a0-e4dac5493f92",
-                            ConcurrencyStamp = "74a31b41-710e-4c6b-8839-27a1e08007cf",
+                            Id = "80db3ff6-0ac8-415b-a431-57701c3287b2",
+                            ConcurrencyStamp = "efcbe062-5d5f-4f55-9353-086c5c159e92",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1ae444f0-3d96-4fb6-bdfb-285e7c6da675",
-                            ConcurrencyStamp = "422557c5-bbce-4b1a-8f0e-dfdafa27b3a3",
+                            Id = "27bdf5ef-cbfa-4219-8802-ef38c0e722e5",
+                            ConcurrencyStamp = "0ce6a689-eb1e-404b-b87d-d06e66111449",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -489,15 +489,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f262fa7c-e34f-4f68-a4fa-bc820e0d09f8",
+                            Id = "43ffa0c4-ea2c-4b23-a191-e981c81ae341",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ec3dd60f-155b-4954-a314-6c90debabfd1",
+                            ConcurrencyStamp = "9e5e77c3-27b0-4ded-84a0-57f23bba4629",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEInUOJIOPMp7tB7MPMonpF6RihV6AHHZoWBXBiLSf0ViszNkcAunu/NEbyB8zNq4pA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFyCqs1xE9BbsDnQck0wLNgl4ob05zLkywJ2jNeFBu4NmzFQz7QlAjdgUmI8PaIJ/w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d0b79358-e540-4789-a395-6cb206db7306",
+                            SecurityStamp = "fcc79220-868d-4582-bde2-5740ca758a53",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -567,8 +567,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f262fa7c-e34f-4f68-a4fa-bc820e0d09f8",
-                            RoleId = "1ae444f0-3d96-4fb6-bdfb-285e7c6da675"
+                            UserId = "43ffa0c4-ea2c-4b23-a191-e981c81ae341",
+                            RoleId = "27bdf5ef-cbfa-4219-8802-ef38c0e722e5"
                         });
                 });
 
