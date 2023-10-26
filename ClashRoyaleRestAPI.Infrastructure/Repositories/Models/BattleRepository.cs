@@ -2,7 +2,6 @@
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
-using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
@@ -25,10 +24,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
             var loser = await _playerRepository.GetSingleByIdAsync(loserId);
 
-            battle.Winner = winner;
-            battle.Loser = loser;
-
-            battle.GetId();
+            battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds);
 
             _context.Battles.Add(battle);
             await Save();

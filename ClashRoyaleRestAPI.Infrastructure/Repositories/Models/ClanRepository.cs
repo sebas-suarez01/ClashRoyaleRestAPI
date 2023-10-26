@@ -47,10 +47,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 
             var player = await _playerRepository.GetSingleByIdAsync(playerId)
                 ?? throw new IdNotFoundException();
+            
+            clan.AddPlayer(player);
 
-            var playerClan = ClanPlayersModel.Create(player, clan, RankClan.Leader);
-
-            await _context.ClanPlayers.AddAsync(playerClan);
             await Save();
 
             return clan.Id;
@@ -81,11 +80,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             if (await ExistsClanPlayer(playerId, clanId))
                 throw new DuplicationIdException();
 
-            var newPlayerClan = ClanPlayersModel.Create(player, clan, rank);
-
-            clan.Players ??= new List<ClanPlayersModel>();
-
-            await _context.ClanPlayers.AddAsync(newPlayerClan);
+            clan.AddPlayer(player);
 
             await Save();
         }
@@ -122,9 +117,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             var playerClan = await _context.ClanPlayers.FindAsync(playerId, clanId)
             ?? throw new IdNotFoundException();
 
-            playerClan.Rank = rank;
+            playerClan.UpdateRank(rank);
 
             _context.Entry(playerClan).State = EntityState.Modified;
+
             await Save();
         }
 

@@ -373,22 +373,22 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bda61c6b-857b-4faa-8d91-17b06f0ac464",
-                            ConcurrencyStamp = "d68e8cd3-8057-4669-8256-4fcca45feb28",
+                            Id = "e5096c80-e8d4-4069-982c-3ac0a3e83047",
+                            ConcurrencyStamp = "c438c423-992e-48b5-bb75-fceb2ab05737",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "81faf4d6-1873-4be6-9d0b-34032c961946",
-                            ConcurrencyStamp = "2917cad5-4a43-4517-8817-3de2e1cce2d4",
+                            Id = "122770ca-a0c1-46ff-b849-ac199ea5f7c1",
+                            ConcurrencyStamp = "dee33159-bb14-4512-ba79-71ec882545fe",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "59759cfd-d920-403a-964b-512b32e0b190",
-                            ConcurrencyStamp = "761ce22b-260a-48a8-89ca-5e6355c7effd",
+                            Id = "e606454d-dfc6-4134-8a0b-df26290f3b7e",
+                            ConcurrencyStamp = "a4f91a73-b0bf-47a3-a07c-6dcb58e98af2",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -486,15 +486,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cfd1f264-1e3f-4cc9-afaf-cac289cdaaf9",
+                            Id = "21863356-0820-41ec-8028-623e9ba30baa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6777f960-51a3-4270-a881-163c439e3abb",
+                            ConcurrencyStamp = "35e22ad7-16d1-43c9-92f3-1e2d73da75ff",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE21Xr7ZheyZx0S2YFEpQtP9tyQKE/ACmHf7MhsossDYzX5HWltvqnlJXJmX4elSYw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGO9kcxea/II1Gpj/cCHpKYvkF/ze5dfGP0xXjNTZv4YxSwLH/DNrAvsUrP2JKnvkg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9cde4f10-366a-43a2-8ecc-84c62fd8636d",
+                            SecurityStamp = "a1468969-9cf5-4447-ab01-4a82ccd9853c",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -564,8 +564,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "cfd1f264-1e3f-4cc9-afaf-cac289cdaaf9",
-                            RoleId = "59759cfd-d920-403a-964b-512b32e0b190"
+                            UserId = "21863356-0820-41ec-8028-623e9ba30baa",
+                            RoleId = "e606454d-dfc6-4134-8a0b-df26290f3b7e"
                         });
                 });
 

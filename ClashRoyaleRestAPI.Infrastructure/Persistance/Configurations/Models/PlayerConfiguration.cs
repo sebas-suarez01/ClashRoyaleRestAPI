@@ -1,6 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models.Player;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static ClashRoyaleRestAPI.Domain.Errors.ErrorTypes;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
 {

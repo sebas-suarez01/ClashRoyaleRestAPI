@@ -9,7 +9,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
         {
             if (context.ChangeType == ChangeType.Added)
             {
-                context.Entity.Date = DateTime.UtcNow;
+                context.Entity.AddDate();
             }
 
             return Task.CompletedTask;

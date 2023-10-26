@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
-using ClashRoyaleRestAPI.Application.Battle.Command.AddBattle;
-using ClashRoyaleRestAPI.Application.Battle.Queries.GetAllBattleInclude;
-using ClashRoyaleRestAPI.Application.Battle.Queries.GetBattleByIdFullLoad;
+using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
+using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude;
+using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdFullLoad;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

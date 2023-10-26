@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Application.Common.Commands.AddModel;
 using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
-using ClashRoyaleRestAPI.Application.War.Queries.GetUpCommingWars;
+using ClashRoyaleRestAPI.Application.Models.War.Queries.GetUpCommingWars;
 using ClashRoyaleRestAPI.Domain.Models.War;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

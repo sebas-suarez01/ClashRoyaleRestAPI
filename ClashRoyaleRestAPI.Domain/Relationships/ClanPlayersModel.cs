@@ -7,9 +7,9 @@ namespace ClashRoyaleRestAPI.Domain.Relationships
     public class ClanPlayersModel
     {
         private ClanPlayersModel() { }
-        public ClanModel? Clan { get; set; }
-        public PlayerModel? Player { get; set; }
-        public RankClan Rank { get; set; }
+        public ClanModel? Clan { get; private set; }
+        public PlayerModel? Player { get; private set; }
+        public RankClan Rank { get; private set; }
         public static ClanPlayersModel Create(PlayerModel player, ClanModel clan, RankClan rank)
         {
             var playerClan = new ClanPlayersModel()
@@ -20,6 +20,11 @@ namespace ClashRoyaleRestAPI.Domain.Relationships
             };
 
             return playerClan;
+        }
+
+        public void UpdateRank(RankClan rank)
+        {
+            Rank = rank;
         }
     }
 }

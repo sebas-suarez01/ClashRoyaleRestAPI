@@ -18,7 +18,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
             if (context.ChangeType == ChangeType.Added && context.Entity.Player is not null)
             {
                 var player = await _playerService.GetSingleByIdAsync(context.Entity.Player.Id);
-                player!.CardAmount += 1;
+                player!.AddCardAmount();
                 await _playerService.Save();
 
             }

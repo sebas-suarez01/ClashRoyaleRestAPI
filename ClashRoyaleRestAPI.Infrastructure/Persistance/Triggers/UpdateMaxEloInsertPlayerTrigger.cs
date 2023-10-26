@@ -9,7 +9,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
         {
             if (context.ChangeType == ChangeType.Added)
             {
-                context.Entity.MaxElo = context.Entity.Elo;
+                context.Entity.UpdateElo(context.Entity.Elo);
             }
             return Task.CompletedTask;
         }

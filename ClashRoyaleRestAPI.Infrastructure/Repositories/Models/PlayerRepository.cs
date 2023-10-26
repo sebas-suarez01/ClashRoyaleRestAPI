@@ -4,7 +4,6 @@ using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Models.Player;
-using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
@@ -46,11 +45,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 
             if (await ExistsCollection(playerId, cardId)) throw new DuplicationIdException();
 
-            player!.Cards ??= new List<CollectionModel>();
-
-            var collect = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
-
-            await _context.Collection.AddAsync(collect);
+            player.AddCard(card);
 
             await Save();
         }
@@ -70,7 +65,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
         public async Task UpdateAlias(int playerId, string alias)
         {
             var player = await GetSingleByIdAsync(playerId) ?? throw new IdNotFoundException();
-            player.Alias = alias;
+
+            player.ChangeAlias(alias);
 
             await Save();
         }

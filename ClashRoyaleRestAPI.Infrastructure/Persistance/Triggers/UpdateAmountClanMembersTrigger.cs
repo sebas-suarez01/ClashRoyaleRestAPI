@@ -21,11 +21,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
 
             if (context.ChangeType == ChangeType.Added)
             {
-                clan!.AmountMembers += 1;
+                clan!.AddAmountMember();
             }
             else if (context.ChangeType == ChangeType.Deleted)
             {
-                clan!.AmountMembers -= 1;
+                clan!.RemoveAmountMember();
             }
             await _clanRepository.Save();
         }

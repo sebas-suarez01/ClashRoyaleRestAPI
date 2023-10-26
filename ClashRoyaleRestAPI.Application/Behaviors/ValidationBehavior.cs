@@ -1,12 +1,6 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
-using ClashRoyaleRestAPI.Domain.Shared;
+﻿using ClashRoyaleRestAPI.Domain.Shared;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Application.Behaviors
 {
@@ -27,10 +21,10 @@ namespace ClashRoyaleRestAPI.Application.Behaviors
                 return await next();
 
             Error[] errors = _validators
-                .Select(validator=> validator.Validate(request))
-                .SelectMany(validationResult =>  validationResult.Errors)
-                .Where(validationFailure=> validationFailure is not null)
-                .Select(failure=> new Error(
+                .Select(validator => validator.Validate(request))
+                .SelectMany(validationResult => validationResult.Errors)
+                .Where(validationFailure => validationFailure is not null)
+                .Select(failure => new Error(
                     failure.PropertyName,
                     failure.ErrorMessage))
                 .Distinct()
@@ -47,7 +41,7 @@ namespace ClashRoyaleRestAPI.Application.Behaviors
         private static TResult CreateValidationResult<TResult>(Error[] errors)
             where TResult : Result
         {
-            if(typeof(TResult) == typeof(Result))
+            if (typeof(TResult) == typeof(Result))
             {
                 return (ValidationResult.Create(errors) as TResult)!;
             }

@@ -6,13 +6,33 @@ namespace ClashRoyaleRestAPI.Domain.Models.Battle
 {
     public class BattleModel : IEntity<BattleId>
     {
-        public BattleId Id { get; set; }
-        public int AmountTrophies { get; set; }
-        public PlayerModel? Winner { get; set; }
-        public PlayerModel? Loser { get; set; }
-        public int DurationInSeconds { get; set; }
-        public DateTime Date { get; set; }
+        private BattleModel() 
+        {
+            Id = CreateId();
+        }
+        public BattleId Id { get; private set; }
+        public int AmountTrophies { get; private set; }
+        public PlayerModel? Winner { get; private set; }
+        public PlayerModel? Loser { get; private set; }
+        public int DurationInSeconds { get; private set; }
+        public DateTime Date { get; private set; }
 
-        public void GetId() => Id = BattleId.CreateUnique();
+        private static BattleId CreateId() => BattleId.CreateUnique();
+
+        public static BattleModel Create(int amountTrophies, PlayerModel winner, PlayerModel loser, int durationInSeconds)
+        {
+            return new BattleModel
+            {
+                AmountTrophies = amountTrophies,
+                Winner = winner,
+                Loser = loser,
+                DurationInSeconds = durationInSeconds
+            };
+        }
+
+        public void AddDate()
+        {
+            Date = DateTime.Now;
+        }
     }
 }

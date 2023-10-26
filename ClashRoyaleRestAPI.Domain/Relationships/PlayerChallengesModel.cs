@@ -5,8 +5,19 @@ namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class PlayerChallengesModel
     {
-        public PlayerModel? Player { get; set; }
-        public ChallengeModel? Challenge { get; set; }
-        public int PrizeAmount { get; set; }
+        private PlayerChallengesModel() { }
+        public PlayerModel? Player { get; private set; }
+        public ChallengeModel? Challenge { get; private set; }
+        public int PrizeAmount { get; private set; }
+
+        public static PlayerChallengesModel Create(PlayerModel player, ChallengeModel challenge, int prizeAmount)
+        {
+            return new PlayerChallengesModel
+            {
+                Player = player,
+                Challenge = challenge,
+                PrizeAmount = prizeAmount
+            };
+        }
     }
 }

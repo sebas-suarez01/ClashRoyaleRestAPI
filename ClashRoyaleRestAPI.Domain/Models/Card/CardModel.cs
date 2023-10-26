@@ -1,6 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Enum;
-using ClashRoyaleRestAPI.Domain.Models.Card.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Models.Card
 {

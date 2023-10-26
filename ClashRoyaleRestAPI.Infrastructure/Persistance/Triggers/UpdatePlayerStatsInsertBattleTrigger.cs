@@ -19,12 +19,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
                 var winner = await _repository.GetSingleByIdAsync(context.Entity.Winner.Id);
                 var loser = await _repository.GetSingleByIdAsync(context.Entity.Loser.Id);
 
-                winner!.Victories += 1;
+                winner!.AddVictory();
 
-                loser!.Elo += context.Entity.AmountTrophies;
-                winner.Elo += context.Entity.AmountTrophies;
-                if (winner.Elo > winner.MaxElo)
-                    winner.MaxElo = winner.Elo;
+                loser!.UpdateElo(context.Entity.AmountTrophies);
+                winner!.UpdateElo(context.Entity.AmountTrophies);
             }
         }
     }

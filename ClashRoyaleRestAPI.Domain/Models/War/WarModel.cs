@@ -4,7 +4,16 @@ namespace ClashRoyaleRestAPI.Domain.Models.War
 {
     public class WarModel : IEntity<int>
     {
-        public int Id { get; set; }
-        public DateTime StartDate { get; set; }
+        private WarModel() { }
+        public int Id { get; private set; }
+        public DateTime StartDate { get; private set; }
+
+        public static WarModel Create(DateTime start) 
+        {
+            return new WarModel()
+            {
+                StartDate = start,
+            };
+        }
     }
 }
