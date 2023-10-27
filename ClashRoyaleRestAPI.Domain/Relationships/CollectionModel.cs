@@ -1,5 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Card;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {

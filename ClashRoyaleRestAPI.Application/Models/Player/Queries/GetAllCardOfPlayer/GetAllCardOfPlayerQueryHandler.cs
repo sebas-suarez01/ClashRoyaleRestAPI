@@ -1,15 +1,9 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models.Card;
-using ClashRoyaleRestAPI.Domain.Models.Player;
-using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlayer
 {
@@ -30,9 +24,9 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlaye
             {
                 cards = await _repository.GetAllCardsOfPlayerAsync(request.Id);
             }
-            catch (IdNotFoundException)
+            catch (IdNotFoundException<int> e)
             {
-                return Result.Failure<IEnumerable<CardModel>>(ErrorTypes.Models.IdNotFound);
+                return Result.Failure<IEnumerable<CardModel>>(ErrorTypes.Models.IdNotFound(e.Message));
             }
 
             return Result.Create(cards);

@@ -26,7 +26,7 @@ namespace ClashRoyaleRestAPI.Application.Auth.User.Queries.GetUserByName
             }
             catch (UsernameNotFoundException)
             {
-                return Result.Failure<UserResponse>(ErrorTypes.Auth.UsernameNotFound);
+                return Result.Failure<UserResponse>(ErrorTypes.Auth.UsernameNotFound());
             }
 
             return response;

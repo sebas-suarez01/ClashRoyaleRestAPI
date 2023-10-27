@@ -3,15 +3,10 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
-    public class CardRepository : BaseRepository<CardModel, int>, ICardRepository
+    internal class CardRepository : BaseRepository<CardModel, int>, ICardRepository
     {
         public CardRepository(ClashRoyaleDbContext context) : base(context)
         {

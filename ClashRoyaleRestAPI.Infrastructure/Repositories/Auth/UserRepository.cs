@@ -37,7 +37,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Auth
         public async Task<UserResponse> GetUserByIdAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id)
-                ?? throw new IdNotFoundException();
+                ?? throw new IdNotFoundException<string>(id);
 
             var role = (await _userManager.GetRolesAsync(user)).First();
 
@@ -45,7 +45,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Auth
         }
         public async Task<IEnumerable<UserModel>> GetAllAsync()
         {
-            if (_context.Users == null) throw new ModelNotFoundException<IdentityUser>();
+            if (_context.Users == null) throw new ModelNotFoundException(nameof(IdentityUser));
 
             return await _context.Users
                 .ProjectTo<UserModel>(_mapper.ConfigurationProvider)
@@ -54,7 +54,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Auth
         public async Task Delete(string id)
         {
             var identUser = await _userManager.FindByIdAsync(id)
-                ?? throw new IdNotFoundException();
+                ?? throw new IdNotFoundException<string>(id);
 
             await _userManager.DeleteAsync(identUser);
 

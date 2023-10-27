@@ -21,9 +21,9 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard
             {
                 await _repository.AddCard(request.PlayerId, request.CardId);
             }
-            catch (DuplicationIdException)
+            catch (DuplicationIdException e)
             {
-                return Result.Failure(ErrorTypes.Models.DuplicateId);
+                return Result.Failure(ErrorTypes.Models.DuplicateId(e.Message));
             }
 
             return Result.Success();

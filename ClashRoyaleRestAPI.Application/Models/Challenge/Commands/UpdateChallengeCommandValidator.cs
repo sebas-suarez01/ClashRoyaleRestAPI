@@ -1,5 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Domain.Models.Challenge;
+using ClashRoyaleRestAPI.Domain.Models;
 using FluentValidation;
 
 namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands

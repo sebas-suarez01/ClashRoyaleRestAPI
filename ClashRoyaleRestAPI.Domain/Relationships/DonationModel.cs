@@ -1,6 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Card;
-using ClashRoyaleRestAPI.Domain.Models.Clan;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {
@@ -12,7 +11,7 @@ namespace ClashRoyaleRestAPI.Domain.Relationships
         public CardModel? Card { get; private set; }
         public int Amount { get; private set; }
 
-        public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel? card, int amount)
+        public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel card, int amount)
         {
             return new DonationModel
             {

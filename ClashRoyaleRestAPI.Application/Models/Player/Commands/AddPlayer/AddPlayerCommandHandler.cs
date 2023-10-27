@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Common.Commands.AddModel;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+using ClashRoyaleRestAPI.Domain.Models;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.Commands
+namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayer
 {
     public class AddPlayerCommandHandler : AddModelCommandHandler<PlayerModel, int>
     {

@@ -25,11 +25,11 @@ namespace ClashRoyaleRestAPI.Application.Auth.Account.Commands.RegisterUser
             }
             catch (DuplicationUsernameException)
             {
-                return Result.Failure<string>(ErrorTypes.Auth.DuplicateUsername);
+                return Result.Failure<string>(ErrorTypes.Auth.DuplicateUsername());
             }
             catch (UserCreationException)
             {
-                return Result.Failure<string>(ErrorTypes.Auth.InvalidCredentials);
+                return Result.Failure<string>(ErrorTypes.Auth.InvalidCredentials());
             }
 
             return response.Id!;

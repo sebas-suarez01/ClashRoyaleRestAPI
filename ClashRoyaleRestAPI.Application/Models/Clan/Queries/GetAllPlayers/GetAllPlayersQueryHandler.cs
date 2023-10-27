@@ -24,9 +24,9 @@ namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers
             {
                 players = await _repository.GetPlayers(request.ClanId);
             }
-            catch (IdNotFoundException)
+            catch (IdNotFoundException<int> e)
             {
-                return Result.Failure<IEnumerable<ClanPlayersModel>>(ErrorTypes.Models.IdNotFound);
+                return Result.Failure<IEnumerable<ClanPlayersModel>>(ErrorTypes.Models.IdNotFound(e.Message));
             }
 
             return Result.Create(players);

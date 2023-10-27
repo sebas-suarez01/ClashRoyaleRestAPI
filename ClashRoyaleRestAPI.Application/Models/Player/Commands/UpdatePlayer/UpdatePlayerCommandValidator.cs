@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+using ClashRoyaleRestAPI.Domain.Models;
 using FluentValidation;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.Commands
+namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayer
 {
     internal class UpdatePlayerCommandValidator : AbstractValidator<UpdateModelCommand<PlayerModel, int>>
     {

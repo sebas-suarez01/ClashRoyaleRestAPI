@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Player;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using static ClashRoyaleRestAPI.Domain.Errors.ErrorTypes;

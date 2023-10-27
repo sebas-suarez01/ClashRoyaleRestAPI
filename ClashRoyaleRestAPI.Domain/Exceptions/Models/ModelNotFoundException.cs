@@ -1,8 +1,8 @@
 ﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Models
 {
-    public class ModelNotFoundException<T> : Exception
+    public class ModelNotFoundException : Exception
     {
-        public ModelNotFoundException() : base(string.Format("{0} not found", nameof(T)))
+        public ModelNotFoundException(string name) : base($"{name} not found")
         { }
     }
 }

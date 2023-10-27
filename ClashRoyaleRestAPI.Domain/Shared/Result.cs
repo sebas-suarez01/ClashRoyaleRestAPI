@@ -6,12 +6,12 @@ namespace ClashRoyaleRestAPI.Domain.Shared
     {
         protected internal Result(bool isSuccess, Error error)
         {
-            if (isSuccess && error != ErrorTypes.Instances.None)
+            if (isSuccess && error != ErrorTypes.Instances.None())
             {
                 throw new InvalidOperationException();
             }
 
-            if (!isSuccess && error == ErrorTypes.Instances.None)
+            if (!isSuccess && error == ErrorTypes.Instances.None())
             {
                 throw new InvalidOperationException();
             }
@@ -28,10 +28,10 @@ namespace ClashRoyaleRestAPI.Domain.Shared
         public bool IsFailure => !IsSuccess;
         public Error[] Errors { get; }
 
-        public static Result Success() => new(true, ErrorTypes.Instances.None);
+        public static Result Success() => new(true, ErrorTypes.Instances.None());
 
         public static Result<TValue> Success<TValue>(TValue value) =>
-            new(value, true, ErrorTypes.Instances.None);
+            new(value, true, ErrorTypes.Instances.None());
 
         public static Result Failure(Error error) =>
             new(false, error);
@@ -45,7 +45,7 @@ namespace ClashRoyaleRestAPI.Domain.Shared
             new(default, false, errors);
 
         public static Result<TValue> Create<TValue>(TValue value) =>
-            value is not null ? Success(value) : Failure<TValue>(ErrorTypes.Instances.NullValue);
+            value is not null ? Success(value) : Failure<TValue>(ErrorTypes.Instances.NullValue());
 
 
     }

@@ -6,9 +6,11 @@ namespace ClashRoyaleRestAPI.Domain.Errors
     {
         public static class Instances
         {
-            public static readonly Error None = new(string.Empty, string.Empty);
+            public static Error None() => new(string.Empty, string.Empty);
 
-            public static readonly Error NullValue = new("Error.NullValue", "The specific result value is null");
+
+            public static Error NullValue() => new(ErrorCode.NullValue, "The specific result value is null");
+
         }
     }
 }

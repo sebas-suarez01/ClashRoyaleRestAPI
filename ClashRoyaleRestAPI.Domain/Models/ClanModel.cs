@@ -1,9 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Enum;
-using ClashRoyaleRestAPI.Domain.Models.Player;
 using ClashRoyaleRestAPI.Domain.Relationships;
 
-namespace ClashRoyaleRestAPI.Domain.Models.Clan
+namespace ClashRoyaleRestAPI.Domain.Models
 {
     public class ClanModel : IEntity<int>
     {
@@ -28,7 +27,7 @@ namespace ClashRoyaleRestAPI.Domain.Models.Clan
 
         public void AddAmountMember()
         {
-            AmountMembers+=1;
+            AmountMembers += 1;
         }
         public void RemoveAmountMember()
         {

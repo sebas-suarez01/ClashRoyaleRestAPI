@@ -1,5 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Clan;
-using ClashRoyaleRestAPI.Domain.Models.War;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {

@@ -1,6 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Domain.Enum;
-using ClashRoyaleRestAPI.Domain.Models.Clan;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {

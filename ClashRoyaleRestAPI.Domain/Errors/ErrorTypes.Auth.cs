@@ -6,10 +6,10 @@ namespace ClashRoyaleRestAPI.Domain.Errors
     {
         public static class Auth
         {
-            public static readonly Error UsernameNotFound = new("Error.UsernameNotFound", "Username does not exist");
-            public static readonly Error DuplicateUsername = new("Error.DuplicateUsername", "Username already exists");
-            public static readonly Error InvalidCredentials = new("Error.InvalidCredentials", "InvalidCredentials");
-            public static readonly Error InvalidPassword = new("Error.InvalidPassword", "Invalid password");
+            public static Error UsernameNotFound() => new(ErrorCode.UsernameNotFound, "Username does not exist");
+            public static Error DuplicateUsername() => new(ErrorCode.DuplicateUsername, "Username already exists");
+            public static Error InvalidCredentials() => new(ErrorCode.InvalidCredentials, "InvalidCredentials");
+            public static Error InvalidPassword() => new(ErrorCode.InvalidPassword, "Invalid password");
         }
     }
 }

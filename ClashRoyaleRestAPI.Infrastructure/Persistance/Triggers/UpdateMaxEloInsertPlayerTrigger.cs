@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Player;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 using EntityFrameworkCore.Triggered;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers

@@ -1,14 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Exceptions;
-using ClashRoyaleRestAPI.Domain.Models.Player;
-using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Domain.Errors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ClashRoyaleRestAPI.Domain.Exceptions;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddClan
 {
@@ -27,9 +21,9 @@ namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddClan
             {
                 await _repository.Add(request.PlayerId, request.Clan);
             }
-            catch (IdNotFoundException)
+            catch (IdNotFoundException<int> e)
             {
-                return Result.Failure<int>(ErrorTypes.Models.IdNotFound);
+                return Result.Failure<int>(ErrorTypes.Models.IdNotFound(e.Message));
             }
 
             return request.Clan.Id;

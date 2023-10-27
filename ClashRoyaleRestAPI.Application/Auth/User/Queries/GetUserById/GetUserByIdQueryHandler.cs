@@ -24,9 +24,9 @@ namespace ClashRoyaleRestAPI.Application.Auth.User.Queries.GetUserById
             {
                 userResponse = await _repository.GetUserByIdAsync(request.Id);
             }
-            catch (IdNotFoundException)
+            catch (IdNotFoundException<string> e)
             {
-                return Result.Failure<UserResponse>(ErrorTypes.Models.IdNotFound);
+                return Result.Failure<UserResponse>(ErrorTypes.Models.IdNotFound(e.Message));
             }
 
             return userResponse;

@@ -21,9 +21,9 @@ namespace ClashRoyaleRestAPI.Application.Auth.User.Commands.DeleteUser
             {
                 await _repository.Delete(request.Id);
             }
-            catch (IdNotFoundException)
+            catch (IdNotFoundException<string> e)
             {
-                return Result.Failure(ErrorTypes.Models.IdNotFound);
+                return Result.Failure(ErrorTypes.Models.IdNotFound(e.Message));
             }
 
             return Result.Success();

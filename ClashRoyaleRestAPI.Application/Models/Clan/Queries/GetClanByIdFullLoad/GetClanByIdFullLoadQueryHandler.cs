@@ -1,7 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Errors;
-using ClashRoyaleRestAPI.Domain.Models.Clan;
+using ClashRoyaleRestAPI.Domain.Exceptions;
+using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdFullLoad
@@ -17,12 +18,17 @@ namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdFullLoad
 
         public async Task<Result<ClanModel>> Handle(GetClanByIdFullLoadQuery request, CancellationToken cancellationToken)
         {
-            var clan = await _repository.GetSingleByIdAsync(request.Id, true);
+            ClanModel clan;
+            try
+            {
+                clan = await _repository.GetSingleByIdAsync(request.Id, true);
+            }
+            catch (IdNotFoundException<int> e)
+            {
+                return Result.Failure<ClanModel>(ErrorTypes.Models.IdNotFound(e.Message));
+            }
 
-            if (clan is null)
-                return Result.Failure<ClanModel>(ErrorTypes.Models.IdNotFound);
-
-            return clan;
+            return clan!;
         }
     }
 }

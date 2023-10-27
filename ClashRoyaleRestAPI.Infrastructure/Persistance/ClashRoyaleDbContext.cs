@@ -1,10 +1,7 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Battle;
+﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;
-using ClashRoyaleRestAPI.Domain.Models.Challenge;
-using ClashRoyaleRestAPI.Domain.Models.Clan;
-using ClashRoyaleRestAPI.Domain.Models.Player;
-using ClashRoyaleRestAPI.Domain.Models.War;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relationships;

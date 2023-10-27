@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Infrastructure.Common;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Auth;
@@ -25,6 +26,8 @@ namespace ClashRoyaleRestAPI.Infrastructure
             AddPersistance(services);
 
             AddScopeds(services);
+
+            services.AddTransient(typeof(Lazy<>), typeof(LazilyResolved<>)); //Important circular reference
 
             return services;
         }

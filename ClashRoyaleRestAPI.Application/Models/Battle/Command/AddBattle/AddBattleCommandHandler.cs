@@ -22,9 +22,9 @@ namespace ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle
             {
                 id = await _repository.Add(request.Battle, request.WinnerId, request.LoserId);
             }
-            catch (IdNotFoundException)
+            catch (IdNotFoundException<int> e)
             {
-                return Result.Failure<Guid>(ErrorTypes.Models.IdNotFound);
+                return Result.Failure<Guid>(ErrorTypes.Models.IdNotFound(e.Message));
             }
 
             return id;

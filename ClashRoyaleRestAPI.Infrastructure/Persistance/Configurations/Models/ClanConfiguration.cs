@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Clan;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

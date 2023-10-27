@@ -1,5 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Domain.Enum;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Common.Mapping
 {

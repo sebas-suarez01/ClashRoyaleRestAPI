@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Challenge;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {

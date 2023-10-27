@@ -26,11 +26,11 @@ namespace ClashRoyaleRestAPI.Application.Auth.Account.Queries.LoginUser
             }
             catch (UsernameNotFoundException)
             {
-                return Result.Failure<LoginResponse>(ErrorTypes.Auth.UsernameNotFound);
+                return Result.Failure<LoginResponse>(ErrorTypes.Auth.UsernameNotFound());
             }
             catch (InvalidPasswordException)
             {
-                return Result.Failure<LoginResponse>(ErrorTypes.Auth.InvalidPassword);
+                return Result.Failure<LoginResponse>(ErrorTypes.Auth.InvalidPassword());
             }
 
             return response;

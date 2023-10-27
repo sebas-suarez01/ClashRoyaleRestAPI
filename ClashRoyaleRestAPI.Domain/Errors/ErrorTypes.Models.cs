@@ -6,21 +6,34 @@ namespace ClashRoyaleRestAPI.Domain.Errors
     {
         public static class Models
         {
-            public static readonly Error DuplicateId = new(
-                code: "Model.DuplicateId",
-                description: "Id already exists");
+            public static Error DuplicateId(string description) => new(
+                    code: ErrorCode.DuplicateId,
+                    description: description);
 
-            public static readonly Error ModelNotFound = new(
-                code: "Model.NotFound",
-                description: "Model not found");
+            public static Error DuplicateId(params int[] ids) => new(
+                    code: ErrorCode.DuplicateId,
+                    description: "Id" + String.Join(",", ids) + "already exists");
 
-            public static readonly Error IdNotFound = new(
-                code: "Model.IdNotFound",
-                description: "Id not found");
+            public static Error ModelNotFound(string model) => new(
+                    code: ErrorCode.ModelNotFound,
+                    description: $"{model} not found");
 
-            public static readonly Error IdsNotMatch = new(
-                code: "Model.IdsNotMatch",
-                description: "Ids does not match");
+            public static Error IdNotFound(string description) => new(
+                    code: ErrorCode.IdNotFound,
+                    description: description);
+
+            public static Error IdsNotMatch() => new(
+                    code: ErrorCode.IdsNotMatch,
+                    description: "Ids does not match");
+
+            public static Error ChallengeClosed() => new(
+                    code: ErrorCode.ChallengeClosed,
+                    description: "Challenge is not open");
+
+            public static Error PlayerNotHaveCard() => new(
+                    code: ErrorCode.PlayerNotHaveCard,
+                    description: "Player does not have card");
+
         }
     }
 }

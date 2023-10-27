@@ -3,6 +3,7 @@ using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Shared;
+using ClashRoyaleRestAPI.Domain.Exceptions;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.GetModelById
 {
@@ -17,10 +18,16 @@ namespace ClashRoyaleRestAPI.Application.Common.Queries.GetModelById
 
         public async Task<Result<TModel>> Handle(GetModelByIdQuery<TModel, UId> request, CancellationToken cancellationToken)
         {
-            var model = await _repository.GetSingleByIdAsync(request.Id);
+            TModel model;
 
-            if (model is null)
-                return Result.Failure<TModel>(ErrorTypes.Models.IdNotFound);
+            try
+            {
+                model = await _repository.GetSingleByIdAsync(request.Id);
+            }
+            catch (IdNotFoundException<UId> e)
+            {
+                return Result.Failure<TModel>(ErrorTypes.Models.IdNotFound(e.Message));
+            }
 
             return model;
         }

@@ -1,5 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Common.Commands.AddModel;
-using ClashRoyaleRestAPI.Domain.Models.War;
+using ClashRoyaleRestAPI.Domain.Models;
 using FluentValidation;
 
 namespace ClashRoyaleRestAPI.Application.Models.War.Commands

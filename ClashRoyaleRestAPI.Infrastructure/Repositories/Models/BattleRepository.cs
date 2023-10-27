@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
-    public class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattleRepository
+    internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattleRepository
     {
         private readonly IPlayerRepository _playerRepository;
 
@@ -18,9 +18,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
         }
         public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
         {
-            if (!await _playerRepository.ExistsId(winnerId)) throw new IdNotFoundException();
-            if (!await _playerRepository.ExistsId(loserId)) throw new IdNotFoundException();
-
             var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
             var loser = await _playerRepository.GetSingleByIdAsync(loserId);
 
@@ -40,17 +37,18 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
                             .ToListAsync();
         }
 
-        public async Task<BattleModel?> GetSingleByIdAsync(Guid id, bool fullLoad = false)
+        public async Task<BattleModel> GetSingleByIdAsync(Guid id, bool fullLoad = false)
         {
-            BattleModel? battle = fullLoad ? _context.Battles
+            var battle = fullLoad ? await _context.Battles
                                                 .Include(c => c.Winner)
                                                 .Include(c => c.Loser)
                                                 .Where(c => c.Id == BattleId.Create(id))
-                                                .FirstOrDefault()
+                                                .FirstOrDefaultAsync()
+                                                ?? throw new IdNotFoundException<Guid>(id)
                                             :
                                              await GetSingleByIdAsync(id);
 
-            return battle;
+            return battle!;
         }
 
     }

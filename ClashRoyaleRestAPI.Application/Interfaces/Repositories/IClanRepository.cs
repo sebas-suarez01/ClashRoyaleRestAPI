@@ -1,12 +1,12 @@
 ﻿using ClashRoyaleRestAPI.Domain.Enum;
-using ClashRoyaleRestAPI.Domain.Models.Clan;
+using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Relationships;
 
 namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {
     public interface IClanRepository : IBaseRepository<ClanModel, int>
     {
-        public Task<ClanModel?> GetSingleByIdAsync(int id, bool fullLoad = false);
+        public Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false);
         public Task<IEnumerable<ClanModel>> GetAllByName(string name);
         public Task<IEnumerable<ClanModel>> GetAllAvailable(int trophies);
         public Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId);

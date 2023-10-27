@@ -1,5 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Challenge;
-using ClashRoyaleRestAPI.Domain.Models.Player;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {

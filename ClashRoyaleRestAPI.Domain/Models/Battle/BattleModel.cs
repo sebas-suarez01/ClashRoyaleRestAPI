@@ -1,6 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
-using ClashRoyaleRestAPI.Domain.Models.Player;
 
 namespace ClashRoyaleRestAPI.Domain.Models.Battle
 {

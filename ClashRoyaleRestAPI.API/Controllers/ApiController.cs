@@ -3,45 +3,46 @@ using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClashRoyaleRestAPI.API.Controllers
+namespace ClashRoyaleRestAPI.API.Controllers;
+
+[ApiController]
+public class ApiController : ControllerBase
 {
-    [ApiController]
-    public class ApiController : ControllerBase
+    protected readonly ISender _sender;
+
+    protected ApiController(ISender sender)
     {
-        protected readonly ISender _sender;
+        _sender = sender;
+    }
 
-        protected ApiController(ISender sender)
-        {
-            _sender = sender;
-        }
+    protected IActionResult Problem(Error[] errors)
+    {
+        var firstError = errors[0];
 
-        protected IActionResult Problem(Error[] errors)
-        {
-            var firstError = errors[0];
+        return Problem(firstError);
+    }
 
-            return Problem(firstError);
-        }
+    protected IActionResult Problem(Error error)
+    {
 
-        protected IActionResult Problem(Error error)
-        {
+        if (error == ErrorCode.IdNotFound ||
+            error == ErrorCode.ModelNotFound ||
+            error == ErrorCode.UsernameNotFound)
+            return NotFound(error.Description);
 
-            if (error == ErrorTypes.Models.IdNotFound ||
-                error == ErrorTypes.Models.ModelNotFound ||
-                error == ErrorTypes.Auth.UsernameNotFound)
-                return NotFound(error.Description);
+        if (error == ErrorCode.IdsNotMatch ||
+            error == ErrorCode.InvalidCredentials ||
+            error == ErrorCode.InvalidPassword ||
+            error == IValidationResult.ValidationError ||
+            error == ErrorCode.ChallengeClosed ||
+            error == ErrorCode.PlayerNotHaveCard)
+            return BadRequest(error.Description);
 
-            if (error == ErrorTypes.Models.IdsNotMatch ||
-                error == ErrorTypes.Auth.InvalidCredentials ||
-                error == ErrorTypes.Auth.InvalidPassword ||
-                error == IValidationResult.ValidationError)
-                return BadRequest(error.Description);
-
-            if (error == ErrorTypes.Models.DuplicateId ||
-                error == ErrorTypes.Auth.DuplicateUsername)
-                return Conflict(error.Description);
+        if (error == ErrorCode.DuplicateId ||
+            error == ErrorCode.DuplicateUsername)
+            return Conflict(error.Description);
 
 
-            return Problem();
-        }
+        return Problem();
     }
 }

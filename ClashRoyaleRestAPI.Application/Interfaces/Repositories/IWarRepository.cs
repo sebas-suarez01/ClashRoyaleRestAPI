@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.War;
+﻿using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {

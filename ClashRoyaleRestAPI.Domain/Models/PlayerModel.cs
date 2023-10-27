@@ -2,7 +2,7 @@
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Relationships;
 
-namespace ClashRoyaleRestAPI.Domain.Models.Player
+namespace ClashRoyaleRestAPI.Domain.Models
 {
     public class PlayerModel : IEntity<int>
     {
@@ -25,6 +25,12 @@ namespace ClashRoyaleRestAPI.Domain.Models.Player
             Cards!.Add(collect);
         }
 
+        public bool HaveCard(int cardId)
+        {
+            Cards ??= new List<CollectionModel>();
+            return Cards.Any(c => c.Card is not null && c.Card.Id == cardId);
+        }
+
         public void ChangeAlias(string alias) => Alias = alias;
 
         public void AddCardAmount() => CardAmount += 1;
@@ -35,7 +41,7 @@ namespace ClashRoyaleRestAPI.Domain.Models.Player
 
         public void UpdateElo(int elo)
         {
-            if(MaxElo < Elo)
+            if (MaxElo < Elo)
             {
                 MaxElo = Elo;
                 return;

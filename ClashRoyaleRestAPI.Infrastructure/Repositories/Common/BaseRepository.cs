@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Common
         {
             _context = context;
         }
-        public virtual async Task<TModel?> GetSingleByIdAsync(UId id)
+        public virtual async Task<TModel> GetSingleByIdAsync(UId id)
         {
-            var entity = await _context.Set<TModel>().FindAsync(id);
+            var entity = await _context.Set<TModel>().FindAsync(id) ?? throw new IdNotFoundException<UId>(id);
 
             return entity;
         }
