@@ -49,7 +49,7 @@ namespace ClashRoyaleRestAPI.Infrastructure
         {
             services.AddDbContext<ClashRoyaleDbContext>(options =>
             {
-                options.UseSqlServer("Server=.\\SqlExpress; Database=cr_other_db; Trusted_Connection=true; TrustServerCertificate=true;");
+                options.UseSqlServer(DbSettings.ConnectionName);
                 options.UseTriggers(triggerOpt =>
                 {
                     triggerOpt.AddTrigger<UpdateCardAmountTrigger>();
