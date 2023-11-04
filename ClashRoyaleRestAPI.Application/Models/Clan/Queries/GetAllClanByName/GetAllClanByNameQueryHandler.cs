@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanByName
 {
-    public class GetAllClanByNameQueryHandler : IQueryHandler<GetAllClanByNameQuery, IEnumerable<ClanModel>>
+    internal class GetAllClanByNameQueryHandler : IQueryHandler<GetAllClanByNameQuery, IEnumerable<ClanModel>>
     {
         private readonly IClanRepository _repository;
 

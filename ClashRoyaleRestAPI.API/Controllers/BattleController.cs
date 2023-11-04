@@ -13,7 +13,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 public class BattleController : ApiController
 {
     private readonly IMapper _mapper;
-    public BattleController(ISender sender, IMapper mapper) : base(sender)
+    public BattleController(IMediator sender, IMapper mapper) : base(sender)
     {
         _mapper = mapper;
     }

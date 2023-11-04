@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Application.Models.Card.Commands
 {
-    public class DeleteCardCommandHandler : DeleteModelCommandHandler<CardModel, int>
+    internal class DeleteCardCommandHandler : DeleteModelCommandHandler<CardModel, int>
     {
         public DeleteCardCommandHandler(ICardRepository repository) : base(repository)
         {

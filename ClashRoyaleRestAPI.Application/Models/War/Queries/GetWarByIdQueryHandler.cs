@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.War.Queries
 {
-    public class GetWarByIdQueryHandler : GetModelByIdQueryHandler<WarModel, int>
+    internal class GetWarByIdQueryHandler : GetModelByIdQueryHandler<WarModel, int>
     {
         public GetWarByIdQueryHandler(IWarRepository repository) : base(repository)
         {

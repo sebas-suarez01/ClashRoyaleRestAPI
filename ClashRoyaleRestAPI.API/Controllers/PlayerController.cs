@@ -22,7 +22,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 public class PlayerController : ApiController
 {
     private readonly IMapper _mapper;
-    public PlayerController(ISender sender, IMapper mapper) : base(sender)
+    public PlayerController(IMediator sender, IMapper mapper) : base(sender)
     {
         _mapper = mapper;
     }
@@ -129,7 +129,7 @@ public class PlayerController : ApiController
         var result = await _sender.Send(command);
 
         return result.IsSuccess ?
-            Ok()
+            NoContent()
             : Problem(result.Errors);
     }
 

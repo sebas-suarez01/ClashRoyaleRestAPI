@@ -26,6 +26,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
 
             builder.Property(c => c.MinTrophies)
                 .HasDefaultValue(0);
+
+            var nav = builder.Metadata.FindNavigation(nameof(ClanModel.Players));
+
+            nav!.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

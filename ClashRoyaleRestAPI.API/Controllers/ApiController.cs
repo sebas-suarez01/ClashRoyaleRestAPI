@@ -8,9 +8,9 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [ApiController]
 public class ApiController : ControllerBase
 {
-    protected readonly ISender _sender;
+    protected readonly IMediator _sender;
 
-    protected ApiController(ISender sender)
+    protected ApiController(IMediator sender)
     {
         _sender = sender;
     }

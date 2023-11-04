@@ -7,7 +7,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdFullLoad
 {
-    public class GetBattleByIdFullLoadQueryHandler : IQueryHandler<GetBattleByIdFullLoadQuery, BattleModel>
+    internal class GetBattleByIdFullLoadQueryHandler : IQueryHandler<GetBattleByIdFullLoadQuery, BattleModel>
     {
         private readonly IBattleRepository _repository;
 

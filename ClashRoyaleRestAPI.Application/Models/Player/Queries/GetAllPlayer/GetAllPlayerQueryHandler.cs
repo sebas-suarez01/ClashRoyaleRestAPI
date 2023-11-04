@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayer
 {
-    public class GetAllPlayerQueryHandler : GetAllModelQueryHandler<PlayerModel, int>
+    internal class GetAllPlayerQueryHandler : GetAllModelQueryHandler<PlayerModel, int>
     {
         public GetAllPlayerQueryHandler(IPlayerRepository repository) : base(repository)
         {

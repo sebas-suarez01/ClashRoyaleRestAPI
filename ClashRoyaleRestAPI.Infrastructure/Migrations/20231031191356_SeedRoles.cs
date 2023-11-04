@@ -7,7 +7,7 @@
 namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixMigrations : Migration
+    public partial class SeedRoles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,47 +15,47 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: "2ab6641e-64a7-4bc5-b9a2-008df817ad65");
+                keyValue: "6a2bf723-f147-45b6-94de-1e392c9b2c3a");
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: "a52bf2f8-b099-4a49-bc47-ac27572ab08a");
+                keyValue: "ada81d47-64ae-4879-895d-e2124450cd91");
 
             migrationBuilder.DeleteData(
                 table: "UserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "9ac3ae48-7723-485e-8dd1-b1f2a24c4d5b", "517b900e-7db3-4c66-9fb7-07529f63a666" });
+                keyValues: new object[] { "e84cd157-9b7c-4745-bd46-6ffeb84d2a2c", "36e64893-7ec0-44c4-adeb-a7dc7d1604cd" });
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: "9ac3ae48-7723-485e-8dd1-b1f2a24c4d5b");
+                keyValue: "e84cd157-9b7c-4745-bd46-6ffeb84d2a2c");
 
             migrationBuilder.DeleteData(
                 table: "Users",
                 keyColumn: "Id",
-                keyValue: "517b900e-7db3-4c66-9fb7-07529f63a666");
+                keyValue: "36e64893-7ec0-44c4-adeb-a7dc7d1604cd");
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "122770ca-a0c1-46ff-b849-ac199ea5f7c1", "dee33159-bb14-4512-ba79-71ec882545fe", "User", "USER" },
-                    { "e5096c80-e8d4-4069-982c-3ac0a3e83047", "c438c423-992e-48b5-bb75-fceb2ab05737", "Admin", "ADMIN" },
-                    { "e606454d-dfc6-4134-8a0b-df26290f3b7e", "a4f91a73-b0bf-47a3-a07c-6dcb58e98af2", "SuperAdmin", "SUPERADMIN" }
+                    { "5fda05f7-5c94-435e-8f07-d59190ef951e", "f9daa04b-91a6-4a41-adec-af1723c6346d", "SuperAdmin", "SUPERADMIN" },
+                    { "768d8b2c-22a2-49aa-9061-45d2921734d1", "d2bde979-e968-4b7f-8b74-8814917c55f9", "User", "USER" },
+                    { "d0c478ba-2313-43e9-a94c-03b6f42ca188", "909bf57d-45e0-4213-a194-d2c2362e137b", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "21863356-0820-41ec-8028-623e9ba30baa", 0, "35e22ad7-16d1-43c9-92f3-1e2d73da75ff", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAEGO9kcxea/II1Gpj/cCHpKYvkF/ze5dfGP0xXjNTZv4YxSwLH/DNrAvsUrP2JKnvkg==", null, false, "a1468969-9cf5-4447-ab01-4a82ccd9853c", false, "superadmin" });
+                values: new object[] { "d70a584a-77c8-43d0-b028-823142e2a52d", 0, "c78bdabf-4fb5-4af0-90ec-bcaf0b6dd72e", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAED0wNl2Z2k836nnqv2EN2VaBzyGRCVmbXGRe8HpIJPep8wtx/9NASKfxqpOPHmFPjA==", null, false, "28be274d-dcfb-4771-b0ce-9f28e2657efa", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "e606454d-dfc6-4134-8a0b-df26290f3b7e", "21863356-0820-41ec-8028-623e9ba30baa" });
+                values: new object[] { "5fda05f7-5c94-435e-8f07-d59190ef951e", "d70a584a-77c8-43d0-b028-823142e2a52d" });
         }
 
         /// <inheritdoc />
@@ -64,47 +64,47 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: "122770ca-a0c1-46ff-b849-ac199ea5f7c1");
+                keyValue: "768d8b2c-22a2-49aa-9061-45d2921734d1");
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: "e5096c80-e8d4-4069-982c-3ac0a3e83047");
+                keyValue: "d0c478ba-2313-43e9-a94c-03b6f42ca188");
 
             migrationBuilder.DeleteData(
                 table: "UserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "e606454d-dfc6-4134-8a0b-df26290f3b7e", "21863356-0820-41ec-8028-623e9ba30baa" });
+                keyValues: new object[] { "5fda05f7-5c94-435e-8f07-d59190ef951e", "d70a584a-77c8-43d0-b028-823142e2a52d" });
 
             migrationBuilder.DeleteData(
                 table: "Roles",
                 keyColumn: "Id",
-                keyValue: "e606454d-dfc6-4134-8a0b-df26290f3b7e");
+                keyValue: "5fda05f7-5c94-435e-8f07-d59190ef951e");
 
             migrationBuilder.DeleteData(
                 table: "Users",
                 keyColumn: "Id",
-                keyValue: "21863356-0820-41ec-8028-623e9ba30baa");
+                keyValue: "d70a584a-77c8-43d0-b028-823142e2a52d");
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2ab6641e-64a7-4bc5-b9a2-008df817ad65", "a20f0746-5c22-4a08-8f28-ca6c20dedf82", "Admin", "ADMIN" },
-                    { "9ac3ae48-7723-485e-8dd1-b1f2a24c4d5b", "f5cf0c19-f37e-4b55-8604-8b986aa60c3e", "SuperAdmin", "SUPERADMIN" },
-                    { "a52bf2f8-b099-4a49-bc47-ac27572ab08a", "92ffe4d8-2d79-4c54-bb56-85a80f5a718b", "User", "USER" }
+                    { "6a2bf723-f147-45b6-94de-1e392c9b2c3a", "de73eb1d-575f-475a-b079-2c3dadf6c4ef", "Admin", "ADMIN" },
+                    { "ada81d47-64ae-4879-895d-e2124450cd91", "ee19b44a-f0b5-44c0-b09e-4a696d8cccdc", "User", "USER" },
+                    { "e84cd157-9b7c-4745-bd46-6ffeb84d2a2c", "e1ca2c3c-7309-4d53-9ce2-01fd5e7c8a15", "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "517b900e-7db3-4c66-9fb7-07529f63a666", 0, "6663eb1e-ed58-432e-be38-6b4d3b647740", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAECCzu3FIWFdDjKB70oA62Uhy+1UW/0FpZA2yem4UvIKk6JMTf1/ZxwpQYmepPwLFgA==", null, false, "d5c68ead-c4f9-44b1-9d17-6fecd54e4d3b", false, "superadmin" });
+                values: new object[] { "36e64893-7ec0-44c4-adeb-a7dc7d1604cd", 0, "2b7a96b0-8831-4cb5-9b62-6f91bd99c65a", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAEOrSJgIQdYkcwIVeq1jhBOc+dX46LVf68T+sibVW6Hg90psm0wZPJXhPolxHbNyW/g==", null, false, "ac5ed362-0529-4420-90f1-57453e36e096", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "9ac3ae48-7723-485e-8dd1-b1f2a24c4d5b", "517b900e-7db3-4c66-9fb7-07529f63a666" });
+                values: new object[] { "e84cd157-9b7c-4745-bd46-6ffeb84d2a2c", "36e64893-7ec0-44c4-adeb-a7dc7d1604cd" });
         }
     }
 }

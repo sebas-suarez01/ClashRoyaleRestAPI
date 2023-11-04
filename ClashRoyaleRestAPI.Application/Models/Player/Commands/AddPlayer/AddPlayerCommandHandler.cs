@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayer
 {
-    public class AddPlayerCommandHandler : AddModelCommandHandler<PlayerModel, int>
+    internal class AddPlayerCommandHandler : AddModelCommandHandler<PlayerModel, int>
     {
         public AddPlayerCommandHandler(IPlayerRepository repository) : base(repository)
         {

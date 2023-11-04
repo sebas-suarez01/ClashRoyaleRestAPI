@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.DeleteClan
 {
-    public class DeleteClanCommandHandler : DeleteModelCommandHandler<ClanModel, int>
+    internal class DeleteClanCommandHandler : DeleteModelCommandHandler<ClanModel, int>
     {
         public DeleteClanCommandHandler(IClanRepository repository) : base(repository)
         {

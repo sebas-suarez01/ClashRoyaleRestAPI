@@ -1,4 +1,6 @@
-﻿namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
+﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+
+namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {
     public interface IBaseRepository<TModel, UId>
     {

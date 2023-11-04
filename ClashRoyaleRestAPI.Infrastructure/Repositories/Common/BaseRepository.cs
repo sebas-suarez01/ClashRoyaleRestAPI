@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Common
 {
-    public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId> where TModel : class, IEntity<UId>
+    public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId>
+        where TModel : class, IEntity<UId>
     {
         protected readonly ClashRoyaleDbContext _context;
         public BaseRepository(ClashRoyaleDbContext context)

@@ -20,15 +20,20 @@ namespace ClashRoyaleRestAPI.Application.Behaviors
             if (!_validators.Any())
                 return await next();
 
-            Error[] errors = _validators
-                .Select(validator => validator.Validate(request))
-                .SelectMany(validationResult => validationResult.Errors)
+            var validations = _validators
+                .Select(validator => validator.Validate(request));
+
+            var validationsResult = validations
+                .SelectMany(validationResult => validationResult.Errors);
+
+            Error[] errors = validationsResult
                 .Where(validationFailure => validationFailure is not null)
                 .Select(failure => new Error(
                     failure.PropertyName,
                     failure.ErrorMessage))
                 .Distinct()
                 .ToArray();
+            
 
             if (errors.Any())
             {

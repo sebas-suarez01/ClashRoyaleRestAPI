@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.War.Queries.GetUpCommingWars
 {
-    public class GetUpComingWarsQueryHandler : IQueryHandler<GetUpComingWarsQuery, IEnumerable<WarModel>>
+    internal class GetUpComingWarsQueryHandler : IQueryHandler<GetUpComingWarsQuery, IEnumerable<WarModel>>
     {
         private readonly IWarRepository _repository;
 

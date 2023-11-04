@@ -1,12 +1,10 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Errors;
-using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard
 {
-    public class AddCardCommandHandler : ICommandHandler<AddCardCommand>
+    internal class AddCardCommandHandler : ICommandHandler<AddCardCommand>
     {
         private readonly IPlayerRepository _repository;
 
@@ -17,14 +15,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard
 
         public async Task<Result> Handle(AddCardCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
-                await _repository.AddCard(request.PlayerId, request.CardId);
-            }
-            catch (DuplicationIdException e)
-            {
-                return Result.Failure(ErrorTypes.Models.DuplicateId(e.Message));
-            }
+            await _repository.AddCard(request.PlayerId, request.CardId);
 
             return Result.Success();
         }

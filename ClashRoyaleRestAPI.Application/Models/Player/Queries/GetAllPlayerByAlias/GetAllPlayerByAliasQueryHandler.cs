@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerByAlias
 {
-    public class GetAllPlayerByAliasQueryHandler : IQueryHandler<GetAllPlayerByAliasQuery, IEnumerable<PlayerModel>>
+    internal class GetAllPlayerByAliasQueryHandler : IQueryHandler<GetAllPlayerByAliasQuery, IEnumerable<PlayerModel>>
     {
         private readonly IPlayerRepository _playerRepository;
 

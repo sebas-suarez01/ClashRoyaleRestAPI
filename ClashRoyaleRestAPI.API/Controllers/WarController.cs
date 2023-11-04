@@ -15,7 +15,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 public class WarController : ApiController
 {
     private readonly IMapper _mapper;
-    public WarController(ISender sender, IMapper mapper) : base(sender)
+    public WarController(IMediator sender, IMapper mapper) : base(sender)
     {
         _mapper = mapper;
     }

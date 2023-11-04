@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands
 {
-    public class AddChallengeCommandHandler : AddModelCommandHandler<ChallengeModel, int>
+    internal class AddChallengeCommandHandler : AddModelCommandHandler<ChallengeModel, int>
     {
         public AddChallengeCommandHandler(IChallengeRepository repository) : base(repository)
         {

@@ -7,7 +7,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlayer
 {
-    public class GetAllCardOfPlayerQueryHandler : IQueryHandler<GetAllCardOfPlayerQuery, IEnumerable<CardModel>>
+    internal class GetAllCardOfPlayerQueryHandler : IQueryHandler<GetAllCardOfPlayerQuery, IEnumerable<CardModel>>
     {
         private readonly IPlayerRepository _repository;
 
@@ -18,16 +18,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlaye
 
         public async Task<Result<IEnumerable<CardModel>>> Handle(GetAllCardOfPlayerQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<CardModel> cards;
-
-            try
-            {
-                cards = await _repository.GetAllCardsOfPlayerAsync(request.Id);
-            }
-            catch (IdNotFoundException<int> e)
-            {
-                return Result.Failure<IEnumerable<CardModel>>(ErrorTypes.Models.IdNotFound(e.Message));
-            }
+            IEnumerable<CardModel> cards = await _repository.GetAllCardsOfPlayerAsync(request.Id);
 
             return Result.Create(cards);
         }

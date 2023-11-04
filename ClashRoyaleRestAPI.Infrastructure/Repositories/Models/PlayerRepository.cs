@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Exceptions.Models;
 using ClashRoyaleRestAPI.Domain.Models;
@@ -17,18 +15,15 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     private readonly IChallengeRepository _challengeRepository;
     private readonly ICardRepository _cardRepository;
     private readonly Lazy<IClanRepository> _clanRepository;
-    private readonly IMapper _mapper;
 
     public PlayerRepository(ClashRoyaleDbContext context,
                             IChallengeRepository challengeRepository,
                             ICardRepository cardRepository,
-                            Lazy<IClanRepository> clanRepository,
-                            IMapper mapper) : base(context)
+                            Lazy<IClanRepository> clanRepository) : base(context)
     {
         _challengeRepository = challengeRepository;
         _cardRepository = cardRepository;
         _clanRepository = clanRepository;
-        _mapper = mapper;
     }
 
     public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad = false)
@@ -38,7 +33,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
                                             .Include(p => p.FavoriteCard)?
                                             .Include(p => p.Cards)!
                                             .ThenInclude(c => c.Card)
-                                            .ProjectTo<PlayerModel>(_mapper.ConfigurationProvider)
                                             .Where(p => p.Id == id)
                                             .FirstOrDefaultAsync()!
                                             ?? throw new IdNotFoundException<int>(id)
@@ -56,7 +50,9 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         if (await ExistsCollection(playerId, cardId)) throw new DuplicationIdException(playerId, cardId);
 
-        player!.AddCard(card!);
+        var collection = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
+
+        player.AddCard(collection);
 
         await Save();
     }
@@ -90,7 +86,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     public async Task AddChallengeResult(int playerId, int challengeId, int reward)
     {
         var player = await GetSingleByIdAsync(playerId);
-        
+
         var challenge = await _challengeRepository.GetSingleByIdAsync(challengeId);
 
         if (!challenge!.IsOpen) throw new ChallengeClosedException();
@@ -98,8 +94,12 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var challengePlayerResult = ChallengePlayersModel.Create(player!, challenge, reward);
 
         await _context.ChallengePlayers.AddAsync(challengePlayerResult);
-        
         await Save();
+    }
+
+    public async Task<bool> ExistsClanPlayer(int playerId, int clanId)
+    {
+        return await _context.ClanPlayers.FindAsync(playerId, clanId) is not null;
     }
 
     public async Task AddDonation(int playerId, int clanId, int cardId, int amount)
@@ -108,9 +108,9 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
-        if(!player!.HaveCard(cardId)) throw new PlayerNotHaveCardException();
-        
-        _= await _context.ClanPlayers.FindAsync(playerId, clanId) ?? throw new IdNotFoundException<int>(playerId, clanId);
+        if (!player!.HaveCard(cardId)) throw new PlayerNotHaveCardException();
+
+        if (!await ExistsClanPlayer(playerId, clanId)) throw new IdNotFoundException<int>(playerId, clanId);
 
         var donation = DonationModel.Create(player, clan!, card!, amount);
 

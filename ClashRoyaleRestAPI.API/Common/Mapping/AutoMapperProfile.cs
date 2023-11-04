@@ -2,11 +2,9 @@
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
 using ClashRoyaleRestAPI.Application.Auth;
 using ClashRoyaleRestAPI.Application.Auth.User;
-using ClashRoyaleRestAPI.Application.Common.Mapping;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;
-using ClashRoyaleRestAPI.Domain.Relationships;
 using Microsoft.AspNetCore.Identity;
 
 namespace ClashRoyaleRestAPI.API.Common.Mapping
@@ -22,16 +20,10 @@ namespace ClashRoyaleRestAPI.API.Common.Mapping
             CreateMap<AddPlayerRequest, PlayerModel>();
             CreateMap<UpdatePlayerRequest, PlayerModel>();
 
-            CreateMap<PlayerModel, PlayerModel>();
-            CreateMap<CollectionModel, CollectionDto>();
-
             CreateMap<AddBattleRequest, BattleModel>();
 
             CreateMap<AddClanRequest, ClanModel>();
             CreateMap<UpdateClanRequest, ClanModel>();
-
-            CreateMap<ClanModel, ClanModel>();
-            CreateMap<ClanPlayersModel, ClanPlayerDto>();
 
             CreateMap<AddWarRequest, WarModel>();
 

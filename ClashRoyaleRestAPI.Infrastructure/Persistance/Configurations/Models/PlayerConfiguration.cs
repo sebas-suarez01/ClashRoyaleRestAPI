@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static ClashRoyaleRestAPI.Domain.Errors.ErrorTypes;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
 {
@@ -35,6 +34,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
                 .WithMany()
                 .HasForeignKey("FavoriteCardId")
                 .IsRequired(false);
+
+            var navigation = builder.Metadata.FindNavigation(nameof(PlayerModel.Cards));
+
+            navigation!.SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

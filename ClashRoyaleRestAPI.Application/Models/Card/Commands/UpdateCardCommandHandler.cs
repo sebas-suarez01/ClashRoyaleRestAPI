@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Application.Models.Card.Commands
 {
-    public class UpdateCardCommandHandler : UpdateModelCommandHandler<CardModel, int>
+    internal class UpdateCardCommandHandler : UpdateModelCommandHandler<CardModel, int>
     {
         public UpdateCardCommandHandler(ICardRepository repository) : base(repository)
         {

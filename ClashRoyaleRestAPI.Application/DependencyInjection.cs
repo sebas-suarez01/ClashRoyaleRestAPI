@@ -1,6 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Behaviors;
+using ClashRoyaleRestAPI.Application.Common.ExceptionHandlers;
 using FluentValidation;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ClashRoyaleRestAPI.Application
@@ -9,10 +11,13 @@ namespace ClashRoyaleRestAPI.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
+            
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
 
             return services;

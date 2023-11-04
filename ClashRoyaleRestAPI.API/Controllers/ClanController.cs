@@ -23,7 +23,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 public class ClanController : ApiController
 {
     private readonly IMapper _mapper;
-    public ClanController(ISender sender, IMapper mapper) : base(sender)
+    public ClanController(IMediator sender, IMapper mapper) : base(sender)
     {
         _mapper = mapper;
     }

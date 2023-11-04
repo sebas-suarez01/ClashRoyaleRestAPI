@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClan
 {
-    public class GetAllClanQueryHandler : GetAllModelQueryHandler<ClanModel, int>
+    internal class GetAllClanQueryHandler : GetAllModelQueryHandler<ClanModel, int>
     {
         public GetAllClanQueryHandler(IClanRepository repository) : base(repository)
         {

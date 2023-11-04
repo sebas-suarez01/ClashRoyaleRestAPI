@@ -6,6 +6,7 @@ namespace ClashRoyaleRestAPI.Domain.Models
 {
     public class PlayerModel : IEntity<int>
     {
+        private readonly List<CollectionModel> _cards = new();
         public int Id { get; private set; }
         public string? Alias { get; private set; }
         public int Elo { get; private set; }
@@ -14,22 +15,11 @@ namespace ClashRoyaleRestAPI.Domain.Models
         public int CardAmount { get; private set; }
         public int MaxElo { get; private set; }
         public CardModel? FavoriteCard { get; private set; }
-        public List<CollectionModel>? Cards { get; private set; }
+        public IReadOnlyCollection<CollectionModel> Cards => _cards;
 
-        public void AddCard(CardModel card)
-        {
-            Cards ??= new List<CollectionModel>();
+        public void AddCard(CollectionModel collection)=> _cards.Add(collection);
 
-            var collect = CollectionModel.Create(this, card, card.InitialLevel, DateTime.UtcNow);
-
-            Cards!.Add(collect);
-        }
-
-        public bool HaveCard(int cardId)
-        {
-            Cards ??= new List<CollectionModel>();
-            return Cards.Any(c => c.Card is not null && c.Card.Id == cardId);
-        }
+        public bool HaveCard(int cardId)=> Cards.Any(c => c.Card is not null && c.Card.Id == cardId);
 
         public void ChangeAlias(string alias) => Alias = alias;
 

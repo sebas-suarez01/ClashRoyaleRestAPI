@@ -1,11 +1,14 @@
 ﻿using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Models;
+using System.Text.Json.Serialization;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class ClanPlayersModel
     {
         private ClanPlayersModel() { }
+
+        [JsonIgnore]
         public ClanModel? Clan { get; private set; }
         public PlayerModel? Player { get; private set; }
         public RankClan Rank { get; private set; }

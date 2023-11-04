@@ -5,16 +5,15 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Common.Queries.ExistsModelId
 {
-    public class ExistsModelIdQueryHandler<TModel, UId> : IQueryHandler<ExistsModelIdQuery<TModel, UId>, bool>
-        where TModel : IEntity<UId>
+    public class ExistsModelIdQueryHandler<UId> : IQueryHandler<ExistsModelIdQuery<UId>, bool>
     {
-        private readonly IBaseRepository<TModel, UId> _repository;
-        public ExistsModelIdQueryHandler(IBaseRepository<TModel, UId> repository)
+        private readonly IBaseRepository<IEntity<UId>, UId> _repository;
+        public ExistsModelIdQueryHandler(IBaseRepository<IEntity<UId>, UId> repository)
         {
             _repository = repository;
         }
 
-        public async Task<Result<bool>> Handle(ExistsModelIdQuery<TModel, UId> request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(ExistsModelIdQuery<UId> request, CancellationToken cancellationToken)
         {
             return await _repository.ExistsId(request.Id);
         }

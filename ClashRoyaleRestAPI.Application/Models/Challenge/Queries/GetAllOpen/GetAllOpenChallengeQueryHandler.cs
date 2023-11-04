@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Challenge.Queries.GetAllOpen
 {
-    public class GetAllOpenChallengeQueryHandler : IQueryHandler<GetAllOpenChallengeQuery, IEnumerable<ChallengeModel>>
+    internal class GetAllOpenChallengeQueryHandler : IQueryHandler<GetAllOpenChallengeQuery, IEnumerable<ChallengeModel>>
     {
         private readonly IChallengeRepository _challengeRepository;
 

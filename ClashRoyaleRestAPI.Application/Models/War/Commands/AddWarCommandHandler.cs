@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.War.Commands
 {
-    public class AddWarCommandHandler : AddModelCommandHandler<WarModel, int>
+    internal class AddWarCommandHandler : AddModelCommandHandler<WarModel, int>
     {
         public AddWarCommandHandler(IWarRepository repository) : base(repository)
         {

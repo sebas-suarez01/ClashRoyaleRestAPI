@@ -1,11 +1,14 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Card;
+using System.Text.Json.Serialization;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships
 {
     public class CollectionModel
     {
         private CollectionModel() { }
+
+        [JsonIgnore]
         public PlayerModel? Player { get; private set; }
         public CardModel? Card { get; private set; }
         public int Level { get; private set; }

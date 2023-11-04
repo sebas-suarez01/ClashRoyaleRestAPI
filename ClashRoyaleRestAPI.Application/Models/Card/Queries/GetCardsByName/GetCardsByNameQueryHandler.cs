@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Card.Queries.GetCardsByName
 {
-    public class GetCardsByNameQueryHandler : IQueryHandler<GetCardsByNameQuery, IEnumerable<CardModel>>
+    internal class GetCardsByNameQueryHandler : IQueryHandler<GetCardsByNameQuery, IEnumerable<CardModel>>
     {
         private readonly ICardRepository _repository;
         public GetCardsByNameQueryHandler(ICardRepository repository)

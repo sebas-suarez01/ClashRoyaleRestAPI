@@ -7,7 +7,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers
 {
-    public class GetAllPlayersQueryHandler : IQueryHandler<GetAllPlayersQuery, IEnumerable<ClanPlayersModel>>
+    internal class GetAllPlayersQueryHandler : IQueryHandler<GetAllPlayersQuery, IEnumerable<ClanPlayersModel>>
     {
         private readonly IClanRepository _repository;
 
@@ -18,16 +18,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers
 
         public async Task<Result<IEnumerable<ClanPlayersModel>>> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<ClanPlayersModel> players;
-
-            try
-            {
-                players = await _repository.GetPlayers(request.ClanId);
-            }
-            catch (IdNotFoundException<int> e)
-            {
-                return Result.Failure<IEnumerable<ClanPlayersModel>>(ErrorTypes.Models.IdNotFound(e.Message));
-            }
+            IEnumerable<ClanPlayersModel> players = await _repository.GetPlayers(request.ClanId);
 
             return Result.Create(players);
         }

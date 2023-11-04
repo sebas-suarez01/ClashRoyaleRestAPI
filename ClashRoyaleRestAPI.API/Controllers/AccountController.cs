@@ -15,7 +15,7 @@ public class AccountController : ApiController
 {
     private readonly IMapper _mapper;
 
-    public AccountController(ISender sender, IMapper mapper) : base(sender)
+    public AccountController(IMediator sender, IMapper mapper) : base(sender)
     {
         _mapper = mapper;
     }

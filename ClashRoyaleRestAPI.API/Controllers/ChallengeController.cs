@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
 using ClashRoyaleRestAPI.Application.Common.Commands.AddModel;
+using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Models.Challenge.Queries.GetAllOpen;
 using ClashRoyaleRestAPI.Domain.Errors;
+using ClashRoyaleRestAPI.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.API.Controllers;
 
@@ -16,7 +16,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 public class ChallengeController : ApiController
 {
     private readonly IMapper _mapper;
-    public ChallengeController(ISender sender, IMapper mapper) : base(sender)
+    public ChallengeController(IMediator sender, IMapper mapper) : base(sender)
     {
         _mapper = mapper;
     }
@@ -29,12 +29,12 @@ public class ChallengeController : ApiController
 
         var result = await _sender.Send(quey);
 
-        return result.IsSuccess? Ok(result.Value) : Problem(result.Errors);
+        return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
     // GET api/challenges/open
     [HttpGet("open")]
-    public async Task<IActionResult> GetAllOpenChallenges() 
+    public async Task<IActionResult> GetAllOpenChallenges()
     {
         var query = new GetAllOpenChallengeQuery();
 
@@ -53,8 +53,8 @@ public class ChallengeController : ApiController
 
         var result = await _sender.Send(command);
 
-        return result.IsSuccess? 
-            Created($"api/challenges/{result.Value}", result.Value) : 
+        return result.IsSuccess ?
+            Created($"api/challenges/{result.Value}", result.Value) :
             Problem(result.Errors);
     }
 
@@ -69,7 +69,7 @@ public class ChallengeController : ApiController
 
         var command = new UpdateModelCommand<ChallengeModel, int>(challenge);
 
-        var result  = await _sender.Send(command);
+        var result = await _sender.Send(command);
 
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }

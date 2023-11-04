@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude
 {
-    public class GetAllBattleIncludeQueryHandler : IQueryHandler<GetAllBattleIncludeQuery, IEnumerable<BattleModel>>
+    internal class GetAllBattleIncludeQueryHandler : IQueryHandler<GetAllBattleIncludeQuery, IEnumerable<BattleModel>>
     {
         private readonly IBattleRepository _repository;
 
