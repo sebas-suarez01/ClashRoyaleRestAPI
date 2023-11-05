@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Common.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.ExceptionHandlers

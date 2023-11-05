@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 

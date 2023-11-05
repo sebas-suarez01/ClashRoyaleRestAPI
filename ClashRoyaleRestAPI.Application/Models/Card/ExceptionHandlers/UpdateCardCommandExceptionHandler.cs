@@ -1,5 +1,5 @@
-﻿using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Common.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Application.Models.Card.ExceptionHandlers

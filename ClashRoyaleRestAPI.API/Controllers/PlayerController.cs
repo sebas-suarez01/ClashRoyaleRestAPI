@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
-using ClashRoyaleRestAPI.Application.Common.Commands.AddModel;
-using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddChallengeResult;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;

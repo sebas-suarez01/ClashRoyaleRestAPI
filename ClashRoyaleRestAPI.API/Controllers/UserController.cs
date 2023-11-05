@@ -1,7 +1,8 @@
-﻿using ClashRoyaleRestAPI.Application.Auth.User.Commands.DeleteUser;
-using ClashRoyaleRestAPI.Application.Auth.User.Queries.GetAllUser;
-using ClashRoyaleRestAPI.Application.Auth.User.Queries.GetUserById;
-using ClashRoyaleRestAPI.Application.Auth.User.Queries.GetUserByName;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+using ClashRoyaleRestAPI.Application.Auth.User;
+using ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserByName;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ public class UserController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var query = new GetAllUserQuery();
+        var query = new GetAllModelQuery<UserModel, string>();
 
         var result = await _sender.Send(query);
 
@@ -38,7 +39,7 @@ public class UserController : ApiController
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(string id)
     {
-        var query = new GetUserByIdQuery(id);
+        var query = new GetModelByIdQuery<UserModel, string>(id);
 
         var result = await _sender.Send(query);
 
@@ -49,7 +50,7 @@ public class UserController : ApiController
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
-        var command = new DeleteUserCommand(id);
+        var command = new DeleteModelCommand<UserModel, string>(id);
 
         var result = await _sender.Send(command);
 

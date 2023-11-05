@@ -15,7 +15,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 
         public ClanRepository(ClashRoyaleDbContext context, IPlayerRepository playerRepository) : base(context)
         {
-            _playerRepository = playerRepository;        
+            _playerRepository = playerRepository;
         }
 
         public async Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false)
@@ -72,9 +72,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 
         public async Task RemovePlayer(int clanId, int playerId)
         {
+            if (!await ExistsClanPlayer(playerId, clanId))
+                throw new IdNotFoundException<int>(playerId, clanId);
+
             await _context.ClanPlayers
-                .Include(cp=> cp.Player)
-                .Include(cp=> cp.Clan)
+                .Include(cp => cp.Player)
+                .Include(cp => cp.Clan)
                 .Where(cp => cp.Player!.Id == playerId && cp.Clan!.Id == clanId)
                 .ExecuteDeleteAsync();
 

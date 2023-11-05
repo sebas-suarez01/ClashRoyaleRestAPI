@@ -1,5 +1,5 @@
-﻿using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Common.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
 using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Challenge.ExceptionHandlers

@@ -48,7 +48,8 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
-        if (await ExistsCollection(playerId, cardId)) throw new DuplicationIdException(playerId, cardId);
+        if (await ExistsCollection(playerId, cardId)) 
+            throw new DuplicationIdException(playerId, cardId);
 
         var collection = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
 

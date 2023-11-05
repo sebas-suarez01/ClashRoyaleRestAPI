@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
-using ClashRoyaleRestAPI.Application.Common.Commands.AddModel;
-using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
-using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Models.War.Queries.GetUpCommingWars;
 using ClashRoyaleRestAPI.Domain.Models;
 using MediatR;

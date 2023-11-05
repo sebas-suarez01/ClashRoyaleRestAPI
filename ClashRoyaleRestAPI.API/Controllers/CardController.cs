@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
 using ClashRoyaleRestAPI.API.Common.Mapping.Utils;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Auth.Utils;
-using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
-using ClashRoyaleRestAPI.Application.Common.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Models.Card.Queries.GetCardsByName;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models.Card;

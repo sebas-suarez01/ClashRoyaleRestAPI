@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Common.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdFullLoad;
 using ClashRoyaleRestAPI.Domain.Models;
 

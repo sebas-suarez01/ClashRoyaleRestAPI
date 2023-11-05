@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
-using ClashRoyaleRestAPI.Application.Common.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Common.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Common.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddClan;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.RemovePlayerClan;

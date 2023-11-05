@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ClashRoyaleRestAPI.Application.Auth;
+﻿using ClashRoyaleRestAPI.Application.Auth;
 using ClashRoyaleRestAPI.Application.Auth.Response;
 using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Auth.Utils;
@@ -14,13 +13,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Auth
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenProvider _jwtTokenProvider;
-        private readonly IMapper _mapper;
 
-        public AccountRepository(UserManager<IdentityUser> userManager, IMapper mapper, IJwtTokenProvider jwtTokenProvider, RoleManager<IdentityRole> roleManager)
+        public AccountRepository(UserManager<IdentityUser> userManager, IJwtTokenProvider jwtTokenProvider, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _jwtTokenProvider = jwtTokenProvider;
-            _mapper = mapper;
             _roleManager = roleManager;
         }
 
@@ -42,7 +39,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Auth
             else if (!await _userManager.CheckPasswordAsync(user, loginModel.Password!))
                 throw new InvalidPasswordException();
 
-            var userModel = _mapper.Map<UserModel>(user);
+            var userModel = UserModel.Create(user.Id, user.UserName!, user.PasswordHash!, roles.Max()!);
 
             return _jwtTokenProvider.CreateToken(userModel, roles);
         }
