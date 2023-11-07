@@ -24,6 +24,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relations
                 .HasForeignKey("PlayerId")
                 .OnDelete(DeleteBehavior.Cascade);
 
+
         }
     }
 }

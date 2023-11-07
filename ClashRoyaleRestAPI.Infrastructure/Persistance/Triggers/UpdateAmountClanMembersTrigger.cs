@@ -4,7 +4,7 @@ using EntityFrameworkCore.Triggered;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
 {
-    public class UpdateAmountClanMembersTrigger : IBeforeSaveTrigger<ClanPlayersModel>
+    public class UpdateAmountClanMembersTrigger : IAfterSaveTrigger<ClanPlayersModel>
     {
         private readonly IClanRepository _clanRepository;
 
@@ -12,7 +12,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
         {
             _clanRepository = clanRepository;
         }
-        public async Task BeforeSave(ITriggerContext<ClanPlayersModel> context, CancellationToken cancellationToken)
+        public async Task AfterSave(ITriggerContext<ClanPlayersModel> context, CancellationToken cancellationToken)
         {
             if (context.Entity.Clan is null)
                 return;

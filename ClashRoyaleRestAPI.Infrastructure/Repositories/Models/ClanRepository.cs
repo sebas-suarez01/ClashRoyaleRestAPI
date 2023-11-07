@@ -5,6 +5,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
+using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Clan;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
@@ -18,20 +19,40 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             _playerRepository = playerRepository;
         }
 
+        #region Interface Methods
+
+        #region Queries
+
+        public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId)
+        {
+            var clan = await GetSingleByIdAsync(clanId, true);
+
+            return clan.Players.ToList();
+        }
+
         public async Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false)
         {
-            var clan = fullLoad ? await _context.Clans
-                                                .Include(c => c.Players)!
-                                                .ThenInclude(p => p.Player)
-                                                .Where(c => c.Id == id)
+            var clan = fullLoad ? await ApplySpecification(new GetClanByIdSpecification(id))
                                                 .FirstOrDefaultAsync()
                                                 ?? throw new IdNotFoundException<int>(id)
-                                            :
-                                             await base.GetSingleByIdAsync(id);
-
+                                            : await base.GetSingleByIdAsync(id);
 
             return clan;
         }
+
+        public async Task<IEnumerable<ClanModel>> GetAllAvailable(int trophies)
+        {
+            return await ApplySpecification(new GetAllClanAvailableSpecification(trophies)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ClanModel>> GetAllByName(string name)
+        {
+            return await ApplySpecification(new GetAllClanByNameSpecification(name)).ToListAsync();
+        }
+
+        #endregion
+
+        #region Commands
 
         public async Task<int> Add(int playerId, ClanModel clan)
         {
@@ -44,16 +65,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             await Save();
 
             return clan.Id;
-        }
-
-        public async Task<IEnumerable<ClanModel>> GetAllAvailable(int trophies)
-        {
-            return (await GetAllAsync()).Where(c => c.TypeOpen && c.MinTrophies < trophies);
-        }
-
-        public async Task<IEnumerable<ClanModel>> GetAllByName(string name)
-        {
-            return (await GetAllAsync()).Where(x => x.Name!.Contains(name));
         }
 
         public async Task AddPlayer(int clanId, int playerId, RankClan rank = RankClan.Member)
@@ -75,11 +86,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             if (!await ExistsClanPlayer(playerId, clanId))
                 throw new IdNotFoundException<int>(playerId, clanId);
 
-            await _context.ClanPlayers
-                .Include(cp => cp.Player)
-                .Include(cp => cp.Clan)
-                .Where(cp => cp.Player!.Id == playerId && cp.Clan!.Id == clanId)
-                .ExecuteDeleteAsync();
+            var clanPlayer = await ApplySpecification(new GetClanPlayersByIdSpecification(playerId, clanId))
+                .FirstAsync();
+
+            _context.Remove(clanPlayer);
 
             await Save();
         }
@@ -96,17 +106,18 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
             await Save();
         }
 
-        public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId)
-        {
-            var clan = await GetSingleByIdAsync(clanId, true);
+        #endregion
 
-            return clan.Players.ToList();
-        }
+        #endregion
 
-        public async Task<bool> ExistsClanPlayer(int playerId, int clandId)
+        #region Extra Methods
+
+        private async Task<bool> ExistsClanPlayer(int playerId, int clandId)
         {
             return await _context.ClanPlayers.FindAsync(playerId, clandId) is not null;
         }
+
+        #endregion
 
     }
 }

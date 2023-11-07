@@ -2,6 +2,8 @@
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
+using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Challenge;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
@@ -11,6 +13,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
         {
         }
 
-        public async Task<IEnumerable<ChallengeModel>> GetAllOpenChallenges() => (await GetAllAsync()).Where(x => x.IsOpen).ToList();
+
+        #region Interface Methods
+
+        public async Task<IEnumerable<ChallengeModel>> GetAllOpenChallenges()
+        {
+            return await ApplySpecification(new GetAllChallengeOpenSpecification()).ToListAsync();
+        }
+
+        #endregion
+
     }
 }

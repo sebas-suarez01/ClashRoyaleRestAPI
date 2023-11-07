@@ -1,7 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Errors;
-using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 
@@ -18,15 +16,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdFull
 
         public async Task<Result<PlayerModel>> Handle(GetPlayerByIdFullLoadQuery request, CancellationToken cancellationToken)
         {
-            PlayerModel player;
-            try
-            {
-                player = await _repository.GetSingleByIdAsync(request.Id, request.FullLoad);
-            }
-            catch (IdNotFoundException<int> e)
-            {
-                return Result.Failure<PlayerModel>(ErrorTypes.Models.IdNotFound(e.Message));
-            }
+            PlayerModel player = await _repository.GetSingleByIdAsync(request.Id, request.FullLoad);
 
             return player;
         }

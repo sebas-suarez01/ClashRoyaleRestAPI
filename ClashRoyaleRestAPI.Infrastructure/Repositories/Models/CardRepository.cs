@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
+using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Card;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
@@ -12,9 +13,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
         {
         }
 
+        #region Interface Methods
         public async Task<IEnumerable<CardModel>> GetCardsByNameAsync(string name)
         {
-            return await _context.Cards.Where(c => c.Name!.Contains(name)).ToListAsync();
+            return await ApplySpecification(new GetCardsByNameSpecification(name)).ToListAsync();
         }
+
+        #endregion
     }
 }

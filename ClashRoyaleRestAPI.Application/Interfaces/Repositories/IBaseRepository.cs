@@ -1,6 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-
-namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
+﻿namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {
     public interface IBaseRepository<TModel, UId>
     {
@@ -9,7 +7,6 @@ namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
         public Task<UId> Add(TModel model);
         public Task Update(TModel model);
         public Task Delete(TModel model);
-        public Task<bool> ExistsId(UId id);
         public Task Save();
 
     }

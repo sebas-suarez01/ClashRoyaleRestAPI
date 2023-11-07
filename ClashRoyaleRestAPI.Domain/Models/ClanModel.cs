@@ -30,7 +30,7 @@ namespace ClashRoyaleRestAPI.Domain.Models
         }
         public void RemoveAmountMember()
         {
-            AmountMembers += 1;
+            AmountMembers -= 1;
         }
     }
 }

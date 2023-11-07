@@ -6,6 +6,8 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
+using ClashRoyaleRestAPI.Infrastructure.Specifications;
+using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Player;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
@@ -26,38 +28,19 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         _clanRepository = clanRepository;
     }
 
+    #region Interface Methods
+
+    #region Queries
     public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad = false)
     {
 
-        var player = fullLoad ? await _context.Players
-                                            .Include(p => p.FavoriteCard)?
-                                            .Include(p => p.Cards)!
-                                            .ThenInclude(c => c.Card)
-                                            .Where(p => p.Id == id)
-                                            .FirstOrDefaultAsync()!
-                                            ?? throw new IdNotFoundException<int>(id)
-                                        :
-                                         await base.GetSingleByIdAsync(id);
+        var player = fullLoad ? await ApplySpecification(new GetPlayerByIdSpecification(id))
+                                    .FirstOrDefaultAsync()
+                                    ?? throw new IdNotFoundException<int>(id)
+                             : await base.GetSingleByIdAsync(id);
 
         return player!;
     }
-
-    public async Task AddCard(int playerId, int cardId)
-    {
-        var player = await GetSingleByIdAsync(playerId);
-
-        var card = await _cardRepository.GetSingleByIdAsync(cardId);
-
-        if (await ExistsCollection(playerId, cardId)) 
-            throw new DuplicationIdException(playerId, cardId);
-
-        var collection = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
-
-        player.AddCard(collection);
-
-        await Save();
-    }
-
     public async Task<IEnumerable<CardModel>> GetAllCardsOfPlayerAsync(int playerId)
     {
         var player = await GetSingleByIdAsync(playerId, true);
@@ -67,7 +50,25 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
     public async Task<IEnumerable<PlayerModel>> GetPlayersByAliasAsync(string alias)
     {
-        return (await GetAllAsync()).Where(c => c.Alias == alias);
+        return await ApplySpecification(new GetPlayersByAliasSpecification(alias)).ToListAsync();
+    }
+    #endregion
+
+    #region Commands
+    public async Task AddCard(int playerId, int cardId)
+    {
+        var player = await GetSingleByIdAsync(playerId);
+
+        var card = await _cardRepository.GetSingleByIdAsync(cardId);
+
+        if (await ExistsCollection(playerId, cardId))
+            throw new DuplicationIdException(playerId, cardId);
+
+        var collection = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
+
+        player.AddCard(collection);
+
+        await Save();
     }
 
     public async Task UpdateAlias(int playerId, string alias)
@@ -77,11 +78,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         player!.ChangeAlias(alias!);
 
         await Save();
-    }
-
-    public async Task<bool> ExistsCollection(int playerId, int cardId)
-    {
-        return await _context.Collection.FindAsync(playerId, cardId) is not null;
     }
 
     public async Task AddChallengeResult(int playerId, int challengeId, int reward)
@@ -98,20 +94,17 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
     }
 
-    public async Task<bool> ExistsClanPlayer(int playerId, int clanId)
-    {
-        return await _context.ClanPlayers.FindAsync(playerId, clanId) is not null;
-    }
-
     public async Task AddDonation(int playerId, int clanId, int cardId, int amount)
     {
         var player = await GetSingleByIdAsync(playerId);
         var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
-        if (!player!.HaveCard(cardId)) throw new PlayerNotHaveCardException();
+        if (!player!.HaveCard(cardId)) 
+            throw new PlayerNotHaveCardException();
 
-        if (!await ExistsClanPlayer(playerId, clanId)) throw new IdNotFoundException<int>(playerId, clanId);
+        if (!await ExistsClanPlayer(playerId, clanId)) 
+            throw new IdNotFoundException<int>(playerId, clanId);
 
         var donation = DonationModel.Create(player, clan!, card!, amount);
 
@@ -119,4 +112,23 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         await Save();
     }
+
+    #endregion
+
+    #endregion
+
+    #region Extra Methods
+
+    public async Task<bool> ExistsCollection(int playerId, int cardId)
+    {
+        return await _context.Collection.FindAsync(playerId, cardId) is not null;
+    }
+
+    public async Task<bool> ExistsClanPlayer(int playerId, int clanId)
+    {
+        return await _context.ClanPlayers.FindAsync(playerId, clanId) is not null;
+    }
+
+    #endregion
+
 }

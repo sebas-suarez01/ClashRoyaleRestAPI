@@ -2,6 +2,8 @@
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
+using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.War;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
 {
@@ -11,9 +13,14 @@ namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
         {
         }
 
+        #region Interface Methods
+
         public async Task<IEnumerable<WarModel>> GetWarsByDate(DateTime date)
         {
-            return (await GetAllAsync()).Where(w => w.StartDate > date);
+            return await ApplySpecification(new GetWarByDateSpecification(date)).ToListAsync();
         }
+
+        #endregion
+
     }
 }

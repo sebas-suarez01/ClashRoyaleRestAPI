@@ -4,7 +4,7 @@ using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.ExceptionHandlers
 {
-    internal class GetPlayerByIdFullLoad
+    internal class GetPlayerByIdFullLoadExceptionHandler
         : RequestExceptionHandler<GetPlayerByIdFullLoadQuery, PlayerModel, int>
     {
     }
