@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;

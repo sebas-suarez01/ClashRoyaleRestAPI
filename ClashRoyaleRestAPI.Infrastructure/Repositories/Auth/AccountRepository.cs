@@ -1,9 +1,9 @@
 ﻿using ClashRoyaleRestAPI.Application.Auth;
 using ClashRoyaleRestAPI.Application.Auth.Response;
-using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Auth.Utils;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Domain.Exceptions.Auth;
+using ClashRoyaleRestAPI.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Auth

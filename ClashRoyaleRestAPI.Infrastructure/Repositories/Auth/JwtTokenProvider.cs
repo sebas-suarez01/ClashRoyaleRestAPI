@@ -1,8 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Auth.Response;
-using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
+using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Infrastructure.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

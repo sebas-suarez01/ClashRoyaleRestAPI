@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
-using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserByName;
+using ClashRoyaleRestAPI.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

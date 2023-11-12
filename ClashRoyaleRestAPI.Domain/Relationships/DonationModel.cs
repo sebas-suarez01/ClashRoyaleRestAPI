@@ -1,25 +1,26 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 
-namespace ClashRoyaleRestAPI.Domain.Relationships
-{
-    public class DonationModel
-    {
-        private DonationModel() { }
-        public PlayerModel? Player { get; private set; }
-        public ClanModel? Clan { get; private set; }
-        public CardModel? Card { get; private set; }
-        public int Amount { get; private set; }
+namespace ClashRoyaleRestAPI.Domain.Relationships;
 
-        public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel card, int amount)
+public class DonationModel
+{
+    private DonationModel() { }
+    public PlayerModel? Player { get; private set; }
+    public ClanModel? Clan { get; private set; }
+    public CardModel? Card { get; private set; }
+    public int Amount { get; private set; }
+    public DateTime Date { get; private set; }
+
+    public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel card, int amount)
+    {
+        return new DonationModel
         {
-            return new DonationModel
-            {
-                Player = player,
-                Clan = clan,
-                Card = card,
-                Amount = amount
-            };
-        }
+            Player = player,
+            Clan = clan,
+            Card = card,
+            Amount = amount,
+            Date = DateTime.Now
+        };
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+﻿using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
@@ -22,10 +21,8 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/clans")]
 public class ClanController : ApiController
 {
-    private readonly IMapper _mapper;
-    public ClanController(IMediator sender, IMapper mapper) : base(sender)
+    public ClanController(IMediator sender) : base(sender)
     {
-        _mapper = mapper;
     }
 
     // GET: api/clans
@@ -54,7 +51,8 @@ public class ClanController : ApiController
     [HttpPost("{playerId:int}")]
     public async Task<IActionResult> Post(int playerId, [FromBody] AddClanRequest clanRequest)
     {
-        var clan = _mapper.Map<ClanModel>(clanRequest);
+        var clan = ClanModel.Create(clanRequest.Name!, clanRequest.Description!, clanRequest.Region!,
+                                    clanRequest.TypeOpen, clanRequest.TrophiesInWar, clanRequest.MinTrophies);
 
         var command = new AddClanCommand(playerId, clan);
 
@@ -72,7 +70,9 @@ public class ClanController : ApiController
         if (clanId != clanRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
 
-        var clan = _mapper.Map<ClanModel>(clanRequest);
+        var clan = ClanModel.Create(clanRequest.Id, clanRequest.Name!, clanRequest.Description!,
+                                    clanRequest.Region!, clanRequest.TypeOpen, clanRequest.TrophiesInWar, 
+                                    clanRequest.MinTrophies);
 
         var command = new UpdateModelCommand<ClanModel, int>(clan);
 

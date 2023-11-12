@@ -10,8 +10,8 @@ namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdateClan
         {
             RuleFor(x => x.Model.Name).NotEmpty().NotNull().Length(3, 64);
             RuleFor(x => x.Model.Region).NotEmpty().NotNull().Length(3, 32);
-            RuleFor(x => x.Model.TypeOpen).NotEmpty().NotNull();
-            RuleFor(x => x.Model.MinTrophies).NotEmpty().NotNull().GreaterThanOrEqualTo(0);
+            RuleFor(x => x.Model.TypeOpen).NotNull();
+            RuleFor(x => x.Model.MinTrophies).NotNull().GreaterThanOrEqualTo(0);
         }
     }
 }

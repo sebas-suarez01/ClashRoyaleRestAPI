@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
 using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude;
 using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdFullLoad;

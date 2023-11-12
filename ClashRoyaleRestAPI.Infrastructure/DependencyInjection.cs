@@ -1,8 +1,10 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces.Auth;
+﻿using ClashRoyaleRestAPI.Application.Interfaces;
+using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Infrastructure.Common;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;
+using ClashRoyaleRestAPI.Infrastructure.Repositories;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Auth;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 using Microsoft.AspNetCore.Identity;
@@ -43,6 +45,8 @@ namespace ClashRoyaleRestAPI.Infrastructure
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
+
+            services.AddScoped<IPredefinedQueries, PredefinedQuery>();
         }
 
         private static void AddPersistance(IServiceCollection services)

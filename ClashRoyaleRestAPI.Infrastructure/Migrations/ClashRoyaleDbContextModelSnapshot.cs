@@ -249,24 +249,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.ToTable("Wars");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ChallengePlayersModel", b =>
-                {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChallengeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PrizeAmount")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlayerId", "ChallengeId");
-
-                    b.HasIndex("ChallengeId");
-
-                    b.ToTable("ChallengePlayers");
-                });
-
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanPlayersModel", b =>
                 {
                     b.Property<int>("PlayerId")
@@ -335,16 +317,40 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<int>("CardId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayerId", "ClanId", "CardId");
+                    b.HasKey("PlayerId", "ClanId", "CardId", "Date");
 
                     b.HasIndex("CardId");
 
                     b.HasIndex("ClanId");
 
                     b.ToTable("Donations");
+                });
+
+            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.PlayerChallengesModel", b =>
+                {
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PrizeAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlayerId", "ChallengeId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("PlayerChallenges");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -376,22 +382,22 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0c478ba-2313-43e9-a94c-03b6f42ca188",
-                            ConcurrencyStamp = "909bf57d-45e0-4213-a194-d2c2362e137b",
+                            Id = "d5c20944-0ff0-4488-9926-6a6d021b086b",
+                            ConcurrencyStamp = "c7626288-c2b8-4cf1-aedf-170053f48796",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "768d8b2c-22a2-49aa-9061-45d2921734d1",
-                            ConcurrencyStamp = "d2bde979-e968-4b7f-8b74-8814917c55f9",
+                            Id = "44676194-6ae3-4dfc-8eb1-d68f12bf6d6f",
+                            ConcurrencyStamp = "4c76eb19-9e9e-41da-b9ee-ca5b1d75b729",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "5fda05f7-5c94-435e-8f07-d59190ef951e",
-                            ConcurrencyStamp = "f9daa04b-91a6-4a41-adec-af1723c6346d",
+                            Id = "ecd78557-7dad-4ae6-833b-26976c0ddc8b",
+                            ConcurrencyStamp = "a8886c80-94cb-4401-b2b3-b6e0ce3263dc",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -489,15 +495,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d70a584a-77c8-43d0-b028-823142e2a52d",
+                            Id = "1026f93f-8c56-4429-8815-fb01aa6988fd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c78bdabf-4fb5-4af0-90ec-bcaf0b6dd72e",
+                            ConcurrencyStamp = "17e10981-8252-40e2-bd4c-0a82122a1ec2",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAED0wNl2Z2k836nnqv2EN2VaBzyGRCVmbXGRe8HpIJPep8wtx/9NASKfxqpOPHmFPjA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHE/PrOxd4K+YKsvXyAHu4YMk9sWf74V4Y2ZV0aReaJYGrcfF8ZmNquK23dvsw9QoQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "28be274d-dcfb-4771-b0ce-9f28e2657efa",
+                            SecurityStamp = "9f434fab-decd-4fd8-b451-e001d60d6774",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -567,8 +573,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "d70a584a-77c8-43d0-b028-823142e2a52d",
-                            RoleId = "5fda05f7-5c94-435e-8f07-d59190ef951e"
+                            UserId = "1026f93f-8c56-4429-8815-fb01aa6988fd",
+                            RoleId = "ecd78557-7dad-4ae6-833b-26976c0ddc8b"
                         });
                 });
 
@@ -2821,25 +2827,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Navigation("FavoriteCard");
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ChallengePlayersModel", b =>
-                {
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.ChallengeModel", "Challenge")
-                        .WithMany()
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Challenge");
-
-                    b.Navigation("Player");
-                });
-
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanPlayersModel", b =>
                 {
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.ClanModel", "Clan")
@@ -2920,6 +2907,25 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Navigation("Card");
 
                     b.Navigation("Clan");
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.PlayerChallengesModel", b =>
+                {
+                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.ChallengeModel", "Challenge")
+                        .WithMany()
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Challenge");
 
                     b.Navigation("Player");
                 });

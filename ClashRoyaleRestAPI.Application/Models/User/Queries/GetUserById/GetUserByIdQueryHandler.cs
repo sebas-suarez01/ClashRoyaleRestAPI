@@ -1,7 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
-using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
+using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserById

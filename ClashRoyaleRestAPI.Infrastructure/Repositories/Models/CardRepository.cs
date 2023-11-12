@@ -5,20 +5,19 @@ using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Card;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models
+namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
+
+internal class CardRepository : BaseRepository<CardModel, int>, ICardRepository
 {
-    internal class CardRepository : BaseRepository<CardModel, int>, ICardRepository
+    public CardRepository(ClashRoyaleDbContext context) : base(context)
     {
-        public CardRepository(ClashRoyaleDbContext context) : base(context)
-        {
-        }
-
-        #region Interface Methods
-        public async Task<IEnumerable<CardModel>> GetCardsByNameAsync(string name)
-        {
-            return await ApplySpecification(new GetCardsByNameSpecification(name)).ToListAsync();
-        }
-
-        #endregion
     }
+
+    #region Interface Methods
+    public async Task<IEnumerable<CardModel>> GetCardsByNameAsync(string name)
+    {
+        return await ApplySpecification(new GetCardsByNameSpecification(name)).ToListAsync();
+    }
+
+    #endregion
 }

@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+﻿using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard;
-using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddChallengeResult;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;
+using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayerChallenge;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdateAlias;
+using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChallengeResult;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlayer;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerByAlias;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdFullLoad;
@@ -21,10 +21,8 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/players")]
 public class PlayerController : ApiController
 {
-    private readonly IMapper _mapper;
-    public PlayerController(IMediator sender, IMapper mapper) : base(sender)
+    public PlayerController(IMediator sender) : base(sender)
     {
-        _mapper = mapper;
     }
 
     // GET: api/players
@@ -66,7 +64,7 @@ public class PlayerController : ApiController
     [HttpPost]
     public async Task<IActionResult> Post(AddPlayerRequest playerRequest)
     {
-        var player = _mapper.Map<PlayerModel>(playerRequest);
+        var player = PlayerModel.Create(playerRequest.Alias!, playerRequest.Elo, playerRequest.Level);
 
         var command = new AddModelCommand<PlayerModel, int>(player);
 
@@ -85,7 +83,8 @@ public class PlayerController : ApiController
         if (id != playerRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
 
-        var player = _mapper.Map<PlayerModel>(playerRequest);
+        var player = PlayerModel.Create(playerRequest.Id, playerRequest.Alias!, playerRequest.Elo,
+                                        playerRequest.Level);
 
         var command = new UpdateModelCommand<PlayerModel, int>(player);
 
@@ -146,11 +145,22 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
-    // POST api/players/{playerId:int}/challenge
-    [HttpPost("{playerId:int}/challenge")]
-    public async Task<IActionResult> PostChallengeResult(int playerId, [FromBody] AddChallengeResultRequest addChallengeResult)
+    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
+    [HttpPut("{playerId:int}/challenge/{challengeId:int}")]
+    public async Task<IActionResult> UpdateChallengeResult(int playerId, int challengeId, [FromBody] AddChallengeResultRequest addChallengeResult)
     {
-        var command = new AddChallengeResultCommand(playerId, addChallengeResult.ChallengeId, addChallengeResult.Reward);
+        var command = new UpdateChallengeResultCommand(playerId, challengeId, addChallengeResult.Reward);
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
+    }
+
+    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
+    [HttpPost("{playerId:int}/challenge/{challengeId:int}")]
+    public async Task<IActionResult> PostPlayerChallenge(int playerId, int challengeId)
+    {
+        var command = new AddPlayerChallengeCommand(playerId, challengeId);
 
         var result = await _sender.Send(command);
 

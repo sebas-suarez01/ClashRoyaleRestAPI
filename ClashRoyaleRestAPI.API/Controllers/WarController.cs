@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+﻿using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+using ClashRoyaleRestAPI.Application.Models.War.Commands.AddClanWar;
 using ClashRoyaleRestAPI.Application.Models.War.Queries.GetUpCommingWars;
 using ClashRoyaleRestAPI.Domain.Models;
 using MediatR;
@@ -14,10 +14,8 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/wars")]
 public class WarController : ApiController
 {
-    private readonly IMapper _mapper;
-    public WarController(IMediator sender, IMapper mapper) : base(sender)
+    public WarController(IMediator sender) : base(sender)
     {
-        _mapper = mapper;
     }
 
     // GET: api/wars
@@ -46,7 +44,7 @@ public class WarController : ApiController
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AddWarRequest warRequest)
     {
-        var war = _mapper.Map<WarModel>(warRequest);
+        var war = WarModel.Create(warRequest.StartDate);
 
         var command = new AddModelCommand<WarModel, int>(war);
 
@@ -77,5 +75,16 @@ public class WarController : ApiController
         var result = await _sender.Send(query);
 
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
+    }
+
+    // POST api/wars/{warId:int}/{clanId:int}
+    [HttpPost("{warId:int}/{clanId:int}")]
+    public async Task<IActionResult> AddClanToWar(int warId, int clanId, int prize)
+    {
+        var command = new AddClanWarCommand(clanId, warId, prize);
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 }

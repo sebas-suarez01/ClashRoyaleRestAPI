@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+﻿using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
@@ -15,10 +14,8 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/challenges")]
 public class ChallengeController : ApiController
 {
-    private readonly IMapper _mapper;
-    public ChallengeController(IMediator sender, IMapper mapper) : base(sender)
+    public ChallengeController(IMediator sender) : base(sender)
     {
-        _mapper = mapper;
     }
 
     // GET api/challenges/{id:int}
@@ -47,7 +44,11 @@ public class ChallengeController : ApiController
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AddChallengeRequest challengeRequest)
     {
-        var challenge = _mapper.Map<ChallengeModel>(challengeRequest);
+        var challenge = ChallengeModel.Create(challengeRequest.Name!, challengeRequest.Description!,
+                                              challengeRequest.Cost, challengeRequest.AmountReward,
+                                              challengeRequest.StartDate, challengeRequest.DurationInHours,
+                                              challengeRequest.IsOpen, challengeRequest.MinLevel,
+                                              challengeRequest.LossLimit);
 
         var command = new AddModelCommand<ChallengeModel, int>(challenge);
 
@@ -65,7 +66,11 @@ public class ChallengeController : ApiController
         if (id != challengeRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
 
-        var challenge = _mapper.Map<ChallengeModel>(challengeRequest);
+        var challenge = ChallengeModel.Create(challengeRequest.Id, challengeRequest.Name!, 
+                                              challengeRequest.Description!, challengeRequest.Cost, 
+                                              challengeRequest.AmountReward, challengeRequest.StartDate, 
+                                              challengeRequest.DurationInHours, challengeRequest.IsOpen, 
+                                              challengeRequest.MinLevel, challengeRequest.LossLimit);
 
         var command = new UpdateModelCommand<ChallengeModel, int>(challenge);
 

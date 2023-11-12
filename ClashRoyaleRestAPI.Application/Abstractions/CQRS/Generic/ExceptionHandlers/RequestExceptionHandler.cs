@@ -17,19 +17,19 @@ namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHand
                 state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Models.IdNotFound(exception.Message)));
 
             else if (exception as DuplicationIdException is not null)
-                Result.Failure<TResponse>(ErrorTypes.Models.DuplicateId(exception.Message));
+                state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Models.DuplicateId(exception.Message)));
 
             else if (exception as DuplicationUsernameException is not null)
-                Result.Failure<TResponse>(ErrorTypes.Auth.DuplicateUsername());
+                state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.DuplicateUsername()));
 
             else if (exception as UserCreationException is not null)
-                Result.Failure<TResponse>(ErrorTypes.Auth.InvalidCredentials());
+                state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.InvalidCredentials()));
 
             else if (exception as UsernameNotFoundException is not null)
-                Result.Failure<TResponse>(ErrorTypes.Auth.UsernameNotFound());
+                state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.UsernameNotFound()));
 
             else if (exception as InvalidPasswordException is not null)
-                Result.Failure<TResponse>(ErrorTypes.Auth.InvalidPassword());
+                state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.InvalidPassword()));
 
 
             return Task.CompletedTask;
@@ -45,13 +45,13 @@ namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHand
                 state.SetHandled(Result.Failure(ErrorTypes.Models.IdNotFound(exception.Message)));
 
             else if (exception as DuplicationIdException is not null)
-                Result.Failure(ErrorTypes.Models.DuplicateId(exception.Message));
-
-            else if (exception as ChallengeClosedException is not null)
-                Result.Failure(ErrorTypes.Models.ChallengeClosed());
+                state.SetHandled(Result.Failure(ErrorTypes.Models.DuplicateId(exception.Message)));
 
             else if (exception as PlayerNotHaveCardException is not null)
-                Result.Failure(ErrorTypes.Models.PlayerNotHaveCard());
+                state.SetHandled(Result.Failure(ErrorTypes.Models.PlayerNotHaveCard()));
+
+            else if (exception as ChallengeClosedException is not null)
+                state.SetHandled(Result.Failure(ErrorTypes.Models.ChallengeClosed()));
 
             return Task.CompletedTask;
         }

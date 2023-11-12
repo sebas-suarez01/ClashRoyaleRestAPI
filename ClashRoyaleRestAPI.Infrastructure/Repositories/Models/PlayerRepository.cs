@@ -57,7 +57,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     #region Commands
     public async Task AddCard(int playerId, int cardId)
     {
-        var player = await GetSingleByIdAsync(playerId);
+        var player = await GetSingleByIdAsync(playerId, true);
 
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
@@ -65,6 +65,8 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
             throw new DuplicationIdException(playerId, cardId);
 
         var collection = CollectionModel.Create(player, card, card.InitialLevel, DateTime.UtcNow);
+
+        player.AddFavoriteCard(card);
 
         player.AddCard(collection);
 
@@ -80,23 +82,38 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await Save();
     }
 
-    public async Task AddChallengeResult(int playerId, int challengeId, int reward)
+    public async Task AddPlayerChallenge(int playerId, int challengeId)
     {
-        var player = await GetSingleByIdAsync(playerId);
-
         var challenge = await _challengeRepository.GetSingleByIdAsync(challengeId);
 
         if (!challenge!.IsOpen) throw new ChallengeClosedException();
 
-        var challengePlayerResult = ChallengePlayersModel.Create(player!, challenge, reward);
+        var player = await GetSingleByIdAsync(playerId);
 
-        await _context.ChallengePlayers.AddAsync(challengePlayerResult);
+        var playerChallenge = PlayerChallengesModel.Create(player!, challenge, 0);
+
+        await _context.PlayerChallenges.AddAsync(playerChallenge);
+
+        await Save();
+    }
+    public async Task AddPlayerChallengeResult(int playerId, int challengeId, int reward)
+    {
+        if (!await ExistsPlayerChallenge(playerId, challengeId))
+            throw new IdNotFoundException<int>(playerId, challengeId);
+
+        var playerChallenge = await _context.PlayerChallenges.FindAsync(playerId, challengeId);
+
+        playerChallenge!.AddReward(reward);
+        playerChallenge!.Completed();
+
+        _context.Entry(playerChallenge).State = EntityState.Modified;
+
         await Save();
     }
 
     public async Task AddDonation(int playerId, int clanId, int cardId, int amount)
     {
-        var player = await GetSingleByIdAsync(playerId);
+        var player = await GetSingleByIdAsync(playerId, true);
         var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
@@ -105,6 +122,9 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
         if (!await ExistsClanPlayer(playerId, clanId)) 
             throw new IdNotFoundException<int>(playerId, clanId);
+
+        if (await ExistsDonation(playerId, clanId, cardId, DateTime.Now))
+            throw new DuplicationIdException(playerId, clanId, cardId);
 
         var donation = DonationModel.Create(player, clan!, card!, amount);
 
@@ -127,6 +147,16 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     public async Task<bool> ExistsClanPlayer(int playerId, int clanId)
     {
         return await _context.ClanPlayers.FindAsync(playerId, clanId) is not null;
+    }
+
+    public async Task<bool> ExistsDonation(int playerId, int clanId, int cardId, DateTime date)
+    {
+        return await _context.Donations.FindAsync(playerId, clanId, cardId, date) is not null;
+    }
+
+    public async Task<bool> ExistsPlayerChallenge(int playerId, int challengeId)
+    {
+        return await _context.PlayerChallenges.FindAsync(playerId, challengeId) is not null;
     }
 
     #endregion

@@ -1,6 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
-using ClashRoyaleRestAPI.Application.Auth.User;
 using ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserByName;
+using ClashRoyaleRestAPI.Domain.Models;
 
 namespace ClashRoyaleRestAPI.Application.Models.User.ExceptionHandlers
 {

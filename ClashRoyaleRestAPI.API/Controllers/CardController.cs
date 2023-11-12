@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
 using ClashRoyaleRestAPI.API.Common.Mapping.Utils;
+using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;

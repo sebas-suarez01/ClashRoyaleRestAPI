@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ClashRoyaleRestAPI.API.Common.Mapping.Objects;
+﻿using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Auth;
 using ClashRoyaleRestAPI.Application.Auth.Account.Commands.RegisterUser;
 using ClashRoyaleRestAPI.Application.Auth.Account.Queries.LoginUser;
@@ -13,18 +12,16 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/account")]
 public class AccountController : ApiController
 {
-    private readonly IMapper _mapper;
 
-    public AccountController(IMediator sender, IMapper mapper) : base(sender)
+    public AccountController(IMediator sender) : base(sender)
     {
-        _mapper = mapper;
     }
 
     // POST api/account/register/user
     [HttpPost("register/user")]
     public async Task<IActionResult> RegisterUser(RegisterRequest request)
     {
-        var registerModel = _mapper.Map<RegisterModel>(request);
+        var registerModel = RegisterModel.Create(request.Username, request.Password, request.ConfirmPassword);
 
         var comamnd = new RegisterUserCommand(registerModel);
 
@@ -37,7 +34,7 @@ public class AccountController : ApiController
     [HttpPost("login/user")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var loginModel = _mapper.Map<LoginModel>(request);
+        var loginModel = LoginModel.Create(request.Username, request.Password);
 
         var query = new LoginUserQuery(loginModel);
 
@@ -51,7 +48,7 @@ public class AccountController : ApiController
     [HttpPost("register/admin")]
     public async Task<IActionResult> RegisterAdmin(RegisterRequest request)
     {
-        var registerModel = _mapper.Map<RegisterModel>(request);
+        var registerModel = RegisterModel.Create(request.Username, request.Password, request.ConfirmPassword);
 
         var comamnd = new RegisterUserCommand(registerModel, RoleEnum.Admin);
 
