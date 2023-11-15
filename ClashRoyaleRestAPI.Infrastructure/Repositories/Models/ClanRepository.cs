@@ -7,6 +7,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Clan;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
@@ -22,6 +23,49 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
     #region Interface Methods
 
     #region Queries
+
+    public async Task<IEnumerable<ClanModel>> GetAllAsync(string? name,
+                                                    string? region,
+                                                    int? minTrophies,
+                                                    int? trophiesInWar,
+                                                    bool? availables,
+                                                    string? sortColumn,
+                                                    string? sortOrder)
+    {
+        var clans = _context.Clans.AsQueryable();
+
+        if(!string.IsNullOrWhiteSpace(name) )
+        {
+            clans = clans.Where(c=> c.Name!.Contains(name));
+        }
+        if (!string.IsNullOrWhiteSpace(region))
+        {
+            clans = clans.Where(c => c.Region == region);
+        }
+        if (minTrophies is not null)
+        {
+            clans = clans.Where(c => c.MinTrophies <= minTrophies);
+        }
+        if (trophiesInWar is not null)
+        {
+            clans = clans.Where(c => c.TrophiesInWar < trophiesInWar);
+        }
+        if (availables is not null)
+        {
+            clans = clans.Where(c => c.TypeOpen == availables);
+        }
+
+        if(sortOrder?.ToLower() == "desc")
+        {
+            clans = clans.OrderByDescending(GetSortProperty(sortColumn));
+        }
+        else
+        {
+            clans = clans.OrderBy(GetSortProperty(sortColumn));
+        }
+
+        return await clans.ToListAsync();
+    }
 
     public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId)
     {
@@ -117,6 +161,16 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         return await _context.ClanPlayers.FindAsync(playerId, clandId) is not null;
     }
 
+    private static Expression<Func<ClanModel, object>> GetSortProperty(string? sortColumn)
+    {
+        return sortColumn?.ToLower() switch
+        {
+            "mintrophies" => clan => clan.MinTrophies,
+            "trophiesinwar" => clan => clan.TrophiesInWar,
+            "name" => clan => clan.Name!,
+            _ => clan => clan.Id
+        };
+    }
     #endregion
 
 }

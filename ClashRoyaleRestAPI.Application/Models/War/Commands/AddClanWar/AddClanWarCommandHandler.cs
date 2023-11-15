@@ -15,7 +15,7 @@ internal class AddClanWarCommandHandler : ICommandHandler<AddClanWarCommand>
 
     public async Task<Result> Handle(AddClanWarCommand request, CancellationToken cancellationToken)
     {
-        await _warRepository.AddClanToWar(request.warId, request.clanId, request.prize);
+        await _warRepository.AddClanToWar(request.WarId, request.ClanId, request.Prize);
 
         return Result.Success();
     }

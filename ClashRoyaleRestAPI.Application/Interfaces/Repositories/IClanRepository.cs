@@ -6,6 +6,13 @@ namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
 {
     public interface IClanRepository : IBaseRepository<ClanModel, int>
     {
+        public Task<IEnumerable<ClanModel>> GetAllAsync(string? name,
+                                                        string? region,
+                                                        int? minTrophies,
+                                                        int? trophiesInWar,
+                                                        bool? availables,
+                                                        string? sortColumn,
+                                                        string? sortOrder);
         public Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false);
         public Task<IEnumerable<ClanModel>> GetAllByName(string name);
         public Task<IEnumerable<ClanModel>> GetAllAvailable(int trophies);

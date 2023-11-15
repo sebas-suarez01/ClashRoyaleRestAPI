@@ -25,34 +25,35 @@ internal class PredefinedQuery : IPredefinedQueries
         //Consulta 1: Conocer los mejores jugadores que participan en una guerra.
         //Por cada clan que participa en una guerra obtener el jugador con más trofeos.
 
-        var clanWars = await _context.ClanWars
-                            .Include(cw => cw.Clan)
-                            .ToListAsync();
-        var clanPlayer = await _context.ClanPlayers
+        var clanWars = _context.ClanWars
+                        .Include(cw => cw.Clan)
+                        .AsQueryable();
+
+        var clanPlayer = _context.ClanPlayers
                             .Include(cp => cp.Clan)
                             .Include(cp => cp.Player)
-                            .ToListAsync();
-        var players = await _context.Players
-                            .ToListAsync();
+                            .AsQueryable();
 
-        var joinedTables = from cw in clanWars
-                           join cp in clanPlayer on cw.Clan!.Id equals cp.Clan!.Id
-                           join p in players on cp.Player!.Id equals p.Id
-                           select new
-                           {
-                               ClanId = cp.Clan!.Id,
-                               PlayerId = p.Id,
-                               PlayerName = p.Alias,
-                               Trophies = p.Elo
-                           };
+        var players = _context.Players.AsQueryable();
+
+        var joinedTables = await (from cw in clanWars
+                            join cp in clanPlayer on cw.Clan!.Id equals cp.Clan!.Id
+                            join p in players on cp.Player!.Id equals p.Id
+                            select new
+                            {
+                                ClanId = cp.Clan!.Id,
+                                PlayerId = p.Id,
+                                PlayerName = p.Alias,
+                                Trophies = p.Elo
+                            }).ToListAsync();
 
         var result = from r in joinedTables
                      group r by r.ClanId into clanGroup
                      select clanGroup.MaxBy(t => t.Trophies);
 
         return result
-            .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies))
-            .ToList();
+             .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies))
+             .ToList();
     }
 
     public async Task<IEnumerable<SecondQueryResponse>> SecondQuery()
@@ -76,41 +77,41 @@ internal class PredefinedQuery : IPredefinedQueries
     {
         //Consulta 3: La carta o las cartas más donadas por región en el último mes.
 
-        var donations = await _context.Donations
-                            .Include(d => d.Card)
-                            .Include(d => d.Clan)
-                            .ToListAsync();
+        var donations = _context.Donations
+                    .Include(d => d.Card)
+                    .Include(d => d.Clan)
+                    .AsQueryable();
 
         var lastMonthDate = DateTime.UtcNow.AddMonths(-1);
         var dateNow = DateTime.UtcNow;
 
-        var joinedTables = from d in donations
-                           where d.Date > lastMonthDate && d.Date < dateNow
-                           select new
-                           {
-                               ClanId = d.Clan!.Id,
-                               ClanRegion = d.Clan!.Region,
-                               CardId = d.Card!.Id,
-                               CardName = d.Card.Name,
-                               AmountCardDonated = d.Amount,
-                           };
+        var sumCardsDonation = await (donations
+            .Where(d => d.Date > lastMonthDate && d.Date < dateNow)
+            .Select(d => new
+            {
+                ClanId = d.Clan!.Id,
+                ClanRegion = d.Clan!.Region,
+                CardId = d.Card!.Id,
+                CardName = d.Card.Name,
+                AmountCardDonated = d.Amount,
+            })
+            .GroupBy(d => new { d.ClanRegion, d.CardId, d.CardName })
+            .Select(d => new
+            {
+                CardId = d.Key.CardId,
+                Name = d.Key.CardName,
+                Region = d.Key.ClanRegion,
+                Sum = d.Sum(t => t.AmountCardDonated)
+            }))
+            .ToListAsync();
 
-        var sumDonations = from j in joinedTables
-                           group j by new { j.ClanRegion, j.CardId, j.CardName } into gRegCard
-                           select new
-                           {
-                               CardId = gRegCard.Key.CardId,
-                               Name = gRegCard.Key.CardName,
-                               Region = gRegCard.Key.ClanRegion,
-                               Sum = gRegCard.Sum(t => t.AmountCardDonated)
-                           };
+        var result = sumCardsDonation
+            .GroupBy(d => d.Region)
+            .Select(d => d.MaxBy(t=> t.Sum));
 
-        var result = from s in sumDonations
-                     group s by s.Region into gReg
-                     select gReg.MaxBy(t => t.Sum);
 
         return result
-            .Select(t => new ThirdQueryResponse(t.CardId, t.Name, t.Region, t.Sum))
+            .Select(t => new ThirdQueryResponse(t!.CardId, t.Name!, t.Region!, t.Sum))
             .ToList();
     }
 
@@ -119,27 +120,27 @@ internal class PredefinedQuery : IPredefinedQueries
         //Consulta 4: La carta más popular de cada tipo dentro de cada clan existente.
         //Hint: de cada jugador se conoce su carta favorita
 
-        var clanPlayers = await _context.ClanPlayers
+        var clanPlayers = _context.ClanPlayers
                                     .Include(cp => cp.Clan)
                                     .Include(cp => cp.Player)
                                     .ThenInclude(p => p!.FavoriteCard)
-                                    .ToListAsync();
+                                    .AsQueryable();
 
 
-        var countFavoriteCard = from cp in clanPlayers
-                                group cp by new
-                                {
-                                    ClanId = cp.Clan!.Id,
-                                    CardId = cp.Player!.FavoriteCard!.Id,
-                                    CardName = cp.Player!.FavoriteCard!.Name
-                                } into cpc
-                                select new
-                                {
-                                    ClanId = cpc.Key.ClanId,
-                                    CardId = cpc.Key.CardId,
-                                    CardName = cpc.Key.CardName,
-                                    Count = cpc.Count()
-                                };
+        var countFavoriteCard = await (from cp in clanPlayers
+                                 group cp by new
+                                 {
+                                     ClanId = cp.Clan!.Id,
+                                     CardId = cp.Player!.FavoriteCard!.Id,
+                                     CardName = cp.Player!.FavoriteCard!.Name
+                                 } into cpc
+                                 select new
+                                 {
+                                     ClanId = cpc.Key.ClanId,
+                                     CardId = cpc.Key.CardId,
+                                     CardName = cpc.Key.CardName,
+                                     Count = cpc.Count()
+                                 }).ToListAsync();
 
         var result = from cp in countFavoriteCard
                      group cp by cp.ClanId into cpc
@@ -193,8 +194,8 @@ internal class PredefinedQuery : IPredefinedQueries
 
     public async Task<IEnumerable<SeventhQueryResponse>> SeventhQuery(int year)
     {
-        var battles = await _context.Battles
-                        .ToListAsync();
+        var battles = _context.Battles
+                        .AsQueryable();
         var result = from b in battles
                      where b.Date.Year == year
                      group b by b.Date.Month into gMonth
@@ -204,9 +205,9 @@ internal class PredefinedQuery : IPredefinedQueries
                          Amount = gMonth.Count()
                      };
 
-        return result
+        return await result
             .Select(r => new SeventhQueryResponse(r.Mount, r.Amount))
-            .ToList();
+            .ToListAsync();
 
     }
 }

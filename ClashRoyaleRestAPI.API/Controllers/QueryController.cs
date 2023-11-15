@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleRestAPI.API.Controllers;
 
-[Route("queries")]
+[Route("api/queries")]
 public class QueryController : ApiController
 {
     public QueryController(IMediator sender) : base(sender)

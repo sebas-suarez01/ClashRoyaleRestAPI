@@ -6,9 +6,9 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
-using ClashRoyaleRestAPI.Infrastructure.Specifications;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Player;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
@@ -31,6 +31,34 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     #region Interface Methods
 
     #region Queries
+
+    public async Task<IEnumerable<PlayerModel>> GetAllAsync(string? name,
+                                                            int? elo,
+                                                            string? sortColumn,
+                                                            string? sortOrder)
+    {
+        var players = _context.Players.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            players = players.Where(p => p.Alias!.Contains(name));
+        }
+        if (elo is not null)
+        {
+            players = players.Where(p => p.Elo > elo);
+        }
+
+        if (sortOrder?.ToLower() == "desc")
+        {
+            players = players.OrderByDescending(GetSortProperty(sortColumn));
+        }
+        else
+        {
+            players = players.OrderBy(GetSortProperty(sortColumn));
+        }
+
+        return await players.ToListAsync();
+    }
     public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad = false)
     {
 
@@ -45,13 +73,13 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     {
         var player = await GetSingleByIdAsync(playerId, true);
 
-        return player!.Cards?.Select(c => c.Card)!;
+        return player.Cards.Select(c => c.Card)!;
     }
-
     public async Task<IEnumerable<PlayerModel>> GetPlayersByAliasAsync(string alias)
     {
         return await ApplySpecification(new GetPlayersByAliasSpecification(alias)).ToListAsync();
     }
+
     #endregion
 
     #region Commands
@@ -117,10 +145,10 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var clan = await _clanRepository.Value.GetSingleByIdAsync(clanId);
         var card = await _cardRepository.GetSingleByIdAsync(cardId);
 
-        if (!player!.HaveCard(cardId)) 
+        if (!player!.HaveCard(cardId))
             throw new PlayerNotHaveCardException();
 
-        if (!await ExistsClanPlayer(playerId, clanId)) 
+        if (!await ExistsClanPlayer(playerId, clanId))
             throw new IdNotFoundException<int>(playerId, clanId);
 
         if (await ExistsDonation(playerId, clanId, cardId, DateTime.Now))
@@ -157,6 +185,17 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
     public async Task<bool> ExistsPlayerChallenge(int playerId, int challengeId)
     {
         return await _context.PlayerChallenges.FindAsync(playerId, challengeId) is not null;
+    }
+
+    private static Expression<Func<PlayerModel, object>> GetSortProperty(string? sortColumn)
+    {
+        return sortColumn?.ToLower() switch
+        {
+            "elo" => player => player.Elo,
+            "wins" => player => player.Victories,
+            "name" => player => player.Alias!,
+            _ => player => player.Id
+        };
     }
 
     #endregion

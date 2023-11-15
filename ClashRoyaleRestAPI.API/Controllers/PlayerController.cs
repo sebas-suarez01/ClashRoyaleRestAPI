@@ -10,11 +10,14 @@ using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdateAlias;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChallengeResult;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlayer;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerByAlias;
+using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerWithRequirements;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdFullLoad;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ClashRoyaleRestAPI.API.Controllers;
 
@@ -27,12 +30,20 @@ public class PlayerController : ApiController
 
     // GET: api/players
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(string? name, int? elo, string? sortColumn, string? sortOrder)
     {
-        var query = new GetAllModelQuery<PlayerModel, int>();
+        Result<IEnumerable<PlayerModel>> result;
 
-        var result = await _sender.Send(query);
-
+        if(name is not null || elo is not null || sortColumn is not null || sortOrder is not null)
+        {
+            var query = new GetAllPlayerWithRequirementsQuery(name, elo, sortColumn, sortOrder); 
+            result = await _sender.Send(query);
+        }
+        else
+        {
+            var query = new GetAllModelQuery<PlayerModel, int>();
+            result = await _sender.Send(query);
+        }
         return Ok(result.Value);
     }
 

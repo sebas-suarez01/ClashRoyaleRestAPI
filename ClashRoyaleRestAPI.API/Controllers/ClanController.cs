@@ -7,12 +7,14 @@ using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.RemovePlayerClan;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdatePlayerRank;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanByName;
+using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanWithRequirements;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanAvailables;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdFullLoad;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,13 +29,32 @@ public class ClanController : ApiController
 
     // GET: api/clans
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(string? name,
+                                            string? region,
+                                            int? minTrophies,
+                                            int? trophiesInWar,
+                                            bool? availables,
+                                            string? sortColumn,
+                                            string? sortOrder)
     {
-        var query = new GetAllModelQuery<ClanModel, int>();
+        Result<IEnumerable<ClanModel>> result;
+        if (name is not null || region is not null || minTrophies is not null || trophiesInWar is not null ||
+            availables is not null || sortColumn is not null || sortOrder is not null)
+        {
+            var query = new GetAllClanWithRequirementsQuery(name, region, minTrophies, trophiesInWar, availables,
+                                                            sortColumn, sortOrder);
 
-        var result = await _sender.Send(query);
+            result = await _sender.Send(query);
 
-        return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
+        }
+        else
+        {
+            var query = new GetAllModelQuery<ClanModel, int>();
+
+            result = await _sender.Send(query);
+        }
+
+        return Ok(result.Value);
     }
 
     // GET api/clans/{clanId:int}
