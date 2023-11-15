@@ -1,12 +1,12 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Interfaces.Auth
+namespace ClashRoyaleRestAPI.Application.Interfaces.Auth;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<IEnumerable<UserModel>> GetAllAsync();
-        Task<UserModel> GetUserByNameAsync(string username);
-        Task<UserModel> GetUserByIdAsync(string id);
-        Task Delete(string id);
-    }
+    Task<PageList<UserModel>> GetAllAsync(int page, int pageSize);
+    Task<UserModel> GetUserByNameAsync(string username);
+    Task<UserModel> GetUserByIdAsync(string id);
+    Task Delete(string id);
 }

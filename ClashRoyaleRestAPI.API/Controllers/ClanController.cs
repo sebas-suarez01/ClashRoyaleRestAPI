@@ -29,27 +29,23 @@ public class ClanController : ApiController
 
     // GET: api/clans
     [HttpGet]
-    public async Task<IActionResult> GetAll(string? name,
-                                            string? region,
-                                            int? minTrophies,
-                                            int? trophiesInWar,
-                                            bool? availables,
-                                            string? sortColumn,
-                                            string? sortOrder)
+    public async Task<IActionResult> GetAll(string? name, string? region, int? minTrophies, int? trophiesInWar,
+                                            bool? availables, string? sortColumn, string? sortOrder, int page=1,
+                                            int pageSize=10)
     {
-        Result<IEnumerable<ClanModel>> result;
+        Result<PageList<ClanModel>> result;
         if (name is not null || region is not null || minTrophies is not null || trophiesInWar is not null ||
             availables is not null || sortColumn is not null || sortOrder is not null)
         {
             var query = new GetAllClanWithRequirementsQuery(name, region, minTrophies, trophiesInWar, availables,
-                                                            sortColumn, sortOrder);
+                                                            sortColumn, sortOrder, page, pageSize);
 
             result = await _sender.Send(query);
 
         }
         else
         {
-            var query = new GetAllModelQuery<ClanModel, int>();
+            var query = new GetAllModelQuery<ClanModel, int>(page, pageSize);
 
             result = await _sender.Send(query);
         }

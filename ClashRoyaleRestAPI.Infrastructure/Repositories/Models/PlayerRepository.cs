@@ -4,6 +4,7 @@ using ClashRoyaleRestAPI.Domain.Exceptions.Models;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Relationships;
+using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Player;
@@ -32,10 +33,12 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
     #region Queries
 
-    public async Task<IEnumerable<PlayerModel>> GetAllAsync(string? name,
-                                                            int? elo,
-                                                            string? sortColumn,
-                                                            string? sortOrder)
+    public async Task<PageList<PlayerModel>> GetAllAsync(string? name,
+                                                         int? elo,
+                                                         string? sortColumn,
+                                                         string? sortOrder,
+                                                         int page,
+                                                         int pageSize)
     {
         var players = _context.Players.AsQueryable();
 
@@ -57,7 +60,9 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
             players = players.OrderBy(GetSortProperty(sortColumn));
         }
 
-        return await players.ToListAsync();
+        await Task.CompletedTask;
+
+        return PageList<PlayerModel>.Create(players, page, pageSize);
     }
     public async Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad = false)
     {

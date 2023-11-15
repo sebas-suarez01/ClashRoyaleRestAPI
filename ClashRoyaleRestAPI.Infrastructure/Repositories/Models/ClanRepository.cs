@@ -3,6 +3,7 @@ using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Relationships;
+using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Clan;
@@ -24,13 +25,15 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     #region Queries
 
-    public async Task<IEnumerable<ClanModel>> GetAllAsync(string? name,
+    public async Task<PageList<ClanModel>> GetAllAsync(string? name,
                                                     string? region,
                                                     int? minTrophies,
                                                     int? trophiesInWar,
                                                     bool? availables,
                                                     string? sortColumn,
-                                                    string? sortOrder)
+                                                    string? sortOrder,
+                                                    int page,
+                                                    int pageSize)
     {
         var clans = _context.Clans.AsQueryable();
 
@@ -64,7 +67,11 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
             clans = clans.OrderBy(GetSortProperty(sortColumn));
         }
 
-        return await clans.ToListAsync();
+        var paginatedClans = PageList<ClanModel>.Create(clans, page, pageSize);
+
+        await Task.CompletedTask;
+
+        return paginatedClans;
     }
 
     public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId)

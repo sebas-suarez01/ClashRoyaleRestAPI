@@ -3,22 +3,21 @@ using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude
+namespace ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude;
+
+internal class GetAllBattleIncludeQueryHandler : IQueryHandler<GetAllBattleIncludeQuery, PageList<BattleModel>>
 {
-    internal class GetAllBattleIncludeQueryHandler : IQueryHandler<GetAllBattleIncludeQuery, IEnumerable<BattleModel>>
+    private readonly IBattleRepository _repository;
+
+    public GetAllBattleIncludeQueryHandler(IBattleRepository repository)
     {
-        private readonly IBattleRepository _repository;
+        _repository = repository;
+    }
 
-        public GetAllBattleIncludeQueryHandler(IBattleRepository repository)
-        {
-            _repository = repository;
-        }
+    public async Task<Result<PageList<BattleModel>>> Handle(GetAllBattleIncludeQuery request, CancellationToken cancellationToken)
+    {
+        var battles = await _repository.GetAllAsync(request.Page, request.PageSize);
 
-        public async Task<Result<IEnumerable<BattleModel>>> Handle(GetAllBattleIncludeQuery request, CancellationToken cancellationToken)
-        {
-            var battles = await _repository.GetAllAsync();
-
-            return Result.Create(battles);
-        }
+        return Result.Create(battles);
     }
 }

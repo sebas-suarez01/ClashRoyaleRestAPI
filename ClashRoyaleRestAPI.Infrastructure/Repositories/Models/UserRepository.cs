@@ -5,6 +5,7 @@ using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Exceptions.Auth;
 using ClashRoyaleRestAPI.Domain.Exceptions.Models;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,13 +43,17 @@ internal sealed class UserRepository : IUserRepository
 
         return UserModel.Create(user.Id, user.UserName!, user.PasswordHash!, role);
     }
-    public async Task<IEnumerable<UserModel>> GetAllAsync()
+    public async Task<PageList<UserModel>> GetAllAsync(int page, int pageSize)
     {
         if (_context.Users == null) throw new ModelNotFoundException(nameof(IdentityUser));
 
-        return await _context.Users
-            .ProjectTo<UserModel>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+        var users = _context.Users
+                    .ProjectTo<UserModel>(_mapper.ConfigurationProvider)
+                    .AsQueryable();
+
+        await Task.CompletedTask;
+
+        return PageList<UserModel>.Create(users, page, pageSize);
     }
     public async Task Delete(string id)
     {

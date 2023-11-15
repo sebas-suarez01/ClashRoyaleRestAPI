@@ -1,11 +1,13 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Card;
+using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 
 public interface IPlayerRepository : IBaseRepository<PlayerModel, int>
 {
-    public Task<IEnumerable<PlayerModel>> GetAllAsync(string? name, int? elo, string? sortColumn, string? sortOrder);
+    public Task<PageList<PlayerModel>> GetAllAsync(
+        string? name, int? elo, string? sortColumn, string? sortOrder, int page, int pageSize);
     public Task<PlayerModel> GetSingleByIdAsync(int id, bool fullLoad = false);
     public Task<IEnumerable<PlayerModel>> GetPlayersByAliasAsync(string alias);
     public Task<IEnumerable<CardModel>> GetAllCardsOfPlayerAsync(int playerId);

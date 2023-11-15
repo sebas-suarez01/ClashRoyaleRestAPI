@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
+using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Battle;
@@ -30,10 +31,11 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
 
         return battle!;
     }
-    public override async Task<IEnumerable<BattleModel>> GetAllAsync()
+    public override async Task<PageList<BattleModel>> GetAllAsync(int page, int pageSize)
     {
-        return await ApplySpecification(new GetAllBattleSpecification())
-                        .ToListAsync();
+        await Task.CompletedTask;
+
+        return PageList<BattleModel>.Create(ApplySpecification(new GetAllBattleSpecification()), page, pageSize);
     }
 
     #endregion

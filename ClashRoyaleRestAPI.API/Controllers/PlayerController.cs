@@ -17,7 +17,6 @@ using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ClashRoyaleRestAPI.API.Controllers;
 
@@ -30,13 +29,14 @@ public class PlayerController : ApiController
 
     // GET: api/players
     [HttpGet]
-    public async Task<IActionResult> GetAll(string? name, int? elo, string? sortColumn, string? sortOrder)
+    public async Task<IActionResult> GetAll(
+        string? name, int? elo, string? sortColumn, string? sortOrder, int page = 1, int pageSize = 10)
     {
-        Result<IEnumerable<PlayerModel>> result;
+        Result<PageList<PlayerModel>> result;
 
         if(name is not null || elo is not null || sortColumn is not null || sortOrder is not null)
         {
-            var query = new GetAllPlayerWithRequirementsQuery(name, elo, sortColumn, sortOrder); 
+            var query = new GetAllPlayerWithRequirementsQuery(name, elo, sortColumn, sortOrder, page, pageSize); 
             result = await _sender.Send(query);
         }
         else

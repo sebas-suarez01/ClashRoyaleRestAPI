@@ -2,12 +2,11 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 
-namespace ClashRoyaleRestAPI.Application.Models.Card.Queries.GetAllCard
+namespace ClashRoyaleRestAPI.Application.Models.Card.Queries.GetAllCard;
+
+internal class GetAllCardQueryHandler : GetAllModelQueryHandler<CardModel, int>
 {
-    internal class GetAllCardQueryHandler : GetAllModelQueryHandler<CardModel, int>
+    public GetAllCardQueryHandler(ICardRepository repository) : base(repository)
     {
-        public GetAllCardQueryHandler(ICardRepository repository) : base(repository)
-        {
-        }
     }
 }
