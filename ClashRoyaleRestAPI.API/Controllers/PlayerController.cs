@@ -3,6 +3,7 @@ using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.PageQuery;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayerChallenge;
@@ -30,18 +31,27 @@ public class PlayerController : ApiController
     // GET: api/players
     [HttpGet]
     public async Task<IActionResult> GetAll(
-        string? name, int? elo, string? sortColumn, string? sortOrder, int page = 1, int pageSize = 10)
+        string? name, int? elo, string? sortColumn, string? sortOrder, int? page, int? pageSize)
     {
         Result<PageList<PlayerModel>> result;
 
-        if(name is not null || elo is not null || sortColumn is not null || sortOrder is not null)
+        if (name is not null || elo is not null)
         {
-            var query = new GetAllPlayerWithRequirementsQuery(name, elo, sortColumn, sortOrder, page, pageSize); 
+            PlayerPageQuery pageQuery = new(name,
+                                            elo,
+                                            sortColumn,
+                                            sortOrder,
+                                            page.GetValueOrDefault(1),
+                                            pageSize.GetValueOrDefault(10));
+
+            var query = new GetAllPlayerWithRequirementsQuery(pageQuery);
             result = await _sender.Send(query);
         }
         else
         {
-            var query = new GetAllModelQuery<PlayerModel, int>();
+            var query = new GetAllModelQuery<PlayerModel, int>(sortOrder,
+                                                               page.GetValueOrDefault(1),
+                                                               pageSize.GetValueOrDefault(10));
             result = await _sender.Send(query);
         }
         return Ok(result.Value);

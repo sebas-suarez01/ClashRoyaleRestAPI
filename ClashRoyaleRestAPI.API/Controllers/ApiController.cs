@@ -17,9 +17,10 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error[] errors)
     {
-        var firstError = errors[0];
+        if(errors.Length > 1)
+            return BadRequest(string.Join("\n", errors.AsEnumerable()));
 
-        return Problem(firstError);
+        return Problem(errors[0]);
     }
 
     protected IActionResult Problem(Error error)
@@ -33,13 +34,13 @@ public class ApiController : ControllerBase
         if (error == ErrorCode.IdsNotMatch ||
             error == ErrorCode.InvalidCredentials ||
             error == ErrorCode.InvalidPassword ||
-            error == IValidationResult.ValidationError ||
             error == ErrorCode.ChallengeClosed ||
             error == ErrorCode.PlayerNotHaveCard)
             return BadRequest(error.Description);
 
         if (error == ErrorCode.DuplicateId ||
-            error == ErrorCode.DuplicateUsername)
+            error == ErrorCode.DuplicateUsername ||
+            error == ErrorCode.DuplicateIndex)
             return Conflict(error.Description);
 
 

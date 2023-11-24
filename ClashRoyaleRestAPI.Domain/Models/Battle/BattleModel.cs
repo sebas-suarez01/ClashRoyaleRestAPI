@@ -1,37 +1,36 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Domain.Models.Battle
+namespace ClashRoyaleRestAPI.Domain.Models.Battle;
+
+public class BattleModel : IEntity<BattleId>
 {
-    public class BattleModel : IEntity<BattleId>
+    private BattleModel() 
     {
-        private BattleModel() 
-        {
-            Id = CreateId();
-        }
-        public BattleId Id { get; private set; }
-        public int AmountTrophies { get; private set; }
-        public PlayerModel? Winner { get; private set; }
-        public PlayerModel? Loser { get; private set; }
-        public int DurationInSeconds { get; private set; }
-        public DateTime Date { get; private set; }
+        Id = CreateId();
+    }
+    public BattleId Id { get; private set; }
+    public int AmountTrophies { get; private set; }
+    public PlayerModel? Winner { get; private set; }
+    public PlayerModel? Loser { get; private set; }
+    public int DurationInSeconds { get; private set; }
+    public DateTime Date { get; private set; }
 
-        private static BattleId CreateId() => BattleId.CreateUnique();
+    private static BattleId CreateId() => BattleId.CreateUnique();
 
-        public static BattleModel Create(int amountTrophies, PlayerModel winner, PlayerModel loser, int durationInSeconds)
+    public static BattleModel Create(int amountTrophies,
+                                     PlayerModel winner,
+                                     PlayerModel loser,
+                                     int durationInSeconds,
+                                     DateTime date)
+    {
+        return new BattleModel
         {
-            return new BattleModel
-            {
-                AmountTrophies = amountTrophies,
-                Winner = winner,
-                Loser = loser,
-                DurationInSeconds = durationInSeconds
-            };
-        }
-
-        public void AddDate()
-        {
-            Date = DateTime.Now;
-        }
+            AmountTrophies = amountTrophies,
+            Winner = winner,
+            Loser = loser,
+            DurationInSeconds = durationInSeconds,
+            Date = date
+        };
     }
 }

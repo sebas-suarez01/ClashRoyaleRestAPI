@@ -1,11 +1,10 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum;
+
+public enum TargetCardEnum
 {
-    public enum TargetCardEnum
-    {
-        Ground,
-        Air,
-        Buildings,
-        Ground_Air,
-        Nothing
-    }
+    Ground,
+    Air,
+    Buildings,
+    Ground_Air,
+    Nothing
 }

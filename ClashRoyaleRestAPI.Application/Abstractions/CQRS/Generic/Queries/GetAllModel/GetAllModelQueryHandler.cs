@@ -15,7 +15,7 @@ public class GetAllModelQueryHandler<TModel, UId> : IQueryHandler<GetAllModelQue
 
     public async Task<Result<PageList<TModel>>> Handle(GetAllModelQuery<TModel, UId> request, CancellationToken cancellationToken)
     {
-        PageList<TModel> models = await _repository.GetAllAsync(request.Page, request.PageSize);
+        PageList<TModel> models = await _repository.GetAllAsync(request.SortOrder, request.Page, request.PageSize);
 
         return Result.Create(models);
     }

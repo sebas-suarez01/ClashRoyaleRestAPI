@@ -1,8 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth;
+
+public class UsernameNotFoundException : Exception
 {
-    public class UsernameNotFoundException : Exception
-    {
-        public UsernameNotFoundException() : base("Username does not exists")
-        { }
-    }
+    public UsernameNotFoundException() : base("Username does not exists")
+    { }
 }

@@ -1,11 +1,10 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum;
+
+public enum SpeedCardEnum
 {
-    public enum SpeedCardEnum
-    {
-        Very_Slow,
-        Slow,
-        Medium,
-        Fast,
-        Very_Fast
-    }
+    Very_Slow,
+    Slow,
+    Medium,
+    Fast,
+    Very_Fast
 }

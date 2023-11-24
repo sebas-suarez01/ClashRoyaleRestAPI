@@ -4,16 +4,15 @@ using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using Microsoft.AspNetCore.Identity;
 
-namespace ClashRoyaleRestAPI.API.Common.Mapping
-{
-    public class AutoMapperProfile : Profile
-    {
-        public AutoMapperProfile()
-        {
-            CreateMap<IdentityUser, UserModel>()
-                .ForMember(um => um.Name, source => source.MapFrom(iu => iu.UserName));
+namespace ClashRoyaleRestAPI.API.Common.Mapping;
 
-            CreateMap<AddBattleRequest, BattleModel>();
-        }
+public class AutoMapperProfile : Profile
+{
+    public AutoMapperProfile()
+    {
+        CreateMap<IdentityUser, UserModel>()
+            .ForMember(um => um.Name, source => source.MapFrom(iu => iu.UserName));
+
+        CreateMap<AddBattleRequest, BattleModel>();
     }
 }

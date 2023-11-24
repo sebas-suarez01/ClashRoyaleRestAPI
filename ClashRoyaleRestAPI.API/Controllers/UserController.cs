@@ -1,9 +1,12 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+using ClashRoyaleRestAPI.Application.Auth.Utils;
+using ClashRoyaleRestAPI.Application.Models.User.Commands.UpdateRole;
 using ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserByName;
 using ClashRoyaleRestAPI.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClashRoyaleRestAPI.API.Controllers;
@@ -15,9 +18,11 @@ public class UserController : ApiController
 
     // GET: api/users
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(string? sortOrder, int? page, int? pageSize)
     {
-        var query = new GetAllModelQuery<UserModel, string>();
+        var query = new GetAllModelQuery<UserModel, string>(sortOrder,
+                                                            page.GetValueOrDefault(1),
+                                                            pageSize.GetValueOrDefault(10));
 
         var result = await _sender.Send(query);
 
@@ -47,10 +52,23 @@ public class UserController : ApiController
     }
 
     // DELETE api/users/{id:string}
+    [Authorize(Roles = UserRoles.SUPERADMIN)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
         var command = new DeleteModelCommand<UserModel, string>(id);
+
+        var result = await _sender.Send(command);
+
+        return result.IsSuccess ? NoContent() : Problem(result.Errors);
+    }
+
+    // PUT api/users/{id:string}
+    [Authorize(Roles = UserRoles.SUPERADMIN)]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateRole(string id, RoleEnum role)
+    {
+        var command = new UpdateRoleCommand(id, UserRoles.MapRole(role));
 
         var result = await _sender.Send(command);
 

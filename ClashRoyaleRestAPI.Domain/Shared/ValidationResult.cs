@@ -1,32 +1,31 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Shared
+﻿namespace ClashRoyaleRestAPI.Domain.Shared;
+
+public class ValidationResult : Result, IValidationResult
 {
-    public class ValidationResult : Result, IValidationResult
+    private ValidationResult(Error[] errors) : base(false, errors)
     {
-        private ValidationResult(Error[] errors) : base(false, IValidationResult.ValidationError)
-        {
-            Errors = errors;
-        }
-
-        public new Error[] Errors { get; }
-
-        public static ValidationResult Create(Error[] errors)
-        {
-            return new ValidationResult(errors);
-        }
+        Errors = errors;
     }
 
-    public class ValidationResult<TResult> : Result<TResult>, IValidationResult
+    public new Error[] Errors { get; }
+
+    public static ValidationResult Create(Error[] errors)
     {
-        private ValidationResult(Error[] errors) : base(default, false, IValidationResult.ValidationError)
-        {
-            Errors = errors;
-        }
+        return new ValidationResult(errors);
+    }
+}
 
-        public new Error[] Errors { get; }
+public class ValidationResult<TResult> : Result<TResult>, IValidationResult
+{
+    private ValidationResult(Error[] errors) : base(default, false, errors)
+    {
+        Errors = errors;
+    }
 
-        public static ValidationResult<TResult> Create(Error[] errors)
-        {
-            return new ValidationResult<TResult>(errors);
-        }
+    public new Error[] Errors { get; }
+
+    public static ValidationResult<TResult> Create(Error[] errors)
+    {
+        return new ValidationResult<TResult>(errors);
     }
 }

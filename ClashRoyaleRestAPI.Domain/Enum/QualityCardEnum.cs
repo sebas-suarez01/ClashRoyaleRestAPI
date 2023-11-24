@@ -1,11 +1,10 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum;
+
+public enum QualityCardEnum
 {
-    public enum QualityCardEnum
-    {
-        Common,
-        Rare,
-        Epic,
-        Legendary,
-        Champion
-    }
+    Common,
+    Rare,
+    Epic,
+    Legendary,
+    Champion
 }

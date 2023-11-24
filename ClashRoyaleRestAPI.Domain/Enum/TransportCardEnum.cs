@@ -1,8 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum;
+
+public enum TransportCardEnum
 {
-    public enum TransportCardEnum
-    {
-        Ground,
-        Air
-    }
+    Ground,
+    Air
 }

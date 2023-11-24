@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Requests;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
 using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude;
 using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdFullLoad;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
+using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +22,11 @@ public class BattleController : ApiController
 
     // GET: api/battles
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(string? sortOrder, int? page, int? pageSize)
     {
-        var query = new GetAllBattleIncludeQuery();
+        var query = new GetAllModelQuery<BattleModel, BattleId>(sortOrder,
+                                                                page.GetValueOrDefault(1),
+                                                                pageSize.GetValueOrDefault(10));
 
         var result = await _sender.Send(query);
 

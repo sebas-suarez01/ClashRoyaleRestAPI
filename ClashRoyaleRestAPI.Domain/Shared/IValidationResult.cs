@@ -1,9 +1,6 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Shared
-{
-    public interface IValidationResult
-    {
-        public static readonly Error ValidationError = new("ValidationError", "A validation problem occurred");
+﻿namespace ClashRoyaleRestAPI.Domain.Shared;
 
-        Error[] Errors { get; }
-    }
+public interface IValidationResult
+{
+    Error[] Errors { get; }
 }

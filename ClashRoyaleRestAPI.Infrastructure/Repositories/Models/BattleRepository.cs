@@ -6,7 +6,9 @@ using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Battle;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
@@ -31,11 +33,18 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
 
         return battle!;
     }
-    public override async Task<PageList<BattleModel>> GetAllAsync(int page, int pageSize)
+    public override async Task<PageList<BattleModel>> GetAllAsync(string? sortOrder, int page, int pageSize)
     {
         await Task.CompletedTask;
 
-        return PageList<BattleModel>.Create(ApplySpecification(new GetAllBattleSpecification()), page, pageSize);
+        var battles = ApplySpecification(new GetAllBattleSpecification());
+
+        if (sortOrder?.ToLower() == "desc")
+        {
+            battles = battles.OrderByDescending(q => q.Id.Value);
+        }
+
+        return PageList<BattleModel>.Create(battles, page, pageSize);
     }
 
     #endregion
@@ -43,10 +52,13 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
     #region Commands
     public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
     {
+        if (await ExistsBattleIndex(winnerId, loserId, battle.Date))
+            throw new DuplicationIndexException(string.Join(",", winnerId, loserId, battle.Date));
+
         var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
         var loser = await _playerRepository.GetSingleByIdAsync(loserId);
 
-        battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds);
+        battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds, battle.Date);
 
         _context.Battles.Add(battle);
         await Save();
@@ -54,6 +66,15 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
         return battle.Id.Value;
     }
     #endregion
+
+    #endregion
+
+    #region Extra Methods
+
+    public async Task<bool> ExistsBattleIndex(int winnerId, int loserId, DateTime date) =>
+        await _context.Battles.AnyAsync(b => b.Winner!.Id == winnerId &&
+                                            b.Loser!.Id == loserId &&
+                                            b.Date == date);
 
     #endregion
 

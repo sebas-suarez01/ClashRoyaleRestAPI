@@ -1,8 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth;
+
+public class InvalidPasswordException : Exception
 {
-    public class InvalidPasswordException : Exception
-    {
-        public InvalidPasswordException() : base("Invalid password")
-        { }
-    }
+    public InvalidPasswordException() : base("Invalid password")
+    { }
 }

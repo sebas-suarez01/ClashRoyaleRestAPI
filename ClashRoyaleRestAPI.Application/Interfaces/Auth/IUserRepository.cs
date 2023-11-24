@@ -9,4 +9,5 @@ public interface IUserRepository
     Task<UserModel> GetUserByNameAsync(string username);
     Task<UserModel> GetUserByIdAsync(string id);
     Task Delete(string id);
+    Task UpdateRole(string id, string role);
 }

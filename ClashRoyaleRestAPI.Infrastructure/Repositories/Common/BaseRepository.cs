@@ -27,10 +27,18 @@ public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId>
         return entity;
     }
 
-    public virtual async Task<PageList<TModel>> GetAllAsync(int page, int pageSize)
+    public virtual async Task<PageList<TModel>> GetAllAsync(string? sortOrder, int page, int pageSize)
     {
         await Task.CompletedTask;
-        return PageList<TModel>.Create(_context.Set<TModel>(), page, pageSize);
+
+        var queryable = _context.Set<TModel>().AsQueryable();
+
+        if (sortOrder?.ToLower() == "desc")
+        {
+            queryable = queryable.OrderByDescending(q => q.Id);
+        }
+
+        return PageList<TModel>.Create(queryable, page, pageSize);
     }
 
     #endregion

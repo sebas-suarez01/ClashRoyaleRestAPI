@@ -38,9 +38,11 @@ public class CardController : ApiController
 
     // GET api/cards
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(string? sortOrder, int? page, int? pageSize)
     {
-        var query = new GetAllModelQuery<CardModel, int>();
+        var query = new GetAllModelQuery<CardModel, int>(sortOrder,
+                                                         page.GetValueOrDefault(1),
+                                                         pageSize.GetValueOrDefault(10));
 
         var result = await _sender.Send(query);
 

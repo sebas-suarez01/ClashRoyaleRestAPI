@@ -1,7 +1,6 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Models
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Models;
+
+public class PlayerNotHaveCardException : Exception
 {
-    public class PlayerNotHaveCardException : Exception
-    {
-        public PlayerNotHaveCardException() : base("Player does not have card") { }
-    }
+    public PlayerNotHaveCardException() : base("Player does not have card") { }
 }

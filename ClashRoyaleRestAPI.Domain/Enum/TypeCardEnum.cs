@@ -1,10 +1,9 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum;
+
+public enum TypeCardEnum
 {
-    public enum TypeCardEnum
-    {
-        Unknown,
-        Spell,
-        Structure,
-        Troop
-    }
+    Unknown,
+    Spell,
+    Structure,
+    Troop
 }

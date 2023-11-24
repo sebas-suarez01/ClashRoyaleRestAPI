@@ -1,10 +1,9 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Enum
+﻿namespace ClashRoyaleRestAPI.Domain.Enum;
+
+public enum RankClan
 {
-    public enum RankClan
-    {
-        Leader,
-        CoLeader,
-        Veteran,
-        Member
-    }
+    Leader,
+    CoLeader,
+    Veteran,
+    Member
 }

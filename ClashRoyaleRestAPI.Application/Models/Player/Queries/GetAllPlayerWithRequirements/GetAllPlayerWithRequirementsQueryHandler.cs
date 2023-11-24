@@ -16,12 +16,12 @@ internal class GetAllPlayerWithRequirementsQueryHandler : IQueryHandler<GetAllPl
 
     public async Task<Result<PageList<PlayerModel>>> Handle(GetAllPlayerWithRequirementsQuery request, CancellationToken cancellationToken)
     {
-        var results = await _playerRepository.GetAllAsync(request.Name,
-                                                          request.Elo,
-                                                          request.SortColumn,
-                                                          request.SortOrder,
-                                                          request.Page,
-                                                          request.PageSize);
+        var results = await _playerRepository.GetAllAsync(request.PageQuery.Name,
+                                                          request.PageQuery.Elo,
+                                                          request.PageQuery.SortColumn,
+                                                          request.PageQuery.SortOrder,
+                                                          request.PageQuery.Page,
+                                                          request.PageQuery.PageSize);
         return Result.Create(results);
     }
 }

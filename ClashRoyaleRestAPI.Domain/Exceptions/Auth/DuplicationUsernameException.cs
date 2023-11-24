@@ -1,8 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth;
+
+public class DuplicationUsernameException : Exception
 {
-    public class DuplicationUsernameException : Exception
-    {
-        public DuplicationUsernameException() : base("Usernanme already exists")
-        { }
-    }
+    public DuplicationUsernameException() : base("Usernanme already exists")
+    { }
 }

@@ -58,7 +58,6 @@ namespace ClashRoyaleRestAPI.Infrastructure
                 {
                     triggerOpt.AddTrigger<UpdateCardAmountTrigger>();
                     triggerOpt.AddTrigger<UpdateMaxEloInsertPlayerTrigger>();
-                    triggerOpt.AddTrigger<UpdateDateBattleTrigger>();
                     triggerOpt.AddTrigger<UpdatePlayerStatsInsertBattleTrigger>();
                     triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>();
                 });

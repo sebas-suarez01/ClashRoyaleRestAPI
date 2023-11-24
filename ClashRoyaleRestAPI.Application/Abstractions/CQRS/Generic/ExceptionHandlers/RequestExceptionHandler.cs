@@ -19,6 +19,9 @@ namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHand
             else if (exception as DuplicationIdException is not null)
                 state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Models.DuplicateId(exception.Message)));
 
+            else if (exception as DuplicationIndexException is not null)
+                state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Models.DuplicateIndex(exception.Message)));
+
             else if (exception as DuplicationUsernameException is not null)
                 state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.DuplicateUsername()));
 

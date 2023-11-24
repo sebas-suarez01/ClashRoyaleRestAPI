@@ -1,7 +1,6 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Common.Interfaces
+﻿namespace ClashRoyaleRestAPI.Domain.Common.Interfaces;
+
+public interface IEntity<TId>
 {
-    public interface IEntity<TId>
-    {
-        public TId Id { get; }
-    }
+    public TId Id { get; }
 }

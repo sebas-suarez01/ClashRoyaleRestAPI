@@ -1,8 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Auth;
+
+public class UserCreationException : Exception
 {
-    public class UserCreationException : Exception
-    {
-        public UserCreationException() : base("Something has occured")
-        { }
-    }
+    public UserCreationException() : base("Something has occured")
+    { }
 }

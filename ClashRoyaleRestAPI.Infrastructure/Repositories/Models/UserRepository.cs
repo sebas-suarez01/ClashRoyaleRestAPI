@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using ClashRoyaleRestAPI.Application.Auth.Utils;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Exceptions.Auth;
@@ -8,7 +9,6 @@ using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
@@ -64,5 +64,17 @@ internal sealed class UserRepository : IUserRepository
 
         await _context.SaveChangesAsync();
     }
+    public async Task UpdateRole(string id, string role)
+    {
+        var identUser = await _userManager.FindByIdAsync(id)
+            ?? throw new IdNotFoundException<string>(id);
 
+        var currentRole = (await _userManager.GetRolesAsync(identUser)).First();
+
+        await _userManager.RemoveFromRoleAsync(identUser, currentRole);
+
+        await _userManager.AddToRoleAsync(identUser, role);
+
+        await _context.SaveChangesAsync();
+    }
 }

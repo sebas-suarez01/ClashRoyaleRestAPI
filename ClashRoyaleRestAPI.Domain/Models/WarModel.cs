@@ -1,19 +1,18 @@
 ﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 
-namespace ClashRoyaleRestAPI.Domain.Models
-{
-    public class WarModel : IEntity<int>
-    {
-        private WarModel() { }
-        public int Id { get; private set; }
-        public DateTime StartDate { get; private set; }
+namespace ClashRoyaleRestAPI.Domain.Models;
 
-        public static WarModel Create(DateTime start)
+public class WarModel : IEntity<int>
+{
+    private WarModel() { }
+    public int Id { get; private set; }
+    public DateTime StartDate { get; private set; }
+
+    public static WarModel Create(DateTime start)
+    {
+        return new WarModel()
         {
-            return new WarModel()
-            {
-                StartDate = start,
-            };
-        }
+            StartDate = start,
+        };
     }
 }

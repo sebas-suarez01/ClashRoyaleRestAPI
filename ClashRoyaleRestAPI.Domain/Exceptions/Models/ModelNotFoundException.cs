@@ -1,8 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Models
+﻿namespace ClashRoyaleRestAPI.Domain.Exceptions.Models;
+
+public class ModelNotFoundException : Exception
 {
-    public class ModelNotFoundException : Exception
-    {
-        public ModelNotFoundException(string name) : base($"{name} not found")
-        { }
-    }
+    public ModelNotFoundException(string name) : base($"{name} not found")
+    { }
 }

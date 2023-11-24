@@ -20,6 +20,10 @@ internal class PredefinedQuery : IPredefinedQueries
         _context = context;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     public async Task<IEnumerable<FirstQueryResponse>> FirstQuery()
     {
         //Consulta 1: Conocer los mejores jugadores que participan en una guerra.
@@ -37,22 +41,23 @@ internal class PredefinedQuery : IPredefinedQueries
         var players = _context.Players.AsQueryable();
 
         var joinedTables = await (from cw in clanWars
-                            join cp in clanPlayer on cw.Clan!.Id equals cp.Clan!.Id
-                            join p in players on cp.Player!.Id equals p.Id
-                            select new
-                            {
-                                ClanId = cp.Clan!.Id,
-                                PlayerId = p.Id,
-                                PlayerName = p.Alias,
-                                Trophies = p.Elo
-                            }).ToListAsync();
+                                  join cp in clanPlayer on cw.Clan!.Id equals cp.Clan!.Id
+                                  join p in players on cp.Player!.Id equals p.Id
+                                  select new
+                                  {
+                                      ClanId = cp.Clan!.Id,
+                                      ClanName = cp.Clan!.Name,
+                                      PlayerId = p.Id,
+                                      PlayerName = p.Alias,
+                                      Trophies = p.Elo
+                                  }).ToListAsync();
 
         var result = from r in joinedTables
                      group r by r.ClanId into clanGroup
                      select clanGroup.MaxBy(t => t.Trophies);
 
         return result
-             .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies))
+             .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies, r.ClanId, r.ClanName))
              .ToList();
     }
 
@@ -107,7 +112,7 @@ internal class PredefinedQuery : IPredefinedQueries
 
         var result = sumCardsDonation
             .GroupBy(d => d.Region)
-            .Select(d => d.MaxBy(t=> t.Sum));
+            .Select(d => d.MaxBy(t => t.Sum));
 
 
         return result
@@ -120,27 +125,29 @@ internal class PredefinedQuery : IPredefinedQueries
         //Consulta 4: La carta más popular de cada tipo dentro de cada clan existente.
         //Hint: de cada jugador se conoce su carta favorita
 
-        var clanPlayers = _context.ClanPlayers
+        var clanPlayers = await _context.ClanPlayers
                                     .Include(cp => cp.Clan)
                                     .Include(cp => cp.Player)
                                     .ThenInclude(p => p!.FavoriteCard)
-                                    .AsQueryable();
+                                    .ToListAsync();
 
 
-        var countFavoriteCard = await (from cp in clanPlayers
-                                 group cp by new
-                                 {
-                                     ClanId = cp.Clan!.Id,
-                                     CardId = cp.Player!.FavoriteCard!.Id,
-                                     CardName = cp.Player!.FavoriteCard!.Name
-                                 } into cpc
-                                 select new
-                                 {
-                                     ClanId = cpc.Key.ClanId,
-                                     CardId = cpc.Key.CardId,
-                                     CardName = cpc.Key.CardName,
-                                     Count = cpc.Count()
-                                 }).ToListAsync();
+        var countFavoriteCard = from cp in clanPlayers
+                                group cp by new
+                                {
+                                    ClanId = cp.Clan!.Id,
+                                    CardId = cp.Player!.FavoriteCard!.Id,
+                                    CardName = cp.Player!.FavoriteCard!.Name
+                                } into cpc
+                                let clanName = cpc.Where(r => r.Clan!.Id == cpc.Key.ClanId).First().Clan!.Name
+                                select new
+                                {
+                                    ClanId = cpc.Key.ClanId,
+                                    ClanName = clanName,
+                                    CardId = cpc.Key.CardId,
+                                    CardName = cpc.Key.CardName,
+                                    Count = cpc.Count()
+                                };
 
         var result = from cp in countFavoriteCard
                      group cp by cp.ClanId into cpc
@@ -148,7 +155,7 @@ internal class PredefinedQuery : IPredefinedQueries
 
 
         return result
-            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId))
+            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId, c.ClanName))
             .ToList();
 
     }

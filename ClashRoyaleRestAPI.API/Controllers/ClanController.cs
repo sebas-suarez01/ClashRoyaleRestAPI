@@ -30,22 +30,31 @@ public class ClanController : ApiController
     // GET: api/clans
     [HttpGet]
     public async Task<IActionResult> GetAll(string? name, string? region, int? minTrophies, int? trophiesInWar,
-                                            bool? availables, string? sortColumn, string? sortOrder, int page=1,
-                                            int pageSize=10)
+                                            bool? availables, string? sortColumn, string? sortOrder, int? page,
+                                            int? pageSize)
     {
         Result<PageList<ClanModel>> result;
         if (name is not null || region is not null || minTrophies is not null || trophiesInWar is not null ||
-            availables is not null || sortColumn is not null || sortOrder is not null)
+            availables is not null || sortColumn is not null)
         {
-            var query = new GetAllClanWithRequirementsQuery(name, region, minTrophies, trophiesInWar, availables,
-                                                            sortColumn, sortOrder, page, pageSize);
+            var query = new GetAllClanWithRequirementsQuery(name,
+                                                            region,
+                                                            minTrophies,
+                                                            trophiesInWar,
+                                                            availables,
+                                                            sortColumn,
+                                                            sortOrder,
+                                                            page.GetValueOrDefault(1),
+                                                            pageSize.GetValueOrDefault(10));
 
             result = await _sender.Send(query);
 
         }
         else
         {
-            var query = new GetAllModelQuery<ClanModel, int>(page, pageSize);
+            var query = new GetAllModelQuery<ClanModel, int>(sortOrder,
+                                                             page.GetValueOrDefault(1),
+                                                             pageSize.GetValueOrDefault(10));
 
             result = await _sender.Send(query);
         }

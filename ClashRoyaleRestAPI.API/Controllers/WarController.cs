@@ -20,9 +20,11 @@ public class WarController : ApiController
 
     // GET: api/wars
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(string? sortOrder, int? page, int? pageSize)
     {
-        var query = new GetAllModelQuery<WarModel, int>();
+        var query = new GetAllModelQuery<WarModel, int>(sortOrder,
+                                                        page.GetValueOrDefault(1),
+                                                        pageSize.GetValueOrDefault(10));
 
         var result = await _sender.Send(query);
 
