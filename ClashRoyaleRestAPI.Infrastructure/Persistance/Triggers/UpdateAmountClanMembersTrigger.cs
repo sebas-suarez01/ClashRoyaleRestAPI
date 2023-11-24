@@ -2,32 +2,31 @@
 using ClashRoyaleRestAPI.Domain.Relationships;
 using EntityFrameworkCore.Triggered;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;
+
+public class UpdateAmountClanMembersTrigger : IAfterSaveTrigger<ClanPlayersModel>
 {
-    public class UpdateAmountClanMembersTrigger : IAfterSaveTrigger<ClanPlayersModel>
+    private readonly IClanRepository _clanRepository;
+
+    public UpdateAmountClanMembersTrigger(IClanRepository clanRepository)
     {
-        private readonly IClanRepository _clanRepository;
+        _clanRepository = clanRepository;
+    }
+    public async Task AfterSave(ITriggerContext<ClanPlayersModel> context, CancellationToken cancellationToken)
+    {
+        if (context.Entity.Clan is null)
+            return;
 
-        public UpdateAmountClanMembersTrigger(IClanRepository clanRepository)
+        var clan = await _clanRepository.GetSingleByIdAsync(context.Entity.Clan.Id);
+
+        if (context.ChangeType == ChangeType.Added)
         {
-            _clanRepository = clanRepository;
+            clan!.AddAmountMember();
         }
-        public async Task AfterSave(ITriggerContext<ClanPlayersModel> context, CancellationToken cancellationToken)
+        else if (context.ChangeType == ChangeType.Deleted)
         {
-            if (context.Entity.Clan is null)
-                return;
-
-            var clan = await _clanRepository.GetSingleByIdAsync(context.Entity.Clan.Id);
-
-            if (context.ChangeType == ChangeType.Added)
-            {
-                clan!.AddAmountMember();
-            }
-            else if (context.ChangeType == ChangeType.Deleted)
-            {
-                clan!.RemoveAmountMember();
-            }
-            await _clanRepository.Save();
+            clan!.RemoveAmountMember();
         }
+        await _clanRepository.Save();
     }
 }

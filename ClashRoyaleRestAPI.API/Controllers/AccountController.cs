@@ -4,6 +4,7 @@ using ClashRoyaleRestAPI.Application.Auth.Account.Commands.RegisterUser;
 using ClashRoyaleRestAPI.Application.Auth.Account.Queries.LoginUser;
 using ClashRoyaleRestAPI.Application.Auth.Utils;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ public class AccountController : ApiController
 
     // POST api/account/login/user
     [HttpPost("login/user")]
-    public async Task<IActionResult> Login(LoginRequest request)
+    public async Task<IActionResult> Login([FromBody]LoginRequest request)
     {
         var loginModel = LoginModel.Create(request.Username, request.Password);
 
@@ -43,9 +44,8 @@ public class AccountController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    [Authorize(Roles = UserRoles.SUPERADMIN)]
-    [Authorize(Roles = UserRoles.ADMIN)]
     [HttpPost("register/admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.SUPERADMIN)]
     public async Task<IActionResult> RegisterAdmin(RegisterRequest request)
     {
         var registerModel = RegisterModel.Create(request.Username, request.Password, request.ConfirmPassword);

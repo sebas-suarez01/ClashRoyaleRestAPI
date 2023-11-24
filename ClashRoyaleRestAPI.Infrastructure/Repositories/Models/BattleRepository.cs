@@ -6,9 +6,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Battle;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 

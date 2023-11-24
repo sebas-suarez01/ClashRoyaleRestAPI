@@ -6,6 +6,7 @@ using ClashRoyaleRestAPI.Application.Models.User.Commands.UpdateRole;
 using ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserByName;
 using ClashRoyaleRestAPI.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,8 +53,8 @@ public class UserController : ApiController
     }
 
     // DELETE api/users/{id:string}
-    [Authorize(Roles = UserRoles.SUPERADMIN)]
     [HttpDelete("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.SUPERADMIN)]
     public async Task<IActionResult> Delete(string id)
     {
         var command = new DeleteModelCommand<UserModel, string>(id);
@@ -64,8 +65,8 @@ public class UserController : ApiController
     }
 
     // PUT api/users/{id:string}
-    [Authorize(Roles = UserRoles.SUPERADMIN)]
     [HttpPut("{id}")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.SUPERADMIN)]
     public async Task<IActionResult> UpdateRole(string id, RoleEnum role)
     {
         var command = new UpdateRoleCommand(id, UserRoles.MapRole(role));

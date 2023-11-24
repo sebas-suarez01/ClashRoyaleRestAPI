@@ -2,62 +2,61 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Seed
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Seed;
+
+public static class SeedRolesSuperAdminModelBuilderExtentions
 {
-    public static class SeedRolesSuperAdminModelBuilderExtentions
+    public static void SeedRoles(this ModelBuilder builder, string superAdminPSW)
     {
-        public static void SeedRoles(this ModelBuilder builder, string superAdminPSW)
+
+        List<IdentityRole> roles = new List<IdentityRole>()
         {
-
-            List<IdentityRole> roles = new List<IdentityRole>()
+            new IdentityRole
             {
-                new IdentityRole
-                {
-                    Name = UserRoles.ADMIN,
-                    NormalizedName = UserRoles.ADMIN.ToUpper(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString(),
-                },
-                new IdentityRole
-                {
-                    Name = UserRoles.USER,
-                    NormalizedName = UserRoles.USER.ToUpper(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString(),
-                },
-                new IdentityRole
-                {
-                    Name = UserRoles.SUPERADMIN,
-                    NormalizedName = UserRoles.SUPERADMIN.ToUpper(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString()
-                },
-            };
-
-            builder.Entity<IdentityRole>().HasData(roles);
-
-            var passwordHasher = new PasswordHasher<IdentityUser>();
-
-            IdentityUser superadmin = new()
+                Name = UserRoles.ADMIN,
+                NormalizedName = UserRoles.ADMIN.ToUpper(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+            },
+            new IdentityRole
             {
-                UserName = "superadmin",
-                NormalizedUserName = "SUPERADMIN",
-            };
-
-            builder.Entity<IdentityUser>().HasData(superadmin);
-
-
-
-            List<IdentityUserRole<string>> userRoles = new();
-
-            superadmin.PasswordHash = passwordHasher.HashPassword(superadmin, superAdminPSW);
-
-            userRoles.Add(new IdentityUserRole<string>
+                Name = UserRoles.USER,
+                NormalizedName = UserRoles.USER.ToUpper(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+            },
+            new IdentityRole
             {
-                UserId = superadmin.Id,
-                RoleId = roles.First(q => q.Name == UserRoles.SUPERADMIN).Id
-            });
+                Name = UserRoles.SUPERADMIN,
+                NormalizedName = UserRoles.SUPERADMIN.ToUpper(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            },
+        };
+
+        builder.Entity<IdentityRole>().HasData(roles);
+
+        var passwordHasher = new PasswordHasher<IdentityUser>();
+
+        IdentityUser superadmin = new()
+        {
+            UserName = "superadmin",
+            NormalizedUserName = "SUPERADMIN",
+        };
+
+        builder.Entity<IdentityUser>().HasData(superadmin);
 
 
-            builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
 
-        }
+        List<IdentityUserRole<string>> userRoles = new();
+
+        superadmin.PasswordHash = passwordHasher.HashPassword(superadmin, superAdminPSW);
+
+        userRoles.Add(new IdentityUserRole<string>
+        {
+            UserId = superadmin.Id,
+            RoleId = roles.First(q => q.Name == UserRoles.SUPERADMIN).Id
+        });
+
+
+        builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
+
     }
 }

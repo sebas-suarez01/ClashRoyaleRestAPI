@@ -1,9 +1,5 @@
-using ClashRoyaleRestAPI.API.OptionsSetup;
 using ClashRoyaleRestAPI.Application;
 using ClashRoyaleRestAPI.Infrastructure;
-using ClashRoyaleRestAPI.Infrastructure.Persistance;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -12,17 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
     builder.Services
         .AddApplication()
-        .AddInfrastructure();
-
-    builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ClashRoyaleDbContext>()
-                .AddDefaultTokenProviders();
-
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer();
-
-    builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
-    builder.Services.ConfigureOptions<JwtSettingsSetup>();
+        .AddInfrastructure(builder.Configuration);
 
     builder.Services.AddAutoMapper(typeof(Program));
 
@@ -40,14 +26,14 @@ var builder = WebApplication.CreateBuilder(args);
         options.OperationFilter<SecurityRequirementsOperationFilter>();
     });
 
-    builder.Services.AddCors(options =>
+    /*builder.Services.AddCors(options =>
     {
         options.AddPolicy("NewPolicy", app =>
         {
             app.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
                 .AllowAnyHeader().AllowAnyMethod();
         });
-    });
+    });*/
 }
 
 
@@ -59,10 +45,12 @@ var app = builder.Build();
         app.UseSwaggerUI();
     }
 
-    app.UseCors("NewPolicy");
+    //app.UseCors("NewPolicy");
 
     app.UseHttpsRedirection();
 
+    app.UseAuthentication();
+    
     app.UseAuthorization();
 
     app.MapControllers();

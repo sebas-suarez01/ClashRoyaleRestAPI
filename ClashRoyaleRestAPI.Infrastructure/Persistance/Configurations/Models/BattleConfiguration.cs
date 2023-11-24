@@ -3,34 +3,33 @@ using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
+
+public class BattleConfiguration : IEntityTypeConfiguration<BattleModel>
 {
-    public class BattleConfiguration : IEntityTypeConfiguration<BattleModel>
+    public void Configure(EntityTypeBuilder<BattleModel> builder)
     {
-        public void Configure(EntityTypeBuilder<BattleModel> builder)
-        {
-            builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .ValueGeneratedNever()
-                .HasConversion(
-                    id => id.Value,
-                    value => BattleId.Create(value));
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever()
+            .HasConversion(
+                id => id.Value,
+                value => BattleId.Create(value));
 
-            builder.HasOne(b => b.Winner)
-                .WithMany()
-                .HasForeignKey("WinnerId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Battles_Players_WinnerId");
+        builder.HasOne(b => b.Winner)
+            .WithMany()
+            .HasForeignKey("WinnerId")
+            .OnDelete(DeleteBehavior.Cascade)
+            .HasConstraintName("FK_Battles_Players_WinnerId");
 
 
-            builder.HasOne(b => b.Loser)
-                .WithMany()
-                .HasForeignKey("LoserId")
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("FK_Battles_Players_LoserId");
+        builder.HasOne(b => b.Loser)
+            .WithMany()
+            .HasForeignKey("LoserId")
+            .OnDelete(DeleteBehavior.NoAction)
+            .HasConstraintName("FK_Battles_Players_LoserId");
 
-            builder.HasIndex("WinnerId", "LoserId", "Date").IsUnique();
-        }
+        builder.HasIndex("WinnerId", "LoserId", "Date").IsUnique();
     }
 }

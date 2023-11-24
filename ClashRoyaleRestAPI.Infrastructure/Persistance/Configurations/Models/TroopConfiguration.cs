@@ -2,15 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
+
+public class TroopConfiguration : IEntityTypeConfiguration<TroopModel>
 {
-    public class TroopConfiguration : IEntityTypeConfiguration<TroopModel>
+    public void Configure(EntityTypeBuilder<TroopModel> builder)
     {
-        public void Configure(EntityTypeBuilder<TroopModel> builder)
-        {
-            builder.Property(c => c.HitPoints).HasColumnName("HitPoints");
-            builder.Property(c => c.Range).HasColumnName("Range");
-            builder.Property(c => c.HitSpeed).HasColumnName("HitSpeed");
-        }
+        builder.Property(c => c.HitPoints).HasColumnName("HitPoints");
+        builder.Property(c => c.Range).HasColumnName("Range");
+        builder.Property(c => c.HitSpeed).HasColumnName("HitSpeed");
     }
 }

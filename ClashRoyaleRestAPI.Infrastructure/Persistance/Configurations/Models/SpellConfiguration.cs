@@ -2,14 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
+
+public class SpellConfiguration : IEntityTypeConfiguration<SpellModel>
 {
-    public class SpellConfiguration : IEntityTypeConfiguration<SpellModel>
+    public void Configure(EntityTypeBuilder<SpellModel> builder)
     {
-        public void Configure(EntityTypeBuilder<SpellModel> builder)
-        {
-            builder.Property(c => c.Radius).HasColumnName("Radius");
-            builder.Property(c => c.LifeTime).HasColumnName("LifeTime");
-        }
+        builder.Property(c => c.Radius).HasColumnName("Radius");
+        builder.Property(c => c.LifeTime).HasColumnName("LifeTime");
     }
 }

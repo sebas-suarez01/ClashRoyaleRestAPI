@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
+
+public class WarConfiguration : IEntityTypeConfiguration<WarModel>
 {
-    public class WarConfiguration : IEntityTypeConfiguration<WarModel>
+    public void Configure(EntityTypeBuilder<WarModel> builder)
     {
-        public void Configure(EntityTypeBuilder<WarModel> builder)
-        {
-            builder.HasKey(w => w.Id);
-        }
+        builder.HasKey(w => w.Id);
     }
 }

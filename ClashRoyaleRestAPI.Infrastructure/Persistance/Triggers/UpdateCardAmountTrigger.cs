@@ -2,26 +2,25 @@
 using ClashRoyaleRestAPI.Domain.Relationships;
 using EntityFrameworkCore.Triggered;
 
-namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers
+namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;
+
+public class UpdateCardAmountTrigger : IAfterSaveTrigger<CollectionModel>
 {
-    public class UpdateCardAmountTrigger : IAfterSaveTrigger<CollectionModel>
+    private readonly IPlayerRepository _playerService;
+
+    public UpdateCardAmountTrigger(IPlayerRepository playerService)
     {
-        private readonly IPlayerRepository _playerService;
+        _playerService = playerService;
+    }
+    public async Task AfterSave(ITriggerContext<CollectionModel> context, CancellationToken cancellationToken)
+    {
 
-        public UpdateCardAmountTrigger(IPlayerRepository playerService)
+        if (context.ChangeType == ChangeType.Added && context.Entity.Player is not null)
         {
-            _playerService = playerService;
-        }
-        public async Task AfterSave(ITriggerContext<CollectionModel> context, CancellationToken cancellationToken)
-        {
+            var player = await _playerService.GetSingleByIdAsync(context.Entity.Player.Id);
+            player!.AddCardAmount();
+            await _playerService.Save();
 
-            if (context.ChangeType == ChangeType.Added && context.Entity.Player is not null)
-            {
-                var player = await _playerService.GetSingleByIdAsync(context.Entity.Player.Id);
-                player!.AddCardAmount();
-                await _playerService.Save();
-
-            }
         }
     }
 }
