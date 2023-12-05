@@ -19,8 +19,7 @@ internal class UpdateAmountMemberDeletePlayerTrigger : IBeforeSaveTrigger<Player
         {
             var clanPlayer = await _context.ClanPlayers
                                 .Include(cp=> cp.Clan)
-                                .Include(cp=> cp.Player)
-                                .Where(p => p.Player.Id == context.Entity.Id)
+                                .Where(p => p.Player!.Id == context.Entity.Id)
                                 .FirstOrDefaultAsync();
             if(clanPlayer != null)
             {

@@ -98,7 +98,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
     public override async Task Delete(PlayerModel model)
     {
-        await _context.Battles.Where(b => b.Loser.Id == model.Id).ExecuteDeleteAsync();
+        await _context.Battles.Where(b => b.Loser!.Id == model.Id).ExecuteDeleteAsync();
 
         _context.Remove(model);
 

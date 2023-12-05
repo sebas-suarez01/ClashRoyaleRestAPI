@@ -302,8 +302,8 @@ public class DummyController : ApiController
             };
 
             var battle = BattleModel.Create(battleRequest.AmountTrophies,
-                                            null,
-                                            null,
+                                            null!,
+                                            null!,
                                             battleRequest.DurationInSeconds,
                                             battleRequest.Date);
 
