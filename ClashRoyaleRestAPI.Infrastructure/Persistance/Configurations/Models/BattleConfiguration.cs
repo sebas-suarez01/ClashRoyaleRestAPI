@@ -11,24 +11,29 @@ public class BattleConfiguration : IEntityTypeConfiguration<BattleModel>
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property<int>("LoserId")
+            .HasDefaultValue(0)
+            .IsRequired();
+
+        builder.Property<int>("WinnerId")
+            .HasDefaultValue(0)
+            .IsRequired();
+
         builder.Property(x => x.Id)
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
                 value => BattleId.Create(value));
 
-        builder.HasOne(b => b.Winner)
-            .WithMany()
-            .HasForeignKey("WinnerId")
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("FK_Battles_Players_WinnerId");
-
-
         builder.HasOne(b => b.Loser)
             .WithMany()
             .HasForeignKey("LoserId")
-            .OnDelete(DeleteBehavior.NoAction)
-            .HasConstraintName("FK_Battles_Players_LoserId");
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(b => b.Winner)
+            .WithMany()
+            .HasForeignKey("WinnerId")
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex("WinnerId", "LoserId", "Date").IsUnique();
     }

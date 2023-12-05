@@ -14,7 +14,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 public class AccountController : ApiController
 {
 
-    public AccountController(IMediator sender) : base(sender)
+    public AccountController(ISender sender) : base(sender)
     {
     }
 

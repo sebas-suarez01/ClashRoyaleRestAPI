@@ -14,7 +14,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/wars")]
 public class WarController : ApiController
 {
-    public WarController(IMediator sender) : base(sender)
+    public WarController(ISender sender) : base(sender)
     {
     }
 

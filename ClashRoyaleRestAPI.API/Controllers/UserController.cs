@@ -15,7 +15,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/users")]
 public class UserController : ApiController
 {
-    public UserController(IMediator sender) : base(sender) { }
+    public UserController(ISender sender) : base(sender) { }
 
     // GET: api/users
     [HttpGet]

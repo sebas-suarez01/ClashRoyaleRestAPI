@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Specifications.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models;
@@ -6,7 +7,6 @@ using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
-using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Clan;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -37,9 +37,9 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
     {
         var clans = _context.Clans.AsQueryable();
 
-        if(!string.IsNullOrWhiteSpace(name) )
+        if (!string.IsNullOrWhiteSpace(name))
         {
-            clans = clans.Where(c=> c.Name!.Contains(name));
+            clans = clans.Where(c => c.Name!.Contains(name));
         }
         if (!string.IsNullOrWhiteSpace(region))
         {
@@ -58,7 +58,7 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
             clans = clans.Where(c => c.TypeOpen == availables);
         }
 
-        if(sortOrder?.ToLower() == "desc")
+        if (sortOrder?.ToLower() == "desc")
         {
             clans = clans.OrderByDescending(GetSortProperty(sortColumn));
         }
@@ -111,7 +111,7 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
 
-        clan.AddPlayer(player!);
+        clan.AddPlayer(player!, RankClan.Leader);
 
         await Save();
 
@@ -127,7 +127,7 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
 
-        clan.AddPlayer(player);
+        clan.AddPlayer(player, rank);
 
         await Save();
     }

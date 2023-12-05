@@ -15,7 +15,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/queries")]
 public class QueryController : ApiController
 {
-    public QueryController(IMediator sender) : base(sender)
+    public QueryController(ISender sender) : base(sender)
     {
         
     }

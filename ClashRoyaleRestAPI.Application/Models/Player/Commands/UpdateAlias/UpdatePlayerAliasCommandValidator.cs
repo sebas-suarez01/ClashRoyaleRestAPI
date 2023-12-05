@@ -6,7 +6,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdateAlias
     {
         public UpdatePlayerAliasCommandValidator()
         {
-            RuleFor(x => x.Alias).NotNull().NotEmpty().Length(3, 64);
+            RuleFor(x => x.Alias).NotNull().Length(3, 64);
         }
     }
 }

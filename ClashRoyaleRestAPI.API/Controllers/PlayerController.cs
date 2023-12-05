@@ -24,7 +24,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/players")]
 public class PlayerController : ApiController
 {
-    public PlayerController(IMediator sender) : base(sender)
+    public PlayerController(ISender sender) : base(sender)
     {
     }
 
@@ -196,7 +196,8 @@ public class PlayerController : ApiController
             playerId,
             addDonationRequest.ClanId,
             addDonationRequest.CardId,
-            addDonationRequest.Amount);
+            addDonationRequest.Amount,
+            DateTime.Now);
 
         var result = await _sender.Send(command);
 

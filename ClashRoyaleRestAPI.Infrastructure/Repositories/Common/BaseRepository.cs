@@ -1,9 +1,9 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Specifications;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
-using ClashRoyaleRestAPI.Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
@@ -23,6 +23,21 @@ public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId>
     public virtual async Task<TModel> GetSingleByIdAsync(UId id)
     {
         var entity = await _context.Set<TModel>().FindAsync(id) ?? throw new IdNotFoundException<UId>(id);
+
+        return entity;
+    }
+    public virtual async Task<TModel> GetSingleByIdAsync(UId id, Specification<TModel> specification)
+    {
+        var entity = await ApplySpecification(specification).FirstOrDefaultAsync()
+            ?? throw new IdNotFoundException<UId>(id);
+
+        return entity;
+    }
+
+    public virtual async Task<IEnumerable<TModel>> GetModelDataAsync(Specification<TModel> specification)
+    {
+        var entity = await ApplySpecification(specification)
+            .ToListAsync();
 
         return entity;
     }

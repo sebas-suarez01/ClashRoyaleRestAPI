@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Specifications.Models.Challenge;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
-using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Challenge;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;

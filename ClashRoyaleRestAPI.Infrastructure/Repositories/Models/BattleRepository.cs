@@ -1,11 +1,11 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Specifications.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
-using ClashRoyaleRestAPI.Infrastructure.Specifications.Models.Battle;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;

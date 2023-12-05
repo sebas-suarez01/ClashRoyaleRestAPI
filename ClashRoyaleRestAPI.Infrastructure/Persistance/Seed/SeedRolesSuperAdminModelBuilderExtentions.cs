@@ -13,21 +13,24 @@ public static class SeedRolesSuperAdminModelBuilderExtentions
         {
             new IdentityRole
             {
+                Id = "6c0323e9-817c-4d08-b0bc-90fbddf598ee",
                 Name = UserRoles.ADMIN,
                 NormalizedName = UserRoles.ADMIN.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = "5bff1bbe-f340-4c82-9586-2f0dcc1e73c0",
             },
             new IdentityRole
             {
+                Id = "e58b0a8c-8656-463d-8e43-de571a5394ca",
                 Name = UserRoles.USER,
                 NormalizedName = UserRoles.USER.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = "7f8b6799-7075-4b2a-9f19-edb6c5c0610e",
             },
             new IdentityRole
             {
+                Id="b82604fe-f635-478d-a1b9-07ee8a2ef13e",
                 Name = UserRoles.SUPERADMIN,
                 NormalizedName = UserRoles.SUPERADMIN.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
+                ConcurrencyStamp = "bced0593-1c19-4305-8118-63fdd2f902fa"
             },
         };
 
@@ -37,6 +40,7 @@ public static class SeedRolesSuperAdminModelBuilderExtentions
 
         IdentityUser superadmin = new()
         {
+            Id = "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e",
             UserName = "superadmin",
             NormalizedUserName = "SUPERADMIN",
         };

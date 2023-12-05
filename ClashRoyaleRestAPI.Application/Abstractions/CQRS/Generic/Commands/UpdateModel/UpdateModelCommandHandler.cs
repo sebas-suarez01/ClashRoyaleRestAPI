@@ -6,7 +6,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel
 {
     public class UpdateModelCommandHandler<TModel, UId> : ICommandHandler<UpdateModelCommand<TModel, UId>>
-        where TModel : IEntity<UId>
+        where TModel : class, IEntity<UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public UpdateModelCommandHandler(IBaseRepository<TModel, UId> repository)

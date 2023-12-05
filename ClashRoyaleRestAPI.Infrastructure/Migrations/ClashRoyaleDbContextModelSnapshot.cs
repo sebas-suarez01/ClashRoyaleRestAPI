@@ -36,19 +36,22 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<int>("DurationInSeconds")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LoserId")
-                        .HasColumnType("int");
+                    b.Property<int>("LoserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int?>("WinnerId")
-                        .HasColumnType("int");
+                    b.Property<int>("WinnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
                     b.HasIndex("LoserId");
 
                     b.HasIndex("WinnerId", "LoserId", "Date")
-                        .IsUnique()
-                        .HasFilter("[WinnerId] IS NOT NULL AND [LoserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Battles");
                 });
@@ -382,22 +385,22 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d5c20944-0ff0-4488-9926-6a6d021b086b",
-                            ConcurrencyStamp = "c7626288-c2b8-4cf1-aedf-170053f48796",
+                            Id = "6c0323e9-817c-4d08-b0bc-90fbddf598ee",
+                            ConcurrencyStamp = "5bff1bbe-f340-4c82-9586-2f0dcc1e73c0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "44676194-6ae3-4dfc-8eb1-d68f12bf6d6f",
-                            ConcurrencyStamp = "4c76eb19-9e9e-41da-b9ee-ca5b1d75b729",
+                            Id = "e58b0a8c-8656-463d-8e43-de571a5394ca",
+                            ConcurrencyStamp = "7f8b6799-7075-4b2a-9f19-edb6c5c0610e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "ecd78557-7dad-4ae6-833b-26976c0ddc8b",
-                            ConcurrencyStamp = "a8886c80-94cb-4401-b2b3-b6e0ce3263dc",
+                            Id = "b82604fe-f635-478d-a1b9-07ee8a2ef13e",
+                            ConcurrencyStamp = "bced0593-1c19-4305-8118-63fdd2f902fa",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         });
@@ -495,15 +498,15 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1026f93f-8c56-4429-8815-fb01aa6988fd",
+                            Id = "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17e10981-8252-40e2-bd4c-0a82122a1ec2",
+                            ConcurrencyStamp = "3798e468-94da-4c5c-ba43-ec4cdc814098",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHE/PrOxd4K+YKsvXyAHu4YMk9sWf74V4Y2ZV0aReaJYGrcfF8ZmNquK23dvsw9QoQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMjiE4hj2b6O2JrLYc05pPV31klJJsQMD5cu34I8M8vGztI/Mquzy5RYT1EGs0WG2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9f434fab-decd-4fd8-b451-e001d60d6774",
+                            SecurityStamp = "d55db1d2-80e2-4dce-84d0-bf57da0d8950",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -573,8 +576,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "1026f93f-8c56-4429-8815-fb01aa6988fd",
-                            RoleId = "ecd78557-7dad-4ae6-833b-26976c0ddc8b"
+                            UserId = "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e",
+                            RoleId = "b82604fe-f635-478d-a1b9-07ee8a2ef13e"
                         });
                 });
 
@@ -2805,13 +2808,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("LoserId")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .HasConstraintName("FK_Battles_Players_LoserId");
+                        .IsRequired();
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("FK_Battles_Players_WinnerId");
+                        .IsRequired();
 
                     b.Navigation("Loser");
 
@@ -2901,7 +2904,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Card");
@@ -2922,7 +2925,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Challenge");

@@ -15,7 +15,11 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation
 
         public async Task<Result> Handle(AddDonationCommand request, CancellationToken cancellationToken)
         {
-            await _playerRepository.AddDonation(request.PlayerId, request.ClanId, request.CardId, request.Amount);
+            await _playerRepository.AddDonation(request.PlayerId,
+                                                request.ClanId,
+                                                request.CardId,
+                                                request.Amount,
+                                                request.Date);
 
             return Result.Success();
         }

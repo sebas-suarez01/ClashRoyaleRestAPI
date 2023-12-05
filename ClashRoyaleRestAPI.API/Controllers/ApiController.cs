@@ -8,9 +8,9 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [ApiController]
 public class ApiController : ControllerBase
 {
-    protected readonly IMediator _sender;
+    protected readonly ISender _sender;
 
-    protected ApiController(IMediator sender)
+    protected ApiController(ISender sender)
     {
         _sender = sender;
     }
@@ -25,25 +25,6 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error error)
     {
-
-        if (error == ErrorCode.IdNotFound ||
-            error == ErrorCode.ModelNotFound ||
-            error == ErrorCode.UsernameNotFound)
-            return NotFound(error.Description);
-
-        if (error == ErrorCode.IdsNotMatch ||
-            error == ErrorCode.InvalidCredentials ||
-            error == ErrorCode.InvalidPassword ||
-            error == ErrorCode.ChallengeClosed ||
-            error == ErrorCode.PlayerNotHaveCard)
-            return BadRequest(error.Description);
-
-        if (error == ErrorCode.DuplicateId ||
-            error == ErrorCode.DuplicateUsername ||
-            error == ErrorCode.DuplicateIndex)
-            return Conflict(error.Description);
-
-
-        return Problem();
+        return Problem(statusCode: (int)error.HttpStatusCode, detail: error.Description);
     }
 }

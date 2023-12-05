@@ -62,6 +62,14 @@ public class ClanModel : IEntity<int>
     {
         AmountMembers -= 1;
     }
+    public void ChangeTypeOpen()
+    {
+        TypeOpen = !TypeOpen;
+    }
+    public void AddMinTrophies(int minTrophies)
+    {
+        MinTrophies = minTrophies;
+    }
 
 
 }

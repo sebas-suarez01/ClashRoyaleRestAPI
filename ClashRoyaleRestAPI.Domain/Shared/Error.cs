@@ -1,13 +1,17 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Shared;
+﻿using System.Net;
+
+namespace ClashRoyaleRestAPI.Domain.Shared;
 
 public class Error : IEquatable<Error>
 {
-    public Error(string code, string description)
+    public Error(HttpStatusCode httpStatusCode, string code, string description)
     {
+        HttpStatusCode = httpStatusCode;
         Code = code;
         Description = description;
     }
 
+    public HttpStatusCode HttpStatusCode { get; }
     public string Code { get; }
     public string Description { get; }
 

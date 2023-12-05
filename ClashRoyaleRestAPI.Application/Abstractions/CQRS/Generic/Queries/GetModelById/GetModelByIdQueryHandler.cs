@@ -5,7 +5,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
 
 public class GetModelByIdQueryHandler<TModel, UId> : IQueryHandler<GetModelByIdQuery<TModel, UId>, TModel>
-    where TModel : IEntity<UId>
+    where TModel : class, IEntity<UId>
 {
     private readonly IBaseRepository<TModel, UId> _repository;
     public GetModelByIdQueryHandler(IBaseRepository<TModel, UId> repository)

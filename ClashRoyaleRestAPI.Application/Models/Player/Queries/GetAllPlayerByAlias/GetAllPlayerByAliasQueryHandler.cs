@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Specifications.Models.Player;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 
@@ -16,7 +17,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerByAli
 
         public async Task<Result<IEnumerable<PlayerModel>>> Handle(GetAllPlayerByAliasQuery request, CancellationToken cancellationToken)
         {
-            var players = await _playerRepository.GetPlayersByAliasAsync(request.Alias);
+            var players = await _playerRepository.GetModelDataAsync(new GetPlayersByAliasSpecification(request.Alias));
 
             return Result.Create(players);
         }

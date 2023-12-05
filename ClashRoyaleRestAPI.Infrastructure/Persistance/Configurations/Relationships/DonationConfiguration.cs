@@ -15,11 +15,12 @@ public class DonationConfiguration : IEntityTypeConfiguration<DonationModel>
         builder.HasOne(d => d.Player)
             .WithMany()
             .HasForeignKey("PlayerId")
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(d => d.Clan)
             .WithMany()
             .HasForeignKey("ClanId");
+
         builder.HasOne(d => d.Card)
             .WithMany()
             .HasForeignKey("CardId");

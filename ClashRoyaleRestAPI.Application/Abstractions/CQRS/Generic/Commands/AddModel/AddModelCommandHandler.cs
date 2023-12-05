@@ -6,7 +6,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel
 {
     public class AddModelCommandHandler<TModel, UId> : ICommandHandler<AddModelCommand<TModel, UId>, UId>
-        where TModel : IEntity<UId>
+        where TModel : class, IEntity<UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public AddModelCommandHandler(IBaseRepository<TModel, UId> repository)

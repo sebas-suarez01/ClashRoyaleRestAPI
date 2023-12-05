@@ -14,7 +14,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/challenges")]
 public class ChallengeController : ApiController
 {
-    public ChallengeController(IMediator sender) : base(sender)
+    public ChallengeController(ISender sender) : base(sender)
     {
     }
 

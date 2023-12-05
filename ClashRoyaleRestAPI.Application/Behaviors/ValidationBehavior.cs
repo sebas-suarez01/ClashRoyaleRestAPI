@@ -1,6 +1,8 @@
-﻿using ClashRoyaleRestAPI.Domain.Shared;
+﻿using ClashRoyaleRestAPI.Domain.Errors;
+using ClashRoyaleRestAPI.Domain.Shared;
 using FluentValidation;
 using MediatR;
+using System.Net;
 
 namespace ClashRoyaleRestAPI.Application.Behaviors
 {
@@ -29,7 +31,8 @@ namespace ClashRoyaleRestAPI.Application.Behaviors
             Error[] errors = validationsResult
                 .Where(validationFailure => validationFailure is not null)
                 .Select(failure => new Error(
-                    failure.PropertyName,
+                    HttpStatusCode.BadRequest,
+                    ErrorCode.Validation,
                     failure.ErrorMessage))
                 .Distinct()
                 .ToArray();

@@ -25,7 +25,7 @@ public static class DependencyInjection
     {
         services.AddAuth(configuration);
 
-        services.AddPersistance();
+        services.AddPersistance(configuration);
 
         services.AddScopeds();
 
@@ -87,19 +87,20 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddPersistance(this IServiceCollection services)
+    public static IServiceCollection AddPersistance(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddIdentity();
 
         services.AddDbContext<ClashRoyaleDbContext>(options =>
         {
-            options.UseSqlServer(DbSettings.ConnectionName);
+            options.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName));
             options.UseTriggers(triggerOpt =>
             {
                 triggerOpt.AddTrigger<UpdateCardAmountTrigger>();
                 triggerOpt.AddTrigger<UpdateMaxEloInsertPlayerTrigger>();
                 triggerOpt.AddTrigger<UpdatePlayerStatsInsertBattleTrigger>();
-                triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>();
+                triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>(); 
+                triggerOpt.AddTrigger<UpdateAmountMemberDeletePlayerTrigger>();
             });
         });
 

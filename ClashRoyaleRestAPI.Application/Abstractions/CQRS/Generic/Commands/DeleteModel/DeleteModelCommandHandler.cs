@@ -6,7 +6,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel
 {
     public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteModelCommand<TModel, UId>>
-        where TModel : IEntity<UId>
+        where TModel : class, IEntity<UId>
     {
         private readonly IBaseRepository<TModel, UId> _repository;
         public DeleteModelCommandHandler(IBaseRepository<TModel, UId> repository)

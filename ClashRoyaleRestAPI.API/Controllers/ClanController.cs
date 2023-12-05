@@ -23,7 +23,7 @@ namespace ClashRoyaleRestAPI.API.Controllers;
 [Route("api/clans")]
 public class ClanController : ApiController
 {
-    public ClanController(IMediator sender) : base(sender)
+    public ClanController(ISender sender) : base(sender)
     {
     }
 

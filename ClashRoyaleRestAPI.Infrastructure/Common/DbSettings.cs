@@ -1,7 +1,6 @@
-﻿namespace ClashRoyaleRestAPI.Infrastructure.Common
+﻿namespace ClashRoyaleRestAPI.Infrastructure.Common;
+
+internal class DbSettings
 {
-    internal class DbSettings
-    {
-        public const string ConnectionName = "Server=.\\SqlExpress; Database=clashroyale_db; Trusted_Connection=true; TrustServerCertificate=true;";
-    }
+    public const string ConnectionDbName = "ClashRoyaleDb";
 }
