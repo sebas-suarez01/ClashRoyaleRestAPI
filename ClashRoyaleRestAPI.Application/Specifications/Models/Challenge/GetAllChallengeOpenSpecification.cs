@@ -1,11 +1,10 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
 
-namespace ClashRoyaleRestAPI.Application.Specifications.Models.Challenge
+namespace ClashRoyaleRestAPI.Application.Specifications.Models.Challenge;
+
+public class GetAllChallengeOpenSpecification : Specification<ChallengeModel>
 {
-    public class GetAllChallengeOpenSpecification : Specification<ChallengeModel>
+    public GetAllChallengeOpenSpecification() : base(c => c.IsOpen)
     {
-        public GetAllChallengeOpenSpecification() : base(c => c.IsOpen)
-        {
-        }
     }
 }

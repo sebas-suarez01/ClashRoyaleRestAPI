@@ -16,7 +16,6 @@ public interface IClanRepository : IBaseRepository<ClanModel, int>
                                                     string? sortOrder,
                                                     int page,
                                                     int pageSize);
-    public Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false);
     public Task<IEnumerable<ClanModel>> GetAllByName(string name);
     public Task<IEnumerable<ClanModel>> GetAllAvailable(int trophies);
     public Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId);

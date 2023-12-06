@@ -12,7 +12,7 @@ using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChalleng
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlayer;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerByAlias;
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerWithRequirements;
-using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdFullLoad;
+using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdWithIncludes;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
@@ -61,7 +61,7 @@ public class PlayerController : ApiController
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id)
     {
-        var query = new GetPlayerByIdFullLoadQuery(id, true);
+        var query = new GetPlayerByIdWithIncludesQuery(id, true);
 
         var result = await _sender.Send(query);
 

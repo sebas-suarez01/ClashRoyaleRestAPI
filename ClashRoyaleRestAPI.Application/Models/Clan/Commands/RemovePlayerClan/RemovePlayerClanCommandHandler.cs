@@ -2,22 +2,21 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.RemovePlayerClan
+namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.RemovePlayerClan;
+
+internal class RemovePlayerClanCommandHandler : ICommandHandler<RemovePlayerClanCommand>
 {
-    internal class RemovePlayerClanCommandHandler : ICommandHandler<RemovePlayerClanCommand>
+    private readonly IClanRepository _repository;
+
+    public RemovePlayerClanCommandHandler(IClanRepository repository)
     {
-        private readonly IClanRepository _repository;
+        _repository = repository;
+    }
 
-        public RemovePlayerClanCommandHandler(IClanRepository repository)
-        {
-            _repository = repository;
-        }
+    public async Task<Result> Handle(RemovePlayerClanCommand request, CancellationToken cancellationToken)
+    {
+        await _repository.RemovePlayer(request.ClanId, request.PlayerId);
 
-        public async Task<Result> Handle(RemovePlayerClanCommand request, CancellationToken cancellationToken)
-        {
-            await _repository.RemovePlayer(request.ClanId, request.PlayerId);
-
-            return Result.Success();
-        }
+        return Result.Success();
     }
 }

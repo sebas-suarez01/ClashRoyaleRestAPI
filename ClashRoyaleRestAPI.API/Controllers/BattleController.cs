@@ -2,8 +2,7 @@
 using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
-using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude;
-using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdFullLoad;
+using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdWithIncludes;
 using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
 using MediatR;
@@ -37,7 +36,7 @@ public class BattleController : ApiController
     [HttpGet("{battleId:Guid}")]
     public async Task<IActionResult> Get(Guid battleId)
     {
-        var query = new GetBattleByIdFullLoadQuery(battleId, true);
+        var query = new GetBattleByIdWithIncludesQuery(battleId, true);
 
         var result = await _sender.Send(query);
 

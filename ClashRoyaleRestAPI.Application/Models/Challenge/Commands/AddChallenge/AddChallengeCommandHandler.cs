@@ -2,12 +2,11 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
 
-namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands.AddChallenge
+namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands.AddChallenge;
+
+internal class AddChallengeCommandHandler : AddModelCommandHandler<ChallengeModel, int>
 {
-    internal class AddChallengeCommandHandler : AddModelCommandHandler<ChallengeModel, int>
+    public AddChallengeCommandHandler(IChallengeRepository repository) : base(repository)
     {
-        public AddChallengeCommandHandler(IChallengeRepository repository) : base(repository)
-        {
-        }
     }
 }

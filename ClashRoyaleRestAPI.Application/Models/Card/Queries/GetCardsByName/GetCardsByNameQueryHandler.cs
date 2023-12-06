@@ -15,6 +15,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Card.Queries.GetCardsByName
 
         public async Task<Result<IEnumerable<CardModel>>> Handle(GetCardsByNameQuery request, CancellationToken cancellationToken)
         {
+            //var cards = await _repository.GetModelDataAsync(new GetCardsByNameSpecification(request.Name));
             var cards = await _repository.GetCardsByNameAsync(request.Name);
 
             return Result.Create(cards);

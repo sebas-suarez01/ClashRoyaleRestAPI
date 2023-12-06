@@ -2,16 +2,15 @@
 using ClashRoyaleRestAPI.Domain.Models;
 using FluentValidation;
 
-namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdateClan
+namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdateClan;
+
+internal class UpdateClanCommandValidator : AbstractValidator<UpdateModelCommand<ClanModel, int>>
 {
-    internal class UpdateClanCommandValidator : AbstractValidator<UpdateModelCommand<ClanModel, int>>
+    public UpdateClanCommandValidator()
     {
-        public UpdateClanCommandValidator()
-        {
-            RuleFor(x => x.Model.Name).NotNull().Length(3, 64);
-            RuleFor(x => x.Model.Region).NotNull().Length(3, 32);
-            RuleFor(x => x.Model.TypeOpen).NotNull();
-            RuleFor(x => x.Model.MinTrophies).NotNull().GreaterThanOrEqualTo(0);
-        }
+        RuleFor(x => x.Model.Name).NotNull().Length(3, 64);
+        RuleFor(x => x.Model.Region).NotNull().Length(3, 32);
+        RuleFor(x => x.Model.TypeOpen).NotNull();
+        RuleFor(x => x.Model.MinTrophies).NotNull().GreaterThanOrEqualTo(0);
     }
 }

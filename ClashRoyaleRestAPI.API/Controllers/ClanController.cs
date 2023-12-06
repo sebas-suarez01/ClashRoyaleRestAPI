@@ -10,7 +10,7 @@ using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanByName;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanWithRequirements;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanAvailables;
-using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdFullLoad;
+using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdWithIncludes;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
@@ -66,7 +66,7 @@ public class ClanController : ApiController
     [HttpGet("{clanId:int}")]
     public async Task<IActionResult> Get(int clanId)
     {
-        var query = new GetClanByIdFullLoadQuery(clanId, true);
+        var query = new GetClanByIdWithIncludesQuery(clanId, true);
 
         var result = await _sender.Send(query);
 
@@ -97,7 +97,7 @@ public class ClanController : ApiController
             return Problem(ErrorTypes.Models.IdsNotMatch());
 
         var clan = ClanModel.Create(clanRequest.Id, clanRequest.Name!, clanRequest.Description!,
-                                    clanRequest.Region!, clanRequest.TypeOpen, clanRequest.TrophiesInWar, 
+                                    clanRequest.Region!, clanRequest.TypeOpen, clanRequest.TrophiesInWar,
                                     clanRequest.MinTrophies);
 
         var command = new UpdateModelCommand<ClanModel, int>(clan);

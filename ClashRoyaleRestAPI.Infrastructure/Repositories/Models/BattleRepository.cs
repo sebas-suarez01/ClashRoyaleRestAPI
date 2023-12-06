@@ -22,15 +22,6 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
     #region Interface Methods
 
     #region Queries
-    public async Task<BattleModel> GetSingleByIdAsync(Guid id, bool fullLoad = false)
-    {
-        var battle = fullLoad ? await ApplySpecification(new GetBattleByIdSpecification(id))
-                                            .FirstOrDefaultAsync()
-                                            ?? throw new IdNotFoundException<Guid>(id)
-                                        : await GetSingleByIdAsync(id);
-
-        return battle!;
-    }
     public override async Task<PageList<BattleModel>> GetAllAsync(string? sortOrder, int page, int pageSize)
     {
         await Task.CompletedTask;

@@ -25,6 +25,6 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error error)
     {
-        return Problem(statusCode: (int)error.HttpStatusCode, detail: error.Description);
+        return Problem(statusCode: (int)error.HttpStatusCode, title: error.Code, detail: error.Description);
     }
 }

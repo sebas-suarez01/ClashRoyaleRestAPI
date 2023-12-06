@@ -2,12 +2,11 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
 
-namespace ClashRoyaleRestAPI.Application.Models.War.Commands.DeleteWar
+namespace ClashRoyaleRestAPI.Application.Models.War.Commands.DeleteWar;
+
+internal class DeleteWarCommandHandler : DeleteModelCommandHandler<WarModel, int>
 {
-    internal class DeleteWarCommandHandler : DeleteModelCommandHandler<WarModel, int>
+    public DeleteWarCommandHandler(IWarRepository repository) : base(repository)
     {
-        public DeleteWarCommandHandler(IWarRepository repository) : base(repository)
-        {
-        }
     }
 }

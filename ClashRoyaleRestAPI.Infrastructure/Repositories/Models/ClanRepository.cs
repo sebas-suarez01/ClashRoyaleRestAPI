@@ -7,6 +7,7 @@ using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
+using ClashRoyaleRestAPI.Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -76,19 +77,11 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId)
     {
-        var clan = await GetSingleByIdAsync(clanId, true);
+        var clan = await GetSingleByIdAsync(clanId, new GetClanByIdAsNoTrackingSpecification());
+
+        await _context.Entry(clan).Collection(c => c.Players).LoadAsync();
 
         return clan.Players.ToList();
-    }
-
-    public async Task<ClanModel> GetSingleByIdAsync(int id, bool fullLoad = false)
-    {
-        var clan = fullLoad ? await ApplySpecification(new GetClanByIdSpecification(id))
-                                            .FirstOrDefaultAsync()
-                                            ?? throw new IdNotFoundException<int>(id)
-                                        : await base.GetSingleByIdAsync(id);
-
-        return clan;
     }
 
     public async Task<IEnumerable<ClanModel>> GetAllAvailable(int trophies)

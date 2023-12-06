@@ -2,22 +2,21 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan
+namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
+
+internal class AddPlayerClanCommandHandler : ICommandHandler<AddPlayerClanCommand>
 {
-    internal class AddPlayerClanCommandHandler : ICommandHandler<AddPlayerClanCommand>
+    private readonly IClanRepository _repository;
+
+    public AddPlayerClanCommandHandler(IClanRepository repository)
     {
-        private readonly IClanRepository _repository;
+        _repository = repository;
+    }
 
-        public AddPlayerClanCommandHandler(IClanRepository repository)
-        {
-            _repository = repository;
-        }
+    public async Task<Result> Handle(AddPlayerClanCommand request, CancellationToken cancellationToken)
+    {
+        await _repository.AddPlayer(request.ClanId, request.PlayerId);
 
-        public async Task<Result> Handle(AddPlayerClanCommand request, CancellationToken cancellationToken)
-        {
-            await _repository.AddPlayer(request.ClanId, request.PlayerId);
-
-            return Result.Success();
-        }
+        return Result.Success();
     }
 }

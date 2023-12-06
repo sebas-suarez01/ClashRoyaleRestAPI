@@ -2,9 +2,8 @@
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
 using ClashRoyaleRestAPI.Domain.Models;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.ExceptionHandlers
+namespace ClashRoyaleRestAPI.Application.Models.Player.ExceptionHandlers;
+
+internal class DeletePlayerExceptionHandler : RequestExceptionHandler<DeleteModelCommand<PlayerModel, int>, int>
 {
-    internal class DeletePlayerExceptionHandler : RequestExceptionHandler<DeleteModelCommand<PlayerModel, int>, int>
-    {
-    }
 }
