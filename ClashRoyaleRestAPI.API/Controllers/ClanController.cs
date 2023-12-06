@@ -66,7 +66,7 @@ public class ClanController : ApiController
     [HttpGet("{clanId:int}")]
     public async Task<IActionResult> Get(int clanId)
     {
-        var query = new GetClanByIdWithIncludesQuery(clanId, true);
+        var query = new GetClanByIdWithIncludesQuery(clanId);
 
         var result = await _sender.Send(query);
 

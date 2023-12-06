@@ -36,7 +36,7 @@ public class BattleController : ApiController
     [HttpGet("{battleId:Guid}")]
     public async Task<IActionResult> Get(Guid battleId)
     {
-        var query = new GetBattleByIdWithIncludesQuery(battleId, true);
+        var query = new GetBattleByIdWithIncludesQuery(battleId);
 
         var result = await _sender.Send(query);
 

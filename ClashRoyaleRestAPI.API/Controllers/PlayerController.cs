@@ -61,7 +61,7 @@ public class PlayerController : ApiController
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id)
     {
-        var query = new GetPlayerByIdWithIncludesQuery(id, true);
+        var query = new GetPlayerByIdWithIncludesQuery(id);
 
         var result = await _sender.Send(query);
 
