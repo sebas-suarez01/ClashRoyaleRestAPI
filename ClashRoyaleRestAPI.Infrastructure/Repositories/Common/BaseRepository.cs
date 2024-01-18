@@ -62,20 +62,23 @@ public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId>
 
     public virtual async Task<UId> Add(TModel model)
     {
+        await Task.CompletedTask;
+
         _context.Set<TModel>().Add(model);
 
-        await Save();
         return model.Id;
     }
     public virtual async Task Delete(TModel model)
     {
+        await Task.CompletedTask;
+        
         _context.Set<TModel>().Remove(model);
-        await Save();
     }
     public virtual async Task Update(TModel model)
     {
+        await Task.CompletedTask;
+
         _context.Entry(model).State = EntityState.Modified;
-        await Save();
     }
 
     #endregion
@@ -84,7 +87,6 @@ public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId>
 
     #region Extra Methods
 
-    public virtual async Task Save() => await _context.SaveChangesAsync();
     protected virtual async Task<bool> ExistsId(UId id)
     {
         return await _context.Set<TModel>().AnyAsync(e => e.Id!.Equals(id));

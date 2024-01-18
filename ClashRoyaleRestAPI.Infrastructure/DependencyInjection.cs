@@ -80,6 +80,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 
         services.AddScoped<IPredefinedQueries, PredefinedQuery>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         //Important circular reference
         services.AddTransient(typeof(Lazy<>), typeof(LazilyResolved<>));

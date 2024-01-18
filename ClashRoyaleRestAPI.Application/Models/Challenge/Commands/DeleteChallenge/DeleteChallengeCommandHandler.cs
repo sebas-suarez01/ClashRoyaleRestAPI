@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
 
@@ -6,7 +7,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands.DeleteChallen
 
 internal class DeleteChallengeCommandHandler : DeleteModelCommandHandler<ChallengeModel, int>
 {
-    public DeleteChallengeCommandHandler(IChallengeRepository repository) : base(repository)
+    public DeleteChallengeCommandHandler(IChallengeRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
     {
     }
 }

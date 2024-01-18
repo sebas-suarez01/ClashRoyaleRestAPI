@@ -106,8 +106,6 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
         clan.AddPlayer(player!, RankClan.Leader);
 
-        await Save();
-
         return clan.Id;
     }
 
@@ -121,8 +119,6 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         var player = await _playerRepository.GetSingleByIdAsync(playerId);
 
         clan.AddPlayer(player, rank);
-
-        await Save();
     }
 
     public async Task RemovePlayer(int clanId, int playerId)
@@ -134,8 +130,6 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
             .FirstAsync();
 
         _context.Remove(clanPlayer);
-
-        await Save();
     }
 
     public async Task UpdatePlayerRank(int clanId, int playerId, RankClan rank)
@@ -146,8 +140,6 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         playerClan.UpdateRank(rank);
 
         _context.Entry(playerClan).State = EntityState.Modified;
-
-        await Save();
     }
 
     #endregion
@@ -156,9 +148,12 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     #region Extra Methods
 
-    private async Task<bool> ExistsClanPlayer(int playerId, int clandId)
+    private async Task<bool> ExistsClanPlayer(int playerId, int clanId)
     {
-        return await _context.ClanPlayers.FindAsync(playerId, clandId) is not null;
+        return await _context
+            .ClanPlayers
+            .AsNoTracking()
+            .SingleOrDefaultAsync(cp=> cp.Clan.Id == clanId && cp.Player.Id == playerId) is not null;
     }
 
     private static Expression<Func<ClanModel, object>> GetSortProperty(string? sortColumn)

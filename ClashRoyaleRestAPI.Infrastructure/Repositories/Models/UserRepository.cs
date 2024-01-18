@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ClashRoyaleRestAPI.Application.Auth.Utils;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Exceptions.Auth;
@@ -61,8 +60,6 @@ internal sealed class UserRepository : IUserRepository
             ?? throw new IdNotFoundException<string>(id);
 
         await _userManager.DeleteAsync(identUser);
-
-        await _context.SaveChangesAsync();
     }
     public async Task UpdateRole(string id, string role)
     {
@@ -74,7 +71,5 @@ internal sealed class UserRepository : IUserRepository
         await _userManager.RemoveFromRoleAsync(identUser, currentRole);
 
         await _userManager.AddToRoleAsync(identUser, role);
-
-        await _context.SaveChangesAsync();
     }
 }

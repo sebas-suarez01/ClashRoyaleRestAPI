@@ -1,26 +1,29 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+﻿using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel
+namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+
+public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteModelCommand<TModel, UId>>
+    where TModel : class, IEntity<UId>
 {
-    public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteModelCommand<TModel, UId>>
-        where TModel : class, IEntity<UId>
+    private readonly IBaseRepository<TModel, UId> _repository;
+    private readonly IUnitOfWork _unitOfWork;
+    public DeleteModelCommandHandler(IBaseRepository<TModel, UId> repository, IUnitOfWork unitOfWork)
     {
-        private readonly IBaseRepository<TModel, UId> _repository;
-        public DeleteModelCommandHandler(IBaseRepository<TModel, UId> repository)
-        {
-            _repository = repository;
-        }
+        _repository = repository;
+        _unitOfWork = unitOfWork;
+    }
 
-        public async Task<Result> Handle(DeleteModelCommand<TModel, UId> request, CancellationToken cancellationToken)
-        {
-            TModel model = await _repository.GetSingleByIdAsync(request.Id);
+    public async Task<Result> Handle(DeleteModelCommand<TModel, UId> request, CancellationToken cancellationToken = default)
+    {
+        TModel model = await _repository.GetSingleByIdAsync(request.Id);
 
-            await _repository.Delete(model);
+        await _repository.Delete(model);
 
-            return Result.Success();
-        }
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
     }
 }

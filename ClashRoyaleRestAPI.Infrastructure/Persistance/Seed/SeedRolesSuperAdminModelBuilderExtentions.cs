@@ -43,11 +43,10 @@ public static class SeedRolesSuperAdminModelBuilderExtentions
             Id = "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e",
             UserName = "superadmin",
             NormalizedUserName = "SUPERADMIN",
+            ConcurrencyStamp = "2138f6e3-9d68-4a9e-8f2e-986af2b353ea"
         };
 
         builder.Entity<IdentityUser>().HasData(superadmin);
-
-
 
         List<IdentityUserRole<string>> userRoles = new();
 

@@ -50,7 +50,6 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
         battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds, battle.Date);
 
         _context.Battles.Add(battle);
-        await Save();
 
         return battle.Id.Value;
     }

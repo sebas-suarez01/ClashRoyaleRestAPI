@@ -10,6 +10,7 @@ using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
 using ClashRoyaleRestAPI.Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
@@ -92,8 +93,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         player.AddFavoriteCard(card);
 
         player.AddCard(collection);
-
-        await Save();
     }
 
     public override async Task Delete(PlayerModel model)
@@ -101,8 +100,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         await _context.Battles.Where(b => b.Loser!.Id == model.Id).ExecuteDeleteAsync();
 
         _context.Remove(model);
-
-        await Save();
     }
 
     public async Task UpdateAlias(int playerId, string alias)
@@ -110,8 +107,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var player = await GetSingleByIdAsync(playerId);
 
         player!.ChangeAlias(alias!);
-
-        await Save();
     }
 
     public async Task AddPlayerChallenge(int playerId, int challengeId)
@@ -125,8 +120,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var playerChallenge = PlayerChallengesModel.Create(player!, challenge, 0);
 
         await _context.PlayerChallenges.AddAsync(playerChallenge);
-
-        await Save();
     }
     public async Task AddPlayerChallengeResult(int playerId, int challengeId, int reward)
     {
@@ -139,8 +132,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         playerChallenge!.Completed();
 
         _context.Entry(playerChallenge).State = EntityState.Modified;
-
-        await Save();
     }
 
     public async Task AddDonation(int playerId, int clanId, int cardId, int amount, DateTime date)
@@ -165,8 +156,6 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
         var donation = DonationModel.Create(player, clan!, card!, amount, date);
 
         await _context.Donations.AddAsync(donation);
-
-        await Save();
     }
 
     #endregion
@@ -177,22 +166,36 @@ internal class PlayerRepository : BaseRepository<PlayerModel, int>, IPlayerRepos
 
     public async Task<bool> ExistsCollection(int playerId, int cardId)
     {
-        return await _context.Collection.FindAsync(playerId, cardId) is not null;
+        return await _context
+            .Collection
+            .AsNoTracking()
+            .SingleOrDefaultAsync(cp => cp.Card.Id == cardId && cp.Player.Id == playerId) is not null;
     }
 
     public async Task<bool> ExistsClanPlayer(int playerId, int clanId)
     {
-        return await _context.ClanPlayers.FindAsync(playerId, clanId) is not null;
+        return await _context
+            .ClanPlayers
+            .AsNoTracking()
+            .SingleOrDefaultAsync(cp => cp.Clan.Id == clanId && cp.Player.Id == playerId) is not null;
     }
 
     public async Task<bool> ExistsDonation(int playerId, int clanId, int cardId, DateTime date)
     {
-        return await _context.Donations.FindAsync(playerId, clanId, cardId, date) is not null;
+        return await _context
+            .Donations
+            .AsNoTracking()
+            .SingleOrDefaultAsync(cp => cp.Player.Id == playerId && 
+                                        cp.Clan.Id == clanId && 
+                                        cp.Card.Id == cardId && 
+                                        cp.Date == date) is not null;
     }
 
     public async Task<bool> ExistsPlayerChallenge(int playerId, int challengeId)
     {
-        return await _context.PlayerChallenges.FindAsync(playerId, challengeId) is not null;
+        return await _context
+        .PlayerChallenges
+            .SingleOrDefaultAsync(cp => cp.Challenge.Id == challengeId && cp.Player.Id == playerId) is not null;
     }
 
     private static Expression<Func<PlayerModel, object>> GetSortProperty(string? sortColumn)

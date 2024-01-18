@@ -42,8 +42,6 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
         var clanWar = ClanWarsModel.Create(clan, war, prize);
 
         await _context.ClanWars.AddAsync(clanWar);
-
-        await Save();
     }
 
     #endregion
@@ -54,7 +52,9 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
 
     private async Task<bool> ExistsClanWar(int clanId, int warId)
     {
-        return await _context.ClanWars.FindAsync(clanId, warId) is not null;
+        return await _context
+            .ClanWars
+            .SingleOrDefaultAsync(cp => cp.Clan.Id == clanId && cp.War.Id == warId) is not null;
     }
 
     #endregion
