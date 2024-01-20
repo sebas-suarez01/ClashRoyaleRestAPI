@@ -19,8 +19,8 @@ internal class AddBattleCommandHandler : ICommandHandler<AddBattleCommand, Guid>
 
     public async Task<Result<Guid>> Handle(AddBattleCommand request, CancellationToken cancellationToken = default)
     {
-        var winnerId = PlayerId.Create(request.WinnerId);
-        var loserId = PlayerId.Create(request.LoserId);
+        var winnerId = ValueObjectId.Create<PlayerId>(request.WinnerId);
+        var loserId = ValueObjectId.Create<PlayerId>(request.LoserId);
 
         Guid id = await _repository.Add(request.Battle, winnerId, loserId);
 

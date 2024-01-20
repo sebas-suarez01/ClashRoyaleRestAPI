@@ -18,10 +18,10 @@ internal class GetBattleByIdWithIncludesQueryHandler : IQueryHandler<GetBattleBy
 
     public async Task<Result<BattleModel>> Handle(GetBattleByIdWithIncludesQuery request, CancellationToken cancellationToken)
     {
-        BattleId battleId = BattleId.Create(request.Id);
+        BattleId battleId = ValueObjectId.Create<BattleId>(request.Id);
 
         BattleModel battle = await _repository
-            .GetSingleByIdAsync(BattleId.Create(request.Id), new GetBattleByIdSpecification(battleId));
+            .GetSingleByIdAsync(ValueObjectId.Create<BattleId>(request.Id), new GetBattleByIdSpecification(battleId));
 
         return battle;
     }

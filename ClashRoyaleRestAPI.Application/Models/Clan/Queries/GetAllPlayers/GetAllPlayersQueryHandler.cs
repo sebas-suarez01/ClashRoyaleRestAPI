@@ -17,7 +17,7 @@ internal class GetAllPlayersQueryHandler : IQueryHandler<GetAllPlayersQuery, IEn
 
     public async Task<Result<IEnumerable<ClanPlayersModel>>> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
     {
-        var clanId = ClanId.Create(request.ClanId);
+        var clanId = ValueObjectId.Create<ClanId>(request.ClanId);
 
         IEnumerable<ClanPlayersModel> players = await _repository.GetPlayers(clanId);
 

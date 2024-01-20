@@ -15,7 +15,7 @@ public class ChallengeConfiguration : IEntityTypeConfiguration<ChallengeModel>
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
-                value => ChallengeId.Create(value));
+                value => ValueObjectId.Create<ChallengeId>(value));
 
         builder.Property(c => c.Name)
             .HasMaxLength(32)

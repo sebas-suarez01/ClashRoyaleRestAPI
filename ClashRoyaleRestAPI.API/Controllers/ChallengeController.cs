@@ -23,7 +23,7 @@ public class ChallengeController : ApiController
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var challengeId = ChallengeId.Create(id);
+        var challengeId = ValueObjectId.Create<ChallengeId>(id);
 
         var quey = new GetModelByIdQuery<ChallengeModel, ChallengeId>(challengeId);
 
@@ -69,10 +69,10 @@ public class ChallengeController : ApiController
         if (id != challengeRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
 
-        var challenge = ChallengeModel.Create(challengeRequest.Id, challengeRequest.Name!, 
-                                              challengeRequest.Description!, challengeRequest.Cost, 
-                                              challengeRequest.AmountReward, challengeRequest.StartDate, 
-                                              challengeRequest.DurationInHours, challengeRequest.IsOpen, 
+        var challenge = ChallengeModel.Create(challengeRequest.Id, challengeRequest.Name!,
+                                              challengeRequest.Description!, challengeRequest.Cost,
+                                              challengeRequest.AmountReward, challengeRequest.StartDate,
+                                              challengeRequest.DurationInHours, challengeRequest.IsOpen,
                                               challengeRequest.MinLevel, challengeRequest.LossLimit);
 
         var command = new UpdateModelCommand<ChallengeModel, ChallengeId>(challenge);
@@ -86,7 +86,7 @@ public class ChallengeController : ApiController
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var challengeId = ChallengeId.Create(id);
+        var challengeId = ValueObjectId.Create<ChallengeId>(id);
 
         var command = new DeleteModelCommand<ChallengeModel, ChallengeId>(challengeId);
 

@@ -9,15 +9,22 @@ public class PlayerChallengesConfiguration : IEntityTypeConfiguration<PlayerChal
 {
     public void Configure(EntityTypeBuilder<PlayerChallengesModel> builder)
     {
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Id)
+            .HasConversion(
+                id => id.Value,
+                value => ValueObjectId.Create<PlayerChallengesId>(value));
+
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<ChallengeId>("ChallengeId")
             .HasConversion(
                 id => id.Value, 
-                value => ChallengeId.Create(value));
+                value => ValueObjectId.Create<ChallengeId>(value));
 
         builder.HasOne(d => d.Player)
             .WithMany()
@@ -28,6 +35,6 @@ public class PlayerChallengesConfiguration : IEntityTypeConfiguration<PlayerChal
             .WithMany()
             .HasForeignKey("ChallengeId");
 
-        builder.HasKey("PlayerId", "ChallengeId");
+        builder.HasIndex("PlayerId", "ChallengeId");
     }
 }

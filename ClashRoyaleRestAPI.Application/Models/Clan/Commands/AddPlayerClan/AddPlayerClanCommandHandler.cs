@@ -19,8 +19,8 @@ internal class AddPlayerClanCommandHandler : ICommandHandler<AddPlayerClanComman
 
     public async Task<Result> Handle(AddPlayerClanCommand request, CancellationToken cancellationToken = default)
     {
-        var clanId = ClanId.Create(request.ClanId);
-        var playerId = PlayerId.Create(request.PlayerId);
+        var clanId = ValueObjectId.Create<ClanId>(request.ClanId);
+        var playerId = ValueObjectId.Create<PlayerId>(request.PlayerId);
 
         await _repository.AddPlayer(clanId, playerId);
 

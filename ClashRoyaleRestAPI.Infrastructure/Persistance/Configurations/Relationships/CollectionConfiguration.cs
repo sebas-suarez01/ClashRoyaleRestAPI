@@ -9,10 +9,17 @@ public class CollectionConfiguration : IEntityTypeConfiguration<CollectionModel>
 {
     public void Configure(EntityTypeBuilder<CollectionModel> builder)
     {
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Id)
+            .HasConversion(
+                id => id.Value,
+                value => ValueObjectId.Create<CollectionId>(value));
+
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<int>("CardId");
 
@@ -27,7 +34,7 @@ public class CollectionConfiguration : IEntityTypeConfiguration<CollectionModel>
             .OnDelete(DeleteBehavior.NoAction);
 
 
-        builder.HasKey("PlayerId", "CardId");
+        builder.HasIndex("PlayerId", "CardId");
 
 
     }

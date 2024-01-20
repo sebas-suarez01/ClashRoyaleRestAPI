@@ -19,8 +19,8 @@ internal class UpdateChallengeResultCommandHandler : ICommandHandler<UpdateChall
 
     public async Task<Result> Handle(UpdateChallengeResultCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = PlayerId.Create(request.PlayerId);
-        var challengeId = ChallengeId.Create(request.ChallengeId);
+        var playerId = ValueObjectId.Create<PlayerId>(request.PlayerId);
+        var challengeId = ValueObjectId.Create<ChallengeId>(request.ChallengeId);
 
         await _playerRepository.AddPlayerChallengeResult(playerId, challengeId, request.Reward);
 

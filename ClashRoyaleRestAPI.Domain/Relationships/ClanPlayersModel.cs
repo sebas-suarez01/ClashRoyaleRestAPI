@@ -1,20 +1,23 @@
-﻿using ClashRoyaleRestAPI.Domain.Enum;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
+using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using System.Text.Json.Serialization;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships;
 
-public class ClanPlayersModel : IAuditableEntity
+public class ClanPlayersModel : Entity<ClanPlayersId>
 {
-    private ClanPlayersModel() { }
+    private ClanPlayersModel()
+    {
+        Id = ValueObjectId.CreateUnique<ClanPlayersId>();
+    }
 
     [JsonIgnore]
     public ClanModel? Clan { get; private set; }
     public PlayerModel? Player { get; private set; }
     public RankClan Rank { get; private set; }
-    public DateTime CreatedOnUtc { get; set; }
-    public DateTime? ModifiedOnUtc { get; set; }
 
     public static ClanPlayersModel Create(PlayerModel player, ClanModel clan, RankClan rank)
     {
@@ -25,11 +28,15 @@ public class ClanPlayersModel : IAuditableEntity
             Rank = rank
         };
 
+        playerClan.RaiseDomainEvent(new ClanPlayerCreatedDomainEvent(clan.Id, player.Id));
+
         return playerClan;
     }
 
     public void UpdateRank(RankClan rank)
     {
         Rank = rank;
+
+        RaiseDomainEvent(new PlayerRankUpdatedDomainEvent(Clan!.Id, Player!.Id, rank));
     }
 }

@@ -275,27 +275,26 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "ClanWars",
                 columns: table => new
                 {
-                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    WarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Prize = table.Column<int>(type: "int", nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClanWars", x => new { x.ClanId, x.WarId });
+                    table.PrimaryKey("PK_ClanWars", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClanWars_Clans_ClanId",
                         column: x => x.ClanId,
                         principalTable: "Clans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ClanWars_Wars_WarId",
                         column: x => x.WarId,
                         principalTable: "Wars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -331,15 +330,16 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "ClanPlayers",
                 columns: table => new
                 {
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Rank = table.Column<int>(type: "int", nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClanPlayers", x => new { x.PlayerId, x.ClanId });
+                    table.PrimaryKey("PK_ClanPlayers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClanPlayers_Clans_ClanId",
                         column: x => x.ClanId,
@@ -358,7 +358,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Collection",
                 columns: table => new
                 {
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CardId = table.Column<int>(type: "int", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -367,7 +368,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Collection", x => new { x.PlayerId, x.CardId });
+                    table.PrimaryKey("PK_Collection", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Collection_Cards_CardId",
                         column: x => x.CardId,
@@ -385,17 +386,18 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Donations",
                 columns: table => new
                 {
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CardId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Donations", x => new { x.PlayerId, x.ClanId, x.CardId, x.Date });
+                    table.PrimaryKey("PK_Donations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Donations_Cards_CardId",
                         column: x => x.CardId,
@@ -406,8 +408,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         name: "FK_Donations_Clans_ClanId",
                         column: x => x.ClanId,
                         principalTable: "Clans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Donations_Players_PlayerId",
                         column: x => x.PlayerId,
@@ -420,8 +421,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "PlayerChallenges",
                 columns: table => new
                 {
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ChallengeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ChallengeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PrizeAmount = table.Column<int>(type: "int", nullable: false),
                     IsCompleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -429,13 +431,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayerChallenges", x => new { x.PlayerId, x.ChallengeId });
+                    table.PrimaryKey("PK_PlayerChallenges", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PlayerChallenges_Challenges_ChallengeId",
                         column: x => x.ChallengeId,
                         principalTable: "Challenges",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PlayerChallenges_Players_PlayerId",
                         column: x => x.PlayerId,
@@ -591,6 +592,16 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 column: "ClanId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClanPlayers_PlayerId_ClanId",
+                table: "ClanPlayers",
+                columns: new[] { "PlayerId", "ClanId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClanWars_ClanId_WarId",
+                table: "ClanWars",
+                columns: new[] { "ClanId", "WarId" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClanWars_WarId",
                 table: "ClanWars",
                 column: "WarId");
@@ -599,6 +610,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "IX_Collection_CardId",
                 table: "Collection",
                 column: "CardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Collection_PlayerId_CardId",
+                table: "Collection",
+                columns: new[] { "PlayerId", "CardId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Donations_CardId",
@@ -611,9 +627,19 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 column: "ClanId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Donations_PlayerId_ClanId_CardId_Date",
+                table: "Donations",
+                columns: new[] { "PlayerId", "ClanId", "CardId", "Date" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlayerChallenges_ChallengeId",
                 table: "PlayerChallenges",
                 column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayerChallenges_PlayerId_ChallengeId",
+                table: "PlayerChallenges",
+                columns: new[] { "PlayerId", "ChallengeId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Players_FavoriteCardId",

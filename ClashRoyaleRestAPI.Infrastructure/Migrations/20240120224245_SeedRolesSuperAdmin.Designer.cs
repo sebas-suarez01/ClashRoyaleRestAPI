@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(ClashRoyaleDbContext))]
-    [Migration("20240120183924_SeedRolesSuperAdmin")]
+    [Migration("20240120224245_SeedRolesSuperAdmin")]
     partial class SeedRolesSuperAdmin
     {
         /// <inheritdoc />
@@ -277,10 +277,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanPlayersModel", b =>
                 {
-                    b.Property<Guid>("PlayerId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClanId")
+                    b.Property<Guid?>("ClanId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOnUtc")
@@ -289,22 +289,27 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Rank")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayerId", "ClanId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ClanId");
+
+                    b.HasIndex("PlayerId", "ClanId");
 
                     b.ToTable("ClanPlayers");
                 });
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanWarsModel", b =>
                 {
-                    b.Property<Guid>("ClanId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("WarId")
+                    b.Property<Guid?>("ClanId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOnUtc")
@@ -316,16 +321,21 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<int>("Prize")
                         .HasColumnType("int");
 
-                    b.HasKey("ClanId", "WarId");
+                    b.Property<Guid?>("WarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("WarId");
+
+                    b.HasIndex("ClanId", "WarId");
 
                     b.ToTable("ClanWars");
                 });
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.CollectionModel", b =>
                 {
-                    b.Property<Guid>("PlayerId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CardId")
@@ -343,51 +353,61 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PlayerId", "CardId");
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CardId");
+
+                    b.HasIndex("PlayerId", "CardId");
 
                     b.ToTable("Collection");
                 });
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.DonationModel", b =>
                 {
-                    b.Property<Guid>("PlayerId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ClanId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ClanId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("PlayerId", "ClanId", "CardId", "Date");
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CardId");
 
                     b.HasIndex("ClanId");
+
+                    b.HasIndex("PlayerId", "ClanId", "CardId", "Date");
 
                     b.ToTable("Donations");
                 });
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.PlayerChallengesModel", b =>
                 {
-                    b.Property<Guid>("PlayerId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ChallengeId")
+                    b.Property<Guid?>("ChallengeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOnUtc")
@@ -399,12 +419,17 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOnUtc")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("PrizeAmount")
                         .HasColumnType("int");
 
-                    b.HasKey("PlayerId", "ChallengeId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ChallengeId");
+
+                    b.HasIndex("PlayerId", "ChallengeId");
 
                     b.ToTable("PlayerChallenges");
                 });
@@ -557,9 +582,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP1x2wKjYpuFJQ0vMhvvTqGNxH7FIqPasocUtJx7b2N2NX8qOKLtbkkqnmyo9RTDvw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMYpdhAJe1SlQEhuowLTApFvElM/i8+fFhf8aEwHquakiS56il9QTbl4I5tZn0IbFg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f14b5b42-2cf8-43c8-be09-10dc37af037c",
+                            SecurityStamp = "f824b17a-a1af-43ce-b343-43d6bc549039",
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
                         });
@@ -2997,14 +3022,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.ClanModel", "Clan")
                         .WithMany("Players")
                         .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Clan");
 
@@ -3015,15 +3038,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 {
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.ClanModel", "Clan")
                         .WithMany()
-                        .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClanId");
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.WarModel", "War")
                         .WithMany()
-                        .HasForeignKey("WarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WarId");
 
                     b.Navigation("Clan");
 
@@ -3041,8 +3060,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany("Cards")
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Card");
 
@@ -3059,15 +3077,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.ClanModel", "Clan")
                         .WithMany()
-                        .HasForeignKey("ClanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClanId");
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Card");
 
@@ -3080,15 +3095,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 {
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.ChallengeModel", "Challenge")
                         .WithMany()
-                        .HasForeignKey("ChallengeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ChallengeId");
 
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Challenge");
 

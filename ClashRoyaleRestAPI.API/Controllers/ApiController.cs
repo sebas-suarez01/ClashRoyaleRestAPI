@@ -1,5 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Errors;
-using ClashRoyaleRestAPI.Domain.Shared;
+﻿using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +16,7 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error[] errors)
     {
-        if(errors.Length > 1)
+        if (errors.Length > 1)
             return BadRequest(string.Join("\n", errors.AsEnumerable()));
 
         return Problem(errors[0]);

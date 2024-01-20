@@ -1,5 +1,5 @@
 ﻿namespace ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-public sealed class ChallengeId : ValueObjectId
+public sealed class ClanPlayersId : ValueObjectId
 {
 }

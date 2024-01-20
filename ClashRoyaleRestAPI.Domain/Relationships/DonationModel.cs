@@ -1,23 +1,26 @@
-﻿using ClashRoyaleRestAPI.Domain.Models;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents.PlayerDomainEvents;
+using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships;
 
-public class DonationModel : IAuditableEntity
+public class DonationModel : Entity<DonationId>
 {
-    private DonationModel() { }
+    private DonationModel()
+    {
+        Id = ValueObjectId.CreateUnique<DonationId>();
+    }
     public PlayerModel? Player { get; private set; }
     public ClanModel? Clan { get; private set; }
     public CardModel? Card { get; private set; }
     public int Amount { get; private set; }
     public DateTime Date { get; private set; }
-    public DateTime CreatedOnUtc { get; set; }
-    public DateTime? ModifiedOnUtc { get; set; }
 
     public static DonationModel Create(PlayerModel player, ClanModel clan, CardModel card, int amount, DateTime date)
     {
-        return new DonationModel
+        var donation =  new DonationModel
         {
             Player = player,
             Clan = clan,
@@ -25,5 +28,9 @@ public class DonationModel : IAuditableEntity
             Amount = amount,
             Date = date
         };
+
+        donation.RaiseDomainEvent(new DonationCreatedDomainEvent(clan.Id, player.Id, card.Id));
+
+        return donation;
     }
 }

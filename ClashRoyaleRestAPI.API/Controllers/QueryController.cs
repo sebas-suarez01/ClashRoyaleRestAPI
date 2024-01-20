@@ -69,7 +69,7 @@ public class QueryController : ApiController
     [HttpGet("fifthquery/{playerId:int}")]
     public async Task<IActionResult> GetFifthQuery(Guid playerId)
     {
-        var playerIdInstance = PlayerId.Create(playerId);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
 
         var queryPlayer = new GetModelByIdQuery<PlayerModel, PlayerId>(playerIdInstance);
 

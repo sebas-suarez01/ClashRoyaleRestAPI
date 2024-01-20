@@ -9,16 +9,24 @@ public class ClanWarsConfiguration : IEntityTypeConfiguration<ClanWarsModel>
 {
     public void Configure(EntityTypeBuilder<ClanWarsModel> builder)
     {
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Id)
+            .HasConversion(
+                id => id.Value,
+                value => ValueObjectId.Create<ClanWarsId>(value));
+
         builder.Property<WarId>("WarId")
             .HasConversion(
                 id => id.Value,
-                value => WarId.Create(value));
+                value => ValueObjectId.Create<WarId>(value));
+
         builder.Property<ClanId>("ClanId")
             .HasConversion(
                 id => id.Value,
-                value => ClanId.Create(value));
+                value => ValueObjectId.Create<ClanId>(value));
 
-        builder.HasKey("ClanId", "WarId");
+        builder.HasIndex("ClanId", "WarId");
         
         builder.HasOne(c => c.War)
             .WithMany()

@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
@@ -8,9 +8,9 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class ClanModel : Entity<ClanId>
 {
-    private ClanModel() 
+    private ClanModel()
     {
-        Id = ClanId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<ClanId>();
     }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
@@ -45,7 +45,7 @@ public class ClanModel : Entity<ClanId>
     {
         return new ClanModel
         {
-            Id = ClanId.Create(id),
+            Id = ValueObjectId.Create<ClanId>(id),
             Name = name,
             Description = description,
             Region = region,
@@ -60,6 +60,16 @@ public class ClanModel : Entity<ClanId>
         var playerClan = ClanPlayersModel.Create(player, this, rank);
 
         _players.Add(playerClan);
+
+        RaiseDomainEvent(new PlayerAddedDomainEvent(Id, player.Id));
+    }
+    public void RemovePlayer(PlayerModel player, RankClan rank = RankClan.Member)
+    {
+        var playerClan = ClanPlayersModel.Create(player, this, rank);
+
+        _players.Remove(playerClan);
+
+        RaiseDomainEvent(new PlayerRemovedDomainEvent(Id, player.Id));
     }
 
     public void AddAmountMember()
@@ -73,10 +83,14 @@ public class ClanModel : Entity<ClanId>
     public void ChangeTypeOpen()
     {
         TypeOpen = !TypeOpen;
+
+        RaiseDomainEvent(new ClanTypeChangedDomainEvent(Id));
     }
     public void AddMinTrophies(int minTrophies)
     {
         MinTrophies = minTrophies;
+
+        RaiseDomainEvent(new ClanMinTrophiesChangedDomainEvent(Id, minTrophies));
     }
 
 

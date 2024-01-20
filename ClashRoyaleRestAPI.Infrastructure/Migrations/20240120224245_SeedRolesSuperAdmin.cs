@@ -25,7 +25,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e", 0, "2138f6e3-9d68-4a9e-8f2e-986af2b353ea", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAEP1x2wKjYpuFJQ0vMhvvTqGNxH7FIqPasocUtJx7b2N2NX8qOKLtbkkqnmyo9RTDvw==", null, false, "f14b5b42-2cf8-43c8-be09-10dc37af037c", false, "superadmin" });
+                values: new object[] { "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e", 0, "2138f6e3-9d68-4a9e-8f2e-986af2b353ea", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAEMYpdhAJe1SlQEhuowLTApFvElM/i8+fFhf8aEwHquakiS56il9QTbl4I5tZn0IbFg==", null, false, "f824b17a-a1af-43ce-b343-43d6bc549039", false, "superadmin" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",

@@ -36,7 +36,7 @@ public class WarController : ApiController
     [HttpGet("{warId:int}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var warId = WarId.Create(id);
+        var warId = ValueObjectId.Create<WarId>(id);
 
         var query = new GetModelByIdQuery<WarModel, WarId>(warId);
 
@@ -64,7 +64,7 @@ public class WarController : ApiController
     [HttpDelete("{warId:int}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var warId = WarId.Create(id);
+        var warId = ValueObjectId.Create<WarId>(id);
 
         var command = new DeleteModelCommand<WarModel, WarId>(warId);
 

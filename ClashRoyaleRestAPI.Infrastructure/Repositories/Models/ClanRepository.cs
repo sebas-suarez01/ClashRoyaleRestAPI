@@ -124,13 +124,12 @@ internal class ClanRepository : BaseRepository<ClanModel, ClanId>, IClanReposito
 
     public async Task RemovePlayer(ClanId clanId, PlayerId playerId)
     {
-        if (!await ExistsClanPlayer(playerId, clanId))
-            throw new IdNotFoundException<string>(playerId.ToString(), clanId.ToString());
+        var clan = await GetSingleByIdAsync(clanId, new GetClanByIdSpecification(clanId));
 
-        var clanPlayer = await ApplySpecification(new GetClanPlayersByIdSpecification(playerId, clanId))
-            .FirstAsync();
+        var clanPlayer = clan.Players.FirstOrDefault(cp=> cp.Id == playerId) 
+            ?? throw new IdNotFoundException<string>(playerId.ToString(), clanId.ToString());
 
-        _context.Remove(clanPlayer);
+        clan.RemovePlayer(clanPlayer.Player!, clanPlayer.Rank);
     }
 
     public async Task UpdatePlayerRank(ClanId clanId, PlayerId playerId, RankClan rank)

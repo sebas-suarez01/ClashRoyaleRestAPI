@@ -9,15 +9,22 @@ public class DonationConfiguration : IEntityTypeConfiguration<DonationModel>
 {
     public void Configure(EntityTypeBuilder<DonationModel> builder)
     {
+        builder.HasKey(x => x.Id);
+
+        builder.Property(x => x.Id)
+            .HasConversion(
+                id => id.Value,
+                value => ValueObjectId.Create<DonationId>(value));
+
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<ClanId>("ClanId")
             .HasConversion(
                 id => id.Value,
-                value => ClanId.Create(value));
+                value => ValueObjectId.Create<ClanId>(value));
 
         builder.Property<int>("CardId");
 
@@ -36,6 +43,6 @@ public class DonationConfiguration : IEntityTypeConfiguration<DonationModel>
 
         builder.Property(d => d.Date);
 
-        builder.HasKey("PlayerId", "ClanId", "CardId", "Date");
+        builder.HasIndex("PlayerId", "ClanId", "CardId", "Date");
     }
 }

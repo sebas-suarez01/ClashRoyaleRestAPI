@@ -121,7 +121,7 @@ public class PlayerController : ApiController
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var playerId = PlayerId.Create(id);
+        var playerId = ValueObjectId.Create<PlayerId>(id);
 
         var commandDelete = new DeleteModelCommand<PlayerModel, PlayerId>(playerId);
 

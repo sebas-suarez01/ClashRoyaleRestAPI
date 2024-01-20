@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents.PlayerDomainEvents;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
@@ -8,9 +8,9 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class PlayerModel : Entity<PlayerId>
 {
-    private PlayerModel() 
+    private PlayerModel()
     {
-        Id = PlayerId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<PlayerId>();
     }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
@@ -40,7 +40,7 @@ public class PlayerModel : Entity<PlayerId>
     {
         return new PlayerModel
         {
-            Id = PlayerId.Create(id),
+            Id = ValueObjectId.Create<PlayerId>(id),
             Alias = alias,
             Elo = elo,
             Level = level,
@@ -52,15 +52,15 @@ public class PlayerModel : Entity<PlayerId>
 
         RaiseDomainEvent(new CardAddedDomainEvent(Id, collection.Card!.Id));
     }
-    public void AddFavoriteCard(CardModel card) 
-    { 
+    public void AddFavoriteCard(CardModel card)
+    {
         FavoriteCard ??= card;
 
         RaiseDomainEvent(new FavoriteCardChangedDomainEvent(Id, card.Id));
     }
     public bool HaveCard(int cardId) => Cards.Any(c => c.Card is not null && c.Card.Id == cardId);
-    public void ChangeAlias(string alias) 
-    { 
+    public void ChangeAlias(string alias)
+    {
         Alias = alias;
 
         RaiseDomainEvent(new PlayerNameChangedDomainEvent(Id, Alias));
@@ -80,9 +80,9 @@ public class PlayerModel : Entity<PlayerId>
 
         if (Elo > MaxElo)
             UpdateMaxElo(Elo);
-        
+
         RaiseDomainEvent(new PlayerEloChangedDomainEvent(Id, elo));
-    
+
     }
 
 }
