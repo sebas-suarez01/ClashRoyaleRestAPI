@@ -1,9 +1,9 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
+namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+
+public interface IChallengeRepository : IBaseRepository<ChallengeModel, ChallengeId>
 {
-    public interface IChallengeRepository : IBaseRepository<ChallengeModel, int>
-    {
-        Task<IEnumerable<ChallengeModel>> GetAllOpenChallenges();
-    }
+    Task<IEnumerable<ChallengeModel>> GetAllOpenChallenges();
 }

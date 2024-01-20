@@ -5,6 +5,6 @@ using ClashRoyaleRestAPI.Domain.Models;
 namespace ClashRoyaleRestAPI.Application.Models.Player.ExceptionHandlers;
 
 internal class GetPlayerByIdWithIncludesExceptionHandler
-    : RequestExceptionHandler<GetPlayerByIdWithIncludesQuery, PlayerModel, int>
+    : RequestExceptionHandler<GetPlayerByIdWithIncludesQuery, PlayerModel, string>
 {
 }

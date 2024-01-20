@@ -6,7 +6,7 @@ namespace ClashRoyaleRestAPI.Application.Specifications
     public abstract class Specification<TModel>
         where TModel : class
     {
-        protected Specification(Expression<Func<TModel, bool>>? criteria)
+        protected Specification(Expression<Func<TModel, bool>>? criteria = null)
         {
             Criteria = criteria;
         }

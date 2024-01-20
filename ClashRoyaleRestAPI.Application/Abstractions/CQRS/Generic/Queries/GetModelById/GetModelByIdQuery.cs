@@ -1,5 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
-using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+using ClashRoyaleRestAPI.Domain.Primitives;
 
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById
 {

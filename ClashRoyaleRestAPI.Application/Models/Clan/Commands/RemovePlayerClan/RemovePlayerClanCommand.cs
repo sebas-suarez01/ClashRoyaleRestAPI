@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.RemovePlayerClan;
 
-public record RemovePlayerClanCommand(int ClanId, int PlayerId) : ICommand;
+public record RemovePlayerClanCommand(Guid ClanId, Guid PlayerId) : ICommand;

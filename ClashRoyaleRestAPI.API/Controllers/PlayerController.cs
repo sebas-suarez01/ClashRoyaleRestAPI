@@ -15,6 +15,7 @@ using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllPlayerWithRequi
 using ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdWithIncludes;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +50,7 @@ public class PlayerController : ApiController
         }
         else
         {
-            var query = new GetAllModelQuery<PlayerModel, int>(sortOrder,
+            var query = new GetAllModelQuery<PlayerModel, PlayerId>(sortOrder,
                                                                page.GetValueOrDefault(1),
                                                                pageSize.GetValueOrDefault(10));
             result = await _sender.Send(query);
@@ -59,7 +60,7 @@ public class PlayerController : ApiController
 
     // GET api/players/{id:int}
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> Get(Guid id)
     {
         var query = new GetPlayerByIdWithIncludesQuery(id);
 
@@ -87,7 +88,7 @@ public class PlayerController : ApiController
     {
         var player = PlayerModel.Create(playerRequest.Alias!, playerRequest.Elo, playerRequest.Level);
 
-        var command = new AddModelCommand<PlayerModel, int>(player);
+        var command = new AddModelCommand<PlayerModel, PlayerId>(player);
 
         var result = await _sender.Send(command);
 
@@ -99,7 +100,7 @@ public class PlayerController : ApiController
 
     // PUT api/players/{id:int}
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> Put(int id, [FromBody] UpdatePlayerRequest playerRequest)
+    public async Task<IActionResult> Put(Guid id, [FromBody] UpdatePlayerRequest playerRequest)
     {
         if (id != playerRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
@@ -107,7 +108,7 @@ public class PlayerController : ApiController
         var player = PlayerModel.Create(playerRequest.Id, playerRequest.Alias!, playerRequest.Elo,
                                         playerRequest.Level);
 
-        var command = new UpdateModelCommand<PlayerModel, int>(player);
+        var command = new UpdateModelCommand<PlayerModel, PlayerId>(player);
 
         var result = await _sender.Send(command);
 
@@ -118,9 +119,11 @@ public class PlayerController : ApiController
 
     // DELETE api/players/{id:int}
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var commandDelete = new DeleteModelCommand<PlayerModel, int>(id);
+        var playerId = PlayerId.Create(id);
+
+        var commandDelete = new DeleteModelCommand<PlayerModel, PlayerId>(playerId);
 
         var result = await _sender.Send(commandDelete);
 
@@ -129,7 +132,7 @@ public class PlayerController : ApiController
 
     // GET api/players/{id:int}/cards
     [HttpGet("{id:int}/cards")]
-    public async Task<IActionResult> GetCards(int id)
+    public async Task<IActionResult> GetCards(Guid id)
     {
         var query = new GetAllCardOfPlayerQuery(id);
 
@@ -142,7 +145,7 @@ public class PlayerController : ApiController
 
     // POST api/players/{playerId:int}/cards/{cardId:int}
     [HttpPost("{playerId:int}/cards/{cardId:int}")]
-    public async Task<IActionResult> AddCard(int playerId, int cardId)
+    public async Task<IActionResult> AddCard(Guid playerId, int cardId)
     {
         var command = new AddCardCommand(playerId, cardId);
 
@@ -155,7 +158,7 @@ public class PlayerController : ApiController
 
     // PATCH api/players/{playerId:int}/{alias}
     [HttpPatch("{playerId:int}/{alias}")]
-    public async Task<IActionResult> UpdateAlias(int playerId, string alias)
+    public async Task<IActionResult> UpdateAlias(Guid playerId, string alias)
     {
         var query = new UpdatePlayerAliasCommand(playerId, alias);
 
@@ -168,7 +171,7 @@ public class PlayerController : ApiController
 
     // PUT api/players/{playerId:int}/challenge/{challengeId:int}
     [HttpPut("{playerId:int}/challenge/{challengeId:int}")]
-    public async Task<IActionResult> UpdateChallengeResult(int playerId, int challengeId, [FromBody] AddChallengeResultRequest addChallengeResult)
+    public async Task<IActionResult> UpdateChallengeResult(Guid playerId, Guid challengeId, [FromBody] AddChallengeResultRequest addChallengeResult)
     {
         var command = new UpdateChallengeResultCommand(playerId, challengeId, addChallengeResult.Reward);
 
@@ -179,7 +182,7 @@ public class PlayerController : ApiController
 
     // PUT api/players/{playerId:int}/challenge/{challengeId:int}
     [HttpPost("{playerId:int}/challenge/{challengeId:int}")]
-    public async Task<IActionResult> PostPlayerChallenge(int playerId, int challengeId)
+    public async Task<IActionResult> PostPlayerChallenge(Guid playerId, Guid challengeId)
     {
         var command = new AddPlayerChallengeCommand(playerId, challengeId);
 
@@ -190,7 +193,7 @@ public class PlayerController : ApiController
 
     // POST api/players/{playerId:int}/donate
     [HttpPost("{playerId:int}/donate")]
-    public async Task<IActionResult> MakeDonation(int playerId, [FromBody] AddDonationRequest addDonationRequest)
+    public async Task<IActionResult> MakeDonation(Guid playerId, [FromBody] AddDonationRequest addDonationRequest)
     {
         var command = new AddDonationCommand(
             playerId,

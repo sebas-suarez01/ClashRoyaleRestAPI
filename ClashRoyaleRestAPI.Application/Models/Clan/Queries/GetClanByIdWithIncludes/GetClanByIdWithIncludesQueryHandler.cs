@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Application.Specifications.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdWithIncludes;
@@ -17,8 +18,10 @@ internal class GetClanByIdWithIncludesQueryHandler : IQueryHandler<GetClanByIdWi
 
     public async Task<Result<ClanModel>> Handle(GetClanByIdWithIncludesQuery request, CancellationToken cancellationToken)
     {
-        ClanModel clan = await _repository.GetSingleByIdAsync(request.Id,
-                                                              new GetClanByIdSpecification(request.Id));
+        var clanId = ClanId.Create(request.Id);
+
+        ClanModel clan = await _repository.GetSingleByIdAsync(clanId,
+                                                              new GetClanByIdSpecification(clanId));
 
         return clan!;
     }

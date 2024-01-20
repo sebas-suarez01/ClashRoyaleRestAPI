@@ -1,6 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
@@ -18,7 +19,10 @@ internal class AddBattleCommandHandler : ICommandHandler<AddBattleCommand, Guid>
 
     public async Task<Result<Guid>> Handle(AddBattleCommand request, CancellationToken cancellationToken = default)
     {
-        Guid id = await _repository.Add(request.Battle, request.WinnerId, request.LoserId);
+        var winnerId = PlayerId.Create(request.WinnerId);
+        var loserId = PlayerId.Create(request.LoserId);
+
+        Guid id = await _repository.Add(request.Battle, winnerId, loserId);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

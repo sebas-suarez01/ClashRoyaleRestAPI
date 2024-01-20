@@ -3,4 +3,4 @@ using ClashRoyaleRestAPI.Domain.Enum;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdatePlayerRank;
 
-public record UpdatePlayerRankCommand(int ClanId, int PlayerId, RankClan Rank) : ICommand;
+public record UpdatePlayerRankCommand(Guid ClanId, Guid PlayerId, RankClan Rank) : ICommand;

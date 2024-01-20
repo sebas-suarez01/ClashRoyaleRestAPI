@@ -1,5 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
+using ClashRoyaleRestAPI.Domain.Models;
 using EntityFrameworkCore.Triggered;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;

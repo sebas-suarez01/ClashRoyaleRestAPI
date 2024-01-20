@@ -1,3 +1,3 @@
 ﻿namespace ClashRoyaleRestAPI.Application.Predefined_Queries.FirstQuery;
 
-public record FirstQueryResponse(int PlayerId, string PlayerName, int Trophies, int ClanId, string ClanName);
+public record FirstQueryResponse(Guid PlayerId, string PlayerName, int Trophies, Guid ClanId, string ClanName);

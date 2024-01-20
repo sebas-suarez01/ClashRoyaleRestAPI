@@ -1,13 +1,16 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ClashRoyaleRestAPI.Domain.Enum;
+﻿using ClashRoyaleRestAPI.Domain.Enum;
+using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Relationships;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class ClanModel : IEntity<int>
+public class ClanModel : BaseEntity<ClanId>
 {
-    private readonly List<ClanPlayersModel> _players = new();
-    public int Id { get; private set; }
+    private ClanModel() 
+    {
+        Id = ClanId.CreateUnique();
+    }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
     public string? Region { get; private set; }
@@ -15,9 +18,9 @@ public class ClanModel : IEntity<int>
     public int AmountMembers { get; private set; }
     public int TrophiesInWar { get; private set; }
     public int MinTrophies { get; private set; }
-    public IReadOnlyCollection<ClanPlayersModel> Players => _players;
 
-    private ClanModel() { }
+    private readonly List<ClanPlayersModel> _players = new();
+    public IReadOnlyCollection<ClanPlayersModel> Players => _players;
 
     public static ClanModel Create(string name, string description, string region, bool isOpen,
          int trophiesInWar, int minTrophies)
@@ -32,12 +35,12 @@ public class ClanModel : IEntity<int>
             MinTrophies = minTrophies
         };
     }
-    public static ClanModel Create(int id, string name, string description, string region, bool isOpen,
+    public static ClanModel Create(Guid id, string name, string description, string region, bool isOpen,
          int trophiesInWar, int minTrophies)
     {
         return new ClanModel
         {
-            Id = id,
+            Id = ClanId.Create(id),
             Name = name,
             Description = description,
             Region = region,

@@ -1,4 +1,4 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Common;
+﻿namespace ClashRoyaleRestAPI.Domain.Primitives;
 
 public abstract class ValueObject : IEquatable<ValueObject>
 {
@@ -29,6 +29,6 @@ public abstract class ValueObject : IEquatable<ValueObject>
 
     public bool Equals(ValueObject? other)
     {
-        return this.Equals((object?)other);
+        return Equals((object?)other);
     }
 }

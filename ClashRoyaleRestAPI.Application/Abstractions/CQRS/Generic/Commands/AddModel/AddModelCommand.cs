@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
 
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
 

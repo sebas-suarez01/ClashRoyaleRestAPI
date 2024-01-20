@@ -3,4 +3,4 @@ using ClashRoyaleRestAPI.Domain.Models.Card;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetAllCardOfPlayer;
 
-public record GetAllCardOfPlayerQuery(int Id) : IQuery<IEnumerable<CardModel>>;
+public record GetAllCardOfPlayerQuery(Guid Id) : IQuery<IEnumerable<CardModel>>;

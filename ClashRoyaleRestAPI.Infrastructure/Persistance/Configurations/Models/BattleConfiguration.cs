@@ -1,5 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Battle;
-using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
+﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,12 +11,16 @@ public class BattleConfiguration : IEntityTypeConfiguration<BattleModel>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property<int>("LoserId")
-            .HasDefaultValue(0)
+        builder.Property<PlayerId>("LoserId")
+            .HasConversion(
+                id => id.Value,
+                value => PlayerId.Create(value))
             .IsRequired();
 
-        builder.Property<int>("WinnerId")
-            .HasDefaultValue(0)
+        builder.Property<PlayerId>("WinnerId")
+            .HasConversion(
+                id => id.Value,
+                value => PlayerId.Create(value))
             .IsRequired();
 
         builder.Property(x => x.Id)

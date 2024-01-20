@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayerChallenge;
 
-public record AddPlayerChallengeCommand(int PlayerId, int ChallengeId) : ICommand;
+public record AddPlayerChallengeCommand(Guid PlayerId, Guid ChallengeId) : ICommand;

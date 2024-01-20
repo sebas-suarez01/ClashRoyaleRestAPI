@@ -3,8 +3,8 @@ using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
 using ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetBattleByIdWithIncludes;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
-using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
+using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

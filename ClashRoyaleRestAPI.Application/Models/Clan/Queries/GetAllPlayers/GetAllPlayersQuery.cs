@@ -3,4 +3,4 @@ using ClashRoyaleRestAPI.Domain.Relationships;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers;
 
-public record GetAllPlayersQuery(int ClanId) : IQuery<IEnumerable<ClanPlayersModel>>;
+public record GetAllPlayersQuery(Guid ClanId) : IQuery<IEnumerable<ClanPlayersModel>>;

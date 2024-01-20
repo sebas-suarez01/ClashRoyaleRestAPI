@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.Domain.Models;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
 using Microsoft.AspNetCore.Identity;
 
 namespace ClashRoyaleRestAPI.API.Common.Mapping;

@@ -1,7 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Application.Specifications;
-using ClashRoyaleRestAPI.Domain.Common.Interfaces;
 using ClashRoyaleRestAPI.Domain.Exceptions;
+using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
@@ -22,14 +22,15 @@ public class BaseRepository<TModel, UId> : IBaseRepository<TModel, UId>
     #region Queries
     public virtual async Task<TModel> GetSingleByIdAsync(UId id)
     {
-        var entity = await _context.Set<TModel>().FindAsync(id) ?? throw new IdNotFoundException<UId>(id);
+        var entity = await _context.Set<TModel>().FindAsync(id) 
+            ?? throw new IdNotFoundException<string>(id.ToString());
 
         return entity;
     }
     public virtual async Task<TModel> GetSingleByIdAsync(UId id, Specification<TModel> specification)
     {
         var entity = await ApplySpecification(specification).FirstOrDefaultAsync()
-            ?? throw new IdNotFoundException<UId>(id);
+            ?? throw new IdNotFoundException<string>(id.ToString());
 
         return entity;
     }

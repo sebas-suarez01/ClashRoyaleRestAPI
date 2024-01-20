@@ -1,11 +1,14 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class ChallengeModel : IEntity<int>
+public class ChallengeModel : BaseEntity<ChallengeId>
 {
-    private ChallengeModel() { }
-    public int Id { get; private set; }
+    private ChallengeModel()
+    {
+        Id = ChallengeId.CreateUnique();
+    }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
     public int Cost { get; private set; }
@@ -26,7 +29,7 @@ public class ChallengeModel : IEntity<int>
                                         int minLevel,
                                         int lossLimit)
     {
-        return new ChallengeModel()
+        var challenge = new ChallengeModel()
         {
             Name = name,
             Description = description,
@@ -38,9 +41,11 @@ public class ChallengeModel : IEntity<int>
             MinLevel = minLevel,
             LossLimit = lossLimit
         };
+
+        return challenge;
     }
 
-    public static ChallengeModel Create(int id,
+    public static ChallengeModel Create(Guid id,
                                         string name,
                                         string description,
                                         int cost,
@@ -53,7 +58,7 @@ public class ChallengeModel : IEntity<int>
     {
         return new ChallengeModel()
         {
-            Id = id,
+            Id = ChallengeId.Create(id),
             Name = name,
             Description = description,
             Cost = cost,

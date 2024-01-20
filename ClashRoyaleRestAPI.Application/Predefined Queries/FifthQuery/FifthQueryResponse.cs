@@ -1,3 +1,3 @@
 ﻿namespace ClashRoyaleRestAPI.Application.Predefined_Queries.FifthQuery;
 
-public record FifthQueryResponse(int ClanId, string ClanName);
+public record FifthQueryResponse(Guid ClanId, string ClanName);

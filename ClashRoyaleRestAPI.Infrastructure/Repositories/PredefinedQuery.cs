@@ -57,7 +57,7 @@ internal class PredefinedQuery : IPredefinedQueries
                      select clanGroup.MaxBy(t => t.Trophies);
 
         return result
-             .Select(r => new FirstQueryResponse(r.PlayerId, r.PlayerName, r.Trophies, r.ClanId, r.ClanName))
+             .Select(r => new FirstQueryResponse(r.PlayerId.Value, r.PlayerName, r.Trophies, r.ClanId.Value, r.ClanName))
              .ToList();
     }
 
@@ -74,7 +74,7 @@ internal class PredefinedQuery : IPredefinedQueries
                      select cRegion.MaxBy(t => t.TrophiesInWar);
 
         return result
-            .Select(c => new SecondQueryResponse(c.Id, c.Name!, c.Region!, c.TrophiesInWar))
+            .Select(c => new SecondQueryResponse(c.Id.Value, c.Name!, c.Region!, c.TrophiesInWar))
             .ToList();
     }
 
@@ -155,7 +155,7 @@ internal class PredefinedQuery : IPredefinedQueries
 
 
         return result
-            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId, c.ClanName))
+            .Select(c => new FourthQueryResponse(c.CardId, c.CardName, c.Count, c.ClanId.Value, c.ClanName))
             .ToList();
 
     }
@@ -169,7 +169,7 @@ internal class PredefinedQuery : IPredefinedQueries
             .Where(c => c.TypeOpen && c.AmountMembers < 50 && c.MinTrophies < trophies);
 
         return await result
-            .Select(r => new FifthQueryResponse(r.Id, r.Name!))
+            .Select(r => new FifthQueryResponse(r.Id.Value, r.Name!))
             .ToListAsync();
     }
 
@@ -195,7 +195,7 @@ internal class PredefinedQuery : IPredefinedQueries
                      };
 
         return result
-            .Select(r => new SixthQueryResponse(r.ChallengeId, r.ChallengeName))
+            .Select(r => new SixthQueryResponse(r.ChallengeId.Value, r.ChallengeName))
             .ToList();
     }
 

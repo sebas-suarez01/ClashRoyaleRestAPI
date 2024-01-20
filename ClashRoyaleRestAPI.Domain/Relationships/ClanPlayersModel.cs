@@ -1,10 +1,11 @@
 ﻿using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives;
 using System.Text.Json.Serialization;
 
 namespace ClashRoyaleRestAPI.Domain.Relationships;
 
-public class ClanPlayersModel
+public class ClanPlayersModel : IAuditableEntity
 {
     private ClanPlayersModel() { }
 
@@ -12,6 +13,9 @@ public class ClanPlayersModel
     public ClanModel? Clan { get; private set; }
     public PlayerModel? Player { get; private set; }
     public RankClan Rank { get; private set; }
+    public DateTime CreatedOnUtc { get; set; }
+    public DateTime? ModifiedOnUtc { get; set; }
+
     public static ClanPlayersModel Create(PlayerModel player, ClanModel clan, RankClan rank)
     {
         var playerClan = new ClanPlayersModel()

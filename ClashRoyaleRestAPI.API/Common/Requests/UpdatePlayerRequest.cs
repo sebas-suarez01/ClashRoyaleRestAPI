@@ -2,5 +2,5 @@
 
 public class UpdatePlayerRequest : AddPlayerRequest
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }

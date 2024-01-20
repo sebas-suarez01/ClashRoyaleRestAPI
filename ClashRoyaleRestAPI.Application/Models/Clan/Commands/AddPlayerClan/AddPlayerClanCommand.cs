@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
 
-public record AddPlayerClanCommand(int ClanId, int PlayerId) : ICommand;
+public record AddPlayerClanCommand(Guid ClanId, Guid PlayerId) : ICommand;

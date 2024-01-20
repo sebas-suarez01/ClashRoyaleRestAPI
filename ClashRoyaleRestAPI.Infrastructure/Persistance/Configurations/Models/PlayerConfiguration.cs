@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +10,12 @@ public class PlayerConfiguration : IEntityTypeConfiguration<PlayerModel>
     public void Configure(EntityTypeBuilder<PlayerModel> builder)
     {
         builder.HasKey(p => p.Id);
+
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever()
+            .HasConversion(
+                id => id.Value,
+                value => PlayerId.Create(value));
 
         builder.Property(p => p.Alias)
             .HasMaxLength(64)

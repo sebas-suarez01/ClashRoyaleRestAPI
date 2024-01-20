@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Infrastructure.Common;
+using ClashRoyaleRestAPI.Infrastructure.Interceptors;
 using ClashRoyaleRestAPI.Infrastructure.OptionsSetup;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;
@@ -92,10 +93,17 @@ public static class DependencyInjection
     {
         services.AddIdentity();
 
-        services.AddDbContext<ClashRoyaleDbContext>(options =>
+        services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+
+        services.AddDbContext<ClashRoyaleDbContext>(
+            (sp, optionsBuilder)=>
         {
-            options.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName));
-            options.UseTriggers(triggerOpt =>
+            var updateAuditableInterceptor = sp.GetService<UpdateAuditableEntitiesInterceptor>();
+
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName))
+                            .AddInterceptors(updateAuditableInterceptor);
+
+            optionsBuilder.UseTriggers(triggerOpt =>
             {
                 triggerOpt.AddTrigger<UpdateCardAmountTrigger>();
                 triggerOpt.AddTrigger<UpdateMaxEloInsertPlayerTrigger>();

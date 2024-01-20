@@ -1,4 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.Relationships;
+﻿using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
+using ClashRoyaleRestAPI.Domain.Relationships;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,8 +9,15 @@ public class PlayerChallengesConfiguration : IEntityTypeConfiguration<PlayerChal
 {
     public void Configure(EntityTypeBuilder<PlayerChallengesModel> builder)
     {
-        builder.Property<int>("PlayerId");
-        builder.Property<int>("ChallengeId");
+        builder.Property<PlayerId>("PlayerId")
+            .HasConversion(
+                id => id.Value,
+                value => PlayerId.Create(value));
+
+        builder.Property<ChallengeId>("ChallengeId")
+            .HasConversion(
+                id => id.Value, 
+                value => ChallengeId.Create(value));
 
         builder.HasOne(d => d.Player)
             .WithMany()

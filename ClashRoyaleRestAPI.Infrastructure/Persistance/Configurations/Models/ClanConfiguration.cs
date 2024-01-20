@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +10,12 @@ public class ClanConfiguration : IEntityTypeConfiguration<ClanModel>
     public void Configure(EntityTypeBuilder<ClanModel> builder)
     {
         builder.HasKey(c => c.Id);
+
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever()
+            .HasConversion(
+                id => id.Value,
+                value => ClanId.Create(value));
 
         builder.Property(c => c.Name)
             .HasMaxLength(64)

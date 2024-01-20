@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleRestAPI.Application.Models.War.Commands.AddClanWar;
 
-public record AddClanWarCommand(int ClanId, int WarId, int Prize) : ICommand;
+public record AddClanWarCommand(Guid ClanId, Guid WarId, int Prize) : ICommand;

@@ -1,10 +1,10 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories
+namespace ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+
+public interface IWarRepository : IBaseRepository<WarModel, WarId>
 {
-    public interface IWarRepository : IBaseRepository<WarModel, int>
-    {
-        public Task<IEnumerable<WarModel>> GetWarsByDate(DateTime date);
-        public Task AddClanToWar(int warId, int clanId, int prize);
-    }
+    public Task<IEnumerable<WarModel>> GetWarsByDate(DateTime date);
+    public Task AddClanToWar(WarId warId, ClanId clanId, int prize);
 }

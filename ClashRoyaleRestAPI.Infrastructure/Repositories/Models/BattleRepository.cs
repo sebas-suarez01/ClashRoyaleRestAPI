@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Application.Specifications.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Exceptions;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
-using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
+using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
@@ -39,9 +39,9 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
     #endregion
 
     #region Commands
-    public async Task<Guid> Add(BattleModel battle, int winnerId, int loserId)
+    public async Task<Guid> Add(BattleModel battle, PlayerId winnerId, PlayerId loserId)
     {
-        if (await ExistsBattleIndex(winnerId, loserId, battle.Date))
+        if (await ExistsBattleIndex(winnerId, winnerId, battle.Date))
             throw new DuplicationIndexException(string.Join(",", winnerId, loserId, battle.Date));
 
         var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
@@ -59,7 +59,7 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
 
     #region Extra Methods
 
-    public async Task<bool> ExistsBattleIndex(int winnerId, int loserId, DateTime date) =>
+    public async Task<bool> ExistsBattleIndex(PlayerId winnerId, PlayerId loserId, DateTime date) =>
         await _context.Battles.AnyAsync(b => b.Winner!.Id == winnerId &&
                                             b.Loser!.Id == loserId &&
                                             b.Date == date);

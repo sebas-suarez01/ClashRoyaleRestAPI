@@ -22,7 +22,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Battle.BattleModel", b =>
+            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.BattleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -30,21 +30,23 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<int>("AmountTrophies")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DurationInSeconds")
                         .HasColumnType("int");
 
-                    b.Property<int>("LoserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                    b.Property<Guid>("LoserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("WinnerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("WinnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -64,6 +66,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<bool>("AreaDamage")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Damage")
                         .HasColumnType("int");
 
@@ -78,6 +83,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.Property<int>("InitialLevel")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -104,17 +112,17 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.ChallengeModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AmountReward")
                         .HasColumnType("int");
 
                     b.Property<int>("Cost")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -131,6 +139,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.Property<int>("MinLevel")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
@@ -146,16 +157,16 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.ClanModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AmountMembers")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -164,6 +175,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -190,11 +204,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.PlayerModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Alias")
                         .IsRequired()
@@ -205,6 +216,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Elo")
                         .ValueGeneratedOnAdd()
@@ -224,6 +238,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Victories")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -238,11 +255,14 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.WarModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -254,11 +274,17 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanPlayersModel", b =>
                 {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ClanId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Rank")
                         .HasColumnType("int");
@@ -272,11 +298,17 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.ClanWarsModel", b =>
                 {
-                    b.Property<int>("ClanId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClanId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("WarId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("WarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Prize")
                         .HasColumnType("int");
@@ -290,17 +322,23 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.CollectionModel", b =>
                 {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CardId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PlayerId", "CardId");
 
@@ -311,11 +349,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.DonationModel", b =>
                 {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ClanId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ClanId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CardId")
                         .HasColumnType("int");
@@ -325,6 +363,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PlayerId", "ClanId", "CardId", "Date");
 
@@ -337,14 +381,20 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Relationships.PlayerChallengesModel", b =>
                 {
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ChallengeId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ChallengeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PrizeAmount")
                         .HasColumnType("int");
@@ -381,29 +431,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "6c0323e9-817c-4d08-b0bc-90fbddf598ee",
-                            ConcurrencyStamp = "5bff1bbe-f340-4c82-9586-2f0dcc1e73c0",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "e58b0a8c-8656-463d-8e43-de571a5394ca",
-                            ConcurrencyStamp = "7f8b6799-7075-4b2a-9f19-edb6c5c0610e",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        },
-                        new
-                        {
-                            Id = "b82604fe-f635-478d-a1b9-07ee8a2ef13e",
-                            ConcurrencyStamp = "bced0593-1c19-4305-8118-63fdd2f902fa",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -494,22 +521,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "2138f6e3-9d68-4a9e-8f2e-986af2b353ea",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECpenFCJ+HItHliu2yQuU6Y+u7r7AeVrJ3tPkw1j0rM4kkGEOmZlChwaBpLtMGo4zw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "d7b758d4-de3f-4e8b-94dd-b53b6c3cdbea",
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -572,13 +583,6 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e",
-                            RoleId = "b82604fe-f635-478d-a1b9-07ee8a2ef13e"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -624,6 +628,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 79,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 325,
                             Description = "Annnnnd... Fireball. Incinerates a small area, dealing high damage. Reduced damage to Crown Towers.",
                             Elixir = 4,
@@ -641,6 +646,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 80,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 144,
                             Description = "Arrows pepper a large area, damaging all enemies hit. Reduced damage to Crown Towers.",
                             Elixir = 4,
@@ -658,6 +664,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 81,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 120,
                             Description = "Increases troop movement and attack speed. Buildings attack faster and summon troops quicker, too. Chaaaarge!",
                             Elixir = 2,
@@ -675,6 +682,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 82,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 700,
                             Description = "Deals high damage to a small area. Looks really awesome doing it. Reduced damage to Crown Towers.",
                             Elixir = 6,
@@ -692,6 +700,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 83,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Spawns three Goblins anywhere in the Arena. It's going to be a thrilling ride, boys!",
                             Elixir = 3,
@@ -709,6 +718,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 84,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 72,
                             Description = "Freezes and damages enemy troops and buildings, making them unable to move or attack. Everybody chill. Reduced damage to Crown Towers.",
                             Elixir = 4,
@@ -726,6 +736,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 85,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Mirrors your last card played for +1 Elixir. Does not appear in your starting hand.",
                             Elixir = 0,
@@ -743,6 +754,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 86,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 660,
                             Description = "Bolts of lightning damage and stun up to three enemy troops or buildings with the most hitpoints in the target area. Reduced damage to Crown Towers.",
                             Elixir = 6,
@@ -760,6 +772,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 87,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 75,
                             Description = "Zaps enemies, briefly stunning them and dealing damage inside a small radius. Reduced damage to Crown Towers.",
                             Elixir = 2,
@@ -777,6 +790,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 88,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 57,
                             Description = "Covers the area in a deadly toxin, damaging enemy troops and buildings over time. Yet somehow leaves the grass green and healthy. Go figure! Reduced damage to Crown Towers.",
                             Elixir = 2,
@@ -794,6 +808,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 89,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Surprise! It's a party. A Skeleton party, anywhere in the Arena. Yay!",
                             Elixir = 5,
@@ -811,6 +826,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 90,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 240,
                             Description = "A spilt bottle of Rage turned an innocent tree trunk into \"The Log\". Now, it seeks revenge by crushing anything in its path! Reduced damage to Crown Towers.",
                             Elixir = 2,
@@ -828,6 +844,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 91,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 106,
                             Description = "Drags enemy troops to its center while dealing damage over time, just like a magnet. A big, swirling, Tornado-y magnet.",
                             Elixir = 3,
@@ -845,6 +862,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 92,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Duplicates all friendly troops in the target area. Cloned troops are fragile, but pack the same punch as the original! Doesn't affect buildings.",
                             Elixir = 3,
@@ -862,6 +880,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 93,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 39,
                             Description = "Deals Damage per second to Troops and Crown Towers. Deals huge Building Damage! Does not affect flying units (it is an EARTHquake, after all).",
                             Elixir = 3,
@@ -879,6 +898,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 94,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 151,
                             Description = "It rolls over and damages anything in its path, then breaks open and out pops a Barbarian! How did he get inside?!",
                             Elixir = 2,
@@ -896,6 +916,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 95,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 75,
                             Description = "It’s HUGE! Once it began rolling down Frozen Peak, there was no stopping it. Enemies hit are knocked back and slowed down. Reduced damage to Crown Towers.",
                             Elixir = 2,
@@ -913,6 +934,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 96,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 75,
                             Description = "No need to sign for this package! Dropped from the sky, it deals Area Damage to enemy Troops before delivering a Royal Recruit. The empty box is also handy for espionage.",
                             Elixir = 3,
@@ -964,6 +986,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 97,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 83,
                             Description = "Defensive building. Shoots cannonballs with deadly effect, but cannot target flying troops.",
                             Elixir = 3,
@@ -983,6 +1006,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 98,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Building that spawns Spear Goblins. Don't look inside... You don't want to see how they're made.",
                             Elixir = 5,
@@ -1002,6 +1026,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 99,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 104,
                             Description = "Defensive building with a long range. Shoots big boulders that deal area damage, but cannot hit targets that get very close!",
                             Elixir = 4,
@@ -1021,6 +1046,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 100,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 20,
                             Description = "Defensive building, roasts targets for damage that increases over time. Burns through even the biggest and toughest enemies!",
                             Elixir = 5,
@@ -1040,6 +1066,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 101,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 105,
                             Description = "Defensive building that houses a Bomber. Deals area damage to anything dumb enough to stand near it.",
                             Elixir = 4,
@@ -1059,6 +1086,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 102,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Building that periodically spawns Barbarians to fight the enemy. Time to make the Barbarians!",
                             Elixir = 6,
@@ -1078,6 +1106,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 103,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 90,
                             Description = "Defensive building. Whenever it's not zapping the enemy, the power of Electrickery is best kept grounded.",
                             Elixir = 4,
@@ -1097,6 +1126,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 104,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "You gotta spend Elixir to make Elixir! This building makes 8 Elixir over its Lifetime. Does not appear in your starting hand.",
                             Elixir = 6,
@@ -1116,6 +1146,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 105,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 26,
                             Description = "Nice tower you got there. Would be a shame if this X-Bow whittled it down from this side of the Arena...",
                             Elixir = 6,
@@ -1135,6 +1166,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 106,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Building that periodically spawns Skeletons to fight the enemy... and when destroyed, spawns 4 more Skeletons! Creepy.",
                             Elixir = 3,
@@ -1154,6 +1186,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 107,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "The Furnace spawns one Fire Spirit at a time. It also makes great brick-oven pancakes.",
                             Elixir = 4,
@@ -1173,6 +1206,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 108,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "When the Goblin Cage is destroyed, a Goblin Brawler is unleashed into the Arena! Goblin Brawler always skips leg day.",
                             Elixir = 4,
@@ -1192,6 +1226,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 109,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 0,
                             Description = "Building capable of burrowing underground and appearing anywhere in the Arena. Spawns Goblins one at a time until destroyed.",
                             Elixir = 4,
@@ -1244,6 +1279,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 1,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 79,
                             Description = "A tough melee fighter. The Barbarian's handsome, cultured cousin. Rumor has it that he was knighted based on the sheer awesomeness of his mustache alone.",
                             Elixir = 3,
@@ -1264,6 +1300,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 2,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 42,
                             Description = "A pair of lightly armored ranged attackers. They'll help you take down ground and air units, but you're on your own with hair coloring advice.",
                             Elixir = 3,
@@ -1284,6 +1321,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 3,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 47,
                             Description = "Four fast, unarmored melee attackers. Small, fast, green and mean!",
                             Elixir = 2,
@@ -1304,6 +1342,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 4,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 120,
                             Description = "Slow but durable, only attacks buildings. A real one-man wrecking crew!",
                             Elixir = 5,
@@ -1324,6 +1363,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 5,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 510,
                             Description = "A heavily armored, slow melee fighter. Swings from the hip, but packs a huge punch.",
                             Elixir = 7,
@@ -1344,6 +1384,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 6,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 46,
                             Description = "Three fast, unarmored flying attackers. Roses are red, minions are blue, they can fly, and will crush you!",
                             Elixir = 3,
@@ -1364,6 +1405,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 7,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 400,
                             Description = "As pretty as they are, you won't want a parade of THESE balloons showing up on the horizon. Drops powerful bombs and when shot down, crashes dealing area damage.",
                             Elixir = 5,
@@ -1384,6 +1426,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 8,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 84,
                             Description = "Summons Skeletons, shoots destructo beams, has glowing pink eyes that unfortunately don't shoot lasers.",
                             Elixir = 5,
@@ -1404,6 +1447,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 9,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 75,
                             Description = "A horde of melee attackers with mean mustaches and even meaner tempers",
                             Elixir = 5,
@@ -1424,6 +1468,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 10,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 195,
                             Description = "Slow but durable, only attacks buildings. When destroyed, explosively splits into two Golemites and deals area damage!",
                             Elixir = 8,
@@ -1444,6 +1489,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 11,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 32,
                             Description = "Three fast, very weak melee fighters. Surround your enemies with this pile of bones!",
                             Elixir = 1,
@@ -1464,6 +1510,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 12,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 126,
                             Description = "Tough melee fighter, deals area damage around her. Swarm or horde, no problem! She can take them all out with a few spins.",
                             Elixir = 4,
@@ -1484,6 +1531,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 13,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 51,
                             Description = "Spawns an army of Skeletons. Meet Larry and his friends Harry, Terry, Gerry, Mary, etc.",
                             Elixir = 3,
@@ -1504,6 +1552,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 14,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 87,
                             Description = "Small, lightly protected skeleton who throws bombs. Deals area damage that can wipe out a swarm of enemies.",
                             Elixir = 2,
@@ -1524,6 +1573,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 15,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 103,
                             Description = "Don't be fooled by her delicately coiffed hair, the Musketeer is a mean shot with her trusty boomstick.",
                             Elixir = 4,
@@ -1544,6 +1594,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 16,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 100,
                             Description = "Burps fireballs from the sky that deal area damage. Baby dragons hatch cute, hungry and ready for a barbeque.",
                             Elixir = 4,
@@ -1564,6 +1615,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 17,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 245,
                             Description = "Don't let the little pony fool you. Once the Prince gets a running start, you WILL be trampled. Deals double damage once he gets charging.",
                             Elixir = 5,
@@ -1584,6 +1636,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 18,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 133,
                             Description = "The most awesome man to ever set foot in the Arena, the Wizard will blow you away with his handsomeness... and/or fireballs.",
                             Elixir = 4,
@@ -1604,6 +1657,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 19,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 340,
                             Description = "The Arena is a certified butterfly-free zone. No distractions for P.E.K.K.A, only destruction.",
                             Elixir = 4,
@@ -1624,6 +1678,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 20,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 32,
                             Description = "Three unarmored ranged attackers. Who the heck taught these guys to throw spears!? Who thought that was a good idea?!",
                             Elixir = 2,
@@ -1644,6 +1699,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 21,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 167,
                             Description = "The bigger the skeleton, the bigger the bomb. Carries a bomb that blows up when the Giant Skeleton dies.",
                             Elixir = 6,
@@ -1664,6 +1720,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 22,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 150,
                             Description = "Fast melee troop that targets buildings and can jump over the river. He followed the echoing call of \"Hog Riderrrrr\" all the way through the Arena doors.",
                             Elixir = 4,
@@ -1684,6 +1741,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 23,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 46,
                             Description = "Six fast, unarmored flying attackers. Three's a crowd, six is a horde!",
                             Elixir = 5,
@@ -1704,6 +1762,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 24,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 75,
                             Description = "This chill caster throws ice shards that slow down enemies' movement and attack speed. Despite being freezing cold, he has a handlebar mustache that's too hot for TV.",
                             Elixir = 3,
@@ -1724,6 +1783,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 25,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 120,
                             Description = "Destroying enemy buildings with his massive cannon is his job; making a raggedy blond beard look good is his passion.",
                             Elixir = 6,
@@ -1744,6 +1804,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 26,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 76,
                             Description = "Three ruthless bone brothers with shields. Knock off their shields and all that's left are three ruthless bone brothers.",
                             Elixir = 3,
@@ -1764,6 +1825,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 27,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 140,
                             Description = "This stunning Princess shoots flaming arrows from long range. If you're feeling warm feelings towards her, it's probably because you're on fire.",
                             Elixir = 3,
@@ -1784,6 +1846,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 28,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 155,
                             Description = "The Dark Prince deals area damage and lets his spiked club do the talking for him - because when he does talk, it sounds like he has a bucket on his head.",
                             Elixir = 4,
@@ -1804,6 +1867,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 29,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 103,
                             Description = "Trio of powerful, independent markswomen, fighting for justice and honor. Disrespecting them would not be just a mistake, it would be a cardinal sin!",
                             Elixir = 9,
@@ -1824,6 +1888,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 30,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 45,
                             Description = "The Lava Hound is a majestic flying beast that attacks buildings. The Lava Pups are less majestic angry babies that attack anything.",
                             Elixir = 7,
@@ -1844,6 +1909,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 31,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 43,
                             Description = "Spawns one lively little Ice Spirit to freeze a group of enemies. Stay frosty",
                             Elixir = 1,
@@ -1864,6 +1930,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 32,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 81,
                             Description = "The Fire Spirit is on a kamikaze mission to give you a warm hug. It'd be adorable if it wasn't on fire",
                             Elixir = 1,
@@ -1884,6 +1951,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 33,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 160,
                             Description = "The Miner can burrow his way underground and appear anywhere in the Arena. It's not magic, it's a shovel. A shovel that deals reduced damage to Crown Towers.",
                             Elixir = 3,
@@ -1904,6 +1972,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 34,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 1100,
                             Description = "Sparky slowly charges up, then unloads MASSIVE area damage. Overkill isn't in her vocabulary.",
                             Elixir = 6,
@@ -1924,6 +1993,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 35,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 180,
                             Description = "This big blue dude digs the simple things in life - Dark Elixir drinks and throwing rocks. His massive boulders roll through their target, hitting everything behind for a strike!",
                             Elixir = 5,
@@ -1944,6 +2014,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 36,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 200,
                             Description = "He chops trees by day and hunts The Log by night. His bottle of Rage spills everywhere when he's defeated.",
                             Elixir = 4,
@@ -1964,6 +2035,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 37,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 135,
                             Description = "Two Barbarians holding a big log charge at the nearest building, dealing significant damage if they connect; then they go to town with their swords!",
                             Elixir = 4,
@@ -1984,6 +2056,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 38,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 30,
                             Description = "Shoots a focused beam of fire that increases in damage over time. Wears a helmet because flying can be dangerous.",
                             Elixir = 4,
@@ -2004,6 +2077,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 39,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 40,
                             Description = "He's tough, targets buildings and explodes when destroyed, slowing nearby enemies. Made entirely out of ice... or is he?! Yes.",
                             Elixir = 2,
@@ -2024,6 +2098,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 40,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 147,
                             Description = "Flying, armored and powerful. What could be its weakness?! Cupcakes.",
                             Elixir = 3,
@@ -2044,6 +2119,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 41,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 62,
                             Description = "Runs fast, shoots far and chews gum. How does he blow darts with a mouth full of Double Trouble gum? Years of didgeridoo lessons.",
                             Elixir = 3,
@@ -2064,6 +2140,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 42,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 47,
                             Description = "Spawns Six Goblins - three with knives, three with spears - at a discounted Elixir cost. It's like a Goblin Value Pack!",
                             Elixir = 3,
@@ -2084,6 +2161,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 43,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 182,
                             Description = "He lands with a \"POW!\", stuns nearby enemies and shoots lightning with both hands! What a show off.",
                             Elixir = 4,
@@ -2104,6 +2182,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 44,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 150,
                             Description = "Spawns a pair of leveled up Barbarians. They're like regular Barbarians, only harder, better, faster and stronger.",
                             Elixir = 6,
@@ -2124,6 +2203,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 45,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 530,
                             Description = "He deals BIG damage up close - not so much at range. What he lacks in accuracy, he makes up for with his impressively bushy eyebrows.",
                             Elixir = 4,
@@ -2144,6 +2224,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 46,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 212,
                             Description = "He throws his axe like a boomerang, striking all enemies on the way out AND back. It's a miracle he doesn't lose an arm.",
                             Elixir = 5,
@@ -2164,6 +2245,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 47,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 160,
                             Description = "The Bandit dashes to her target and delivers an extra big hit! While dashing, she can't be touched. The mask keeps her identity safe, and gives her bonus cool points!",
                             Elixir = 3,
@@ -2184,6 +2266,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 48,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 52,
                             Description = "Deploys a line of recruits armed with spears, shields and wooden buckets. They dream of ponies and one day wearing metal buckets.",
                             Elixir = 7,
@@ -2204,6 +2287,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 49,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 260,
                             Description = "Summons Bats to do her bidding! If you get too close, she's not afraid of pitching in with her mean-looking battle staff.",
                             Elixir = 4,
@@ -2224,6 +2308,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 50,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 32,
                             Description = "Spawns a handful of tiny flying creatures. Think of them as sweet, purple... balls of DESTRUCTION!",
                             Elixir = 2,
@@ -2244,6 +2329,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 51,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 216,
                             Description = "He drifts invisibly through the Arena until he's startled by an enemy... then he attacks! Then he's invisible again! Zzzz.",
                             Elixir = 3,
@@ -2264,6 +2350,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 52,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 220,
                             Description = "Together they charge through the Arena; snaring enemies, knocking down towers... and chewing grass!?",
                             Elixir = 5,
@@ -2284,6 +2371,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 53,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 45,
                             Description = "Spawns a pack of miniature Zap machines. Who controls them...? Only the Master Builder knows.",
                             Elixir = 4,
@@ -2304,6 +2392,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 54,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 52,
                             Description = "Spawns a mischievous trio of Rascals! The boy takes the lead, while the girls pelt enemies from behind... with slingshots full of Double Trouble Gum!",
                             Elixir = 5,
@@ -2324,6 +2413,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 55,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 133,
                             Description = "A Cannon on wheels?! Bet they won't see that coming! Once you break its shield, it becomes a Cannon not on wheels.",
                             Elixir = 5,
@@ -2344,6 +2434,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 56,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 222,
                             Description = "He lands with the force of 1,000 mustaches, then jumps from one foe to the next dealing huge area damage. Stand aside!",
                             Elixir = 7,
@@ -2364,6 +2455,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 57,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 52,
                             Description = "It's a Skeleton party in the sky, until all the balloons pop... then it's a Skeleton party on the ground!",
                             Elixir = 3,
@@ -2384,6 +2476,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 58,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 81,
                             Description = "The Master Builder has sent his first contraption to the Arena! It's a fast and fun flying machine, but fragile!",
                             Elixir = 4,
@@ -2404,6 +2497,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 59,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 245,
                             Description = "A daring duo of dangerous dive bombers. Nothing warms a Wall Breaker's cold and undead heart like blowing up buildings.",
                             Elixir = 2,
@@ -2424,6 +2518,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 60,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 35,
                             Description = "The King’s personal pets are loose! They love to chomp on apples and towers alike - who let the hogs out?!",
                             Elixir = 5,
@@ -2444,6 +2539,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 61,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 110,
                             Description = "This jolly green Goblin Giant stomps towards enemy buildings. He carries two Spear Goblins everywhere he goes. It's a weird but functional arrangement.",
                             Elixir = 6,
@@ -2464,6 +2560,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 62,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 160,
                             Description = "His Ranged Attack can pull enemies towards him, and pull himself to enemy buildings. He's also mastered the ancient art of 'Fish Slapping'.",
                             Elixir = 3,
@@ -2484,6 +2581,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 63,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 111,
                             Description = "Not quite a Wizard, nor an Archer - he shoots a magic arrow that passes through and damages all enemies in its path. It's not a trick, it's magic!",
                             Elixir = 4,
@@ -2504,6 +2602,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 64,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 360,
                             Description = "Spits out bolts of electricity hitting up to three targets. Suffers from middle child syndrome to boot.",
                             Elixir = 5,
@@ -2524,6 +2623,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 65,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 125,
                             Description = "Shoots a firework that explodes on impact, damaging the target and showering anything behind it with sparks. This is what happens when Archers get bored!",
                             Elixir = 3,
@@ -2544,6 +2644,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 66,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 40,
                             Description = "Walk softly... and carry a big drill! This Champion deals increasing Damage to his target and can switch lanes to escape combat or change attack plans. This makes him not only the mightiest, but also the sneakiest Miner in the Arena.",
                             Elixir = 4,
@@ -2564,6 +2665,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 67,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 120,
                             Description = "Splits into two Elixir Golemites when destroyed, which split into two sentient Blobs when defeated. Each part of the Elixir Golem gives your opponent some Elixir when destroyed!",
                             Elixir = 3,
@@ -2584,6 +2686,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 68,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 70,
                             Description = "With each attack, she unleashes a powerful healing aura that restores Hitpoints to herself and friendly Troops. When she isn't attacking, she passively heals herself!",
                             Elixir = 4,
@@ -2604,6 +2707,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 69,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 205,
                             Description = "The King of the undead himself. He sometimes feels lonely (could be due to his non flattering features) and will summon friends to join him in the battle even after death. Tough guys have feelings too!",
                             Elixir = 4,
@@ -2624,6 +2728,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 70,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 225,
                             Description = "She is fast, deadly and hard to catch. Beware of her crossbow bolts and try not to blink - you might miss her!",
                             Elixir = 5,
@@ -2644,6 +2749,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 71,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 160,
                             Description = "A warrior with luxurious hair and outstanding flexibility. Demonstrates his aerobics skills on demand.",
                             Elixir = 4,
@@ -2664,6 +2770,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 72,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 140,
                             Description = "Monk has spent many isolated years perfecting a new style of combat. He fires off a 3-hit combo, with the last blow dealing extra Damage and pushing enemies back!",
                             Elixir = 5,
@@ -2684,6 +2791,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 73,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 63,
                             Description = "This pair of skeletal scorchers deal Area Damage and fly above the Arena. They also play a mean rib cage xylophone duet.",
                             Elixir = 4,
@@ -2704,6 +2812,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 74,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 110,
                             Description = "Places a curse on enemy troops with each attack. When a cursed troop is destroyed, it turns into a building-targeting Hog that fights alongside the Mother Witch. She also bakes great cookies.",
                             Elixir = 4,
@@ -2724,6 +2833,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 75,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 39,
                             Description = "Jumps on enemies, dealing Area damage and stunning up to 9 enemy Troops. Locked in an eternal battle with Knight for the best mustache",
                             Elixir = 1,
@@ -2744,6 +2854,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 76,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 102,
                             Description = "He channels electricity through his Zap Pack, a unique device that stuns and damages any troop attacking him within its range. Don't tell him that his finger guns aren't real! He'll zap you.",
                             Elixir = 7,
@@ -2764,6 +2875,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 77,
                             AreaDamage = false,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 180,
                             Description = "This mystical creature will be reborn as an egg when destroyed. If it hatches, it returns to the fight! What an egg-cellent ability. Being born again is tiring, so a hatched Phoenix will have slightly less Hitpoints and Damage (80% of its total).",
                             Elixir = 4,
@@ -2784,6 +2896,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         {
                             Id = 78,
                             AreaDamage = true,
+                            CreatedOnUtc = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Damage = 52,
                             Description = "A mischevious Spirit that leaps at enemies, dealing Damage and leaving behind a powerful healing effect that restores Hitpoints to friendly Troops!",
                             Elixir = 1,
@@ -2802,7 +2915,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.Battle.BattleModel", b =>
+            modelBuilder.Entity("ClashRoyaleRestAPI.Domain.Models.BattleModel", b =>
                 {
                     b.HasOne("ClashRoyaleRestAPI.Domain.Models.PlayerModel", "Loser")
                         .WithMany()

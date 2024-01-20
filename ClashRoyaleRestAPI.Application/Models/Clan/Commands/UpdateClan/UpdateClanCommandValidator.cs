@@ -1,10 +1,11 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using FluentValidation;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdateClan;
 
-internal class UpdateClanCommandValidator : AbstractValidator<UpdateModelCommand<ClanModel, int>>
+internal class UpdateClanCommandValidator : AbstractValidator<UpdateModelCommand<ClanModel, ClanId>>
 {
     public UpdateClanCommandValidator()
     {

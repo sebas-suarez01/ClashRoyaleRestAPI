@@ -1,6 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common;
-
-namespace ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
+﻿namespace ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 public sealed class BattleId : ValueObject
 {
@@ -17,5 +15,9 @@ public sealed class BattleId : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value!;
+    }
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

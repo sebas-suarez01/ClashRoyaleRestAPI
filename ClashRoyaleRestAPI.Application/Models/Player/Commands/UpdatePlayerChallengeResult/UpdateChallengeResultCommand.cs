@@ -2,4 +2,4 @@
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChallengeResult;
 
-public record UpdateChallengeResultCommand(int PlayerId, int ChallengeId, int Reward) : ICommand;
+public record UpdateChallengeResultCommand(Guid PlayerId, Guid ChallengeId, int Reward) : ICommand;

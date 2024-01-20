@@ -11,7 +11,7 @@ using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayerChallenge;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChallengeResult;
 using ClashRoyaleRestAPI.Application.Models.War.Commands.AddClanWar;
 using ClashRoyaleRestAPI.Domain.Models;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,17 +36,17 @@ public class DummyController : ApiController
         string[] adjectives = { "Flying", "Roaming", "Gay", "Boring", "Browsing", "Squishy", "Pretty", "Mecha", "Adorable", "Abstract", "Ugly", "Blazing", "Freezing" };
         string[] regions = { "CIS", "WEU", "Africa", "LATAM", "USA", "Canada", "SEA", "Dubai" };
 
-        List<int> clanIds = new();
-        List<int> challengeIds = new();
-        List<int> playerIds = new();
+        List<Guid> clanIds = new();
+        List<Guid> challengeIds = new();
+        List<Guid> playerIds = new();
         List<ClanModel> clans = new();
 
         var random = new Random();
 
 
-        var challengePlayerDict = new Dictionary<int, List<int>>();
-        var playerClanDict = new Dictionary<int, List<int>>();
-        var playerCardsDict = new Dictionary<int, List<int>>();
+        var challengePlayerDict = new Dictionary<Guid, List<Guid>>();
+        var playerClanDict = new Dictionary<Guid, List<Guid>>();
+        var playerCardsDict = new Dictionary<Guid, List<int>>();
 
         #region Challenges
 
@@ -75,15 +75,15 @@ public class DummyController : ApiController
                                                   challengeRequest.MinLevel,
                                                   challengeRequest.LossLimit);
 
-            var command = new AddModelCommand<ChallengeModel, int>(challenge);
+            var command = new AddModelCommand<ChallengeModel, ChallengeId>(challenge);
 
             var result = await _sender.Send(command);
 
             if (result.IsFailure)
                 continue;
 
-            challengeIds.Add(result.Value);
-            challengePlayerDict.Add(result.Value, new List<int>());
+            challengeIds.Add(result.Value.Value);
+            challengePlayerDict.Add(result.Value.Value, new List<Guid>());
         }
 
         #endregion
@@ -100,7 +100,7 @@ public class DummyController : ApiController
             };
 
             var player = PlayerModel.Create(playerRequest.Alias, playerRequest.Elo, playerRequest.Level);
-            var command = new AddModelCommand<PlayerModel, int>(player);
+            var command = new AddModelCommand<PlayerModel, PlayerId>(player);
             var result = await _sender.Send(command);
 
             if (result.IsFailure)
@@ -108,14 +108,14 @@ public class DummyController : ApiController
 
             var playerId = result.Value;
 
-            playerIds.Add(playerId);
+            playerIds.Add(playerId.Value);
 
             var challengeId = GetRandomFromArray(challengeIds);
 
-            var addChallenge = new AddPlayerChallengeCommand(playerId, challengeId);
+            var addChallenge = new AddPlayerChallengeCommand(playerId.Value, challengeId);
             await _sender.Send(addChallenge);
 
-            challengePlayerDict[challengeId].Add(playerId);
+            challengePlayerDict[challengeId].Add(playerId.Value);
         }
         #endregion
 
@@ -144,7 +144,7 @@ public class DummyController : ApiController
                                         clanRequest.TrophiesInWar,
                                         clanRequest.MinTrophies);
 
-            int playerIdForClan = GetRandomFromArray(playerIds);
+            Guid playerIdForClan = GetRandomFromArray(playerIds);
             int playerIdForClanIndex = playerIds.IndexOf(playerIdForClan);
 
             while (playerIdsBooleanMask[playerIdForClanIndex])
@@ -164,7 +164,7 @@ public class DummyController : ApiController
             clanIds.Add(result.Value);
             clans.Add(clan);
 
-            playerClanDict.Add(result.Value, new List<int>());
+            playerClanDict.Add(result.Value, new List<Guid>());
             playerClanDict[result.Value].Add(playerIdForClan);
         }
 
@@ -176,8 +176,8 @@ public class DummyController : ApiController
 
         for (int i = 0; i < playerIds.Count; i++)
         {
-            int clanId = GetRandomFromArray(clanIds);
-            int playerId = playerIds[i];
+            Guid clanId = GetRandomFromArray(clanIds);
+            Guid playerId = playerIds[i];
             int playerIndex = playerIds.IndexOf(playerId);
 
             if (playerIdsForClanBooleanMask[playerIndex])
@@ -232,7 +232,7 @@ public class DummyController : ApiController
 
             clan.AddMinTrophies(random.Next(1, 5000));
 
-            var command = new UpdateModelCommand<ClanModel, int>(clan);
+            var command = new UpdateModelCommand<ClanModel, ClanId>(clan);
             var result = await _sender.Send(command);
 
             if (result.IsSuccess)
@@ -322,7 +322,7 @@ public class DummyController : ApiController
 
             var war = WarModel.Create(dateWar);
 
-            var command = new AddModelCommand<WarModel, int>(war);
+            var command = new AddModelCommand<WarModel, WarId>(war);
             var result = await _sender.Send(command);
 
             if (result.IsFailure)
@@ -330,7 +330,7 @@ public class DummyController : ApiController
 
             for (int j = 0; j < 3; j++)
             {
-                int clanIdForWar = GetRandomFromArray(clanIds);
+                Guid clanIdForWar = GetRandomFromArray(clanIds);
                 int clanIdForWarIndex = playerIds.IndexOf(clanIdForWar);
 
                 while (clanWarBooleanMask[clanIdForWarIndex])
@@ -340,7 +340,7 @@ public class DummyController : ApiController
                 }
 
 
-                var addclanWar = new AddClanWarCommand(clanIdForWar, result.Value, random.Next(10, 100));
+                var addclanWar = new AddClanWarCommand(clanIdForWar, result.Value.Value, random.Next(10, 100));
                 await _sender.Send(addclanWar);
 
                 if (result.IsSuccess)

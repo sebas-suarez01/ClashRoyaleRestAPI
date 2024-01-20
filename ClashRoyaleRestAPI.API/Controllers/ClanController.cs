@@ -14,6 +14,7 @@ using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdWithIncludes
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +53,7 @@ public class ClanController : ApiController
         }
         else
         {
-            var query = new GetAllModelQuery<ClanModel, int>(sortOrder,
+            var query = new GetAllModelQuery<ClanModel, ClanId>(sortOrder,
                                                              page.GetValueOrDefault(1),
                                                              pageSize.GetValueOrDefault(10));
 
@@ -64,7 +65,7 @@ public class ClanController : ApiController
 
     // GET api/clans/{clanId:int}
     [HttpGet("{clanId:int}")]
-    public async Task<IActionResult> Get(int clanId)
+    public async Task<IActionResult> Get(Guid clanId)
     {
         var query = new GetClanByIdWithIncludesQuery(clanId);
 
@@ -75,7 +76,7 @@ public class ClanController : ApiController
 
     // POST api/clans/{playerId:int}
     [HttpPost("{playerId:int}")]
-    public async Task<IActionResult> Post(int playerId, [FromBody] AddClanRequest clanRequest)
+    public async Task<IActionResult> Post(Guid playerId, [FromBody] AddClanRequest clanRequest)
     {
         var clan = ClanModel.Create(clanRequest.Name!, clanRequest.Description!, clanRequest.Region!,
                                     clanRequest.TypeOpen, clanRequest.TrophiesInWar, clanRequest.MinTrophies);
@@ -91,7 +92,7 @@ public class ClanController : ApiController
 
     // PUT api/clans/{clanId:int}
     [HttpPut("{clanId:int}")]
-    public async Task<IActionResult> Put(int clanId, [FromBody] UpdateClanRequest clanRequest)
+    public async Task<IActionResult> Put(Guid clanId, [FromBody] UpdateClanRequest clanRequest)
     {
         if (clanId != clanRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
@@ -100,7 +101,7 @@ public class ClanController : ApiController
                                     clanRequest.Region!, clanRequest.TypeOpen, clanRequest.TrophiesInWar,
                                     clanRequest.MinTrophies);
 
-        var command = new UpdateModelCommand<ClanModel, int>(clan);
+        var command = new UpdateModelCommand<ClanModel, ClanId>(clan);
 
         var result = await _sender.Send(command);
 
@@ -109,9 +110,11 @@ public class ClanController : ApiController
 
     // DELETE api/clans/{clanId:int}
     [HttpDelete("{clanId:int}")]
-    public async Task<IActionResult> Delete(int clanId)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var command = new DeleteModelCommand<ClanModel, int>(clanId);
+        var clanId = ClanId.Create(id);
+
+        var command = new DeleteModelCommand<ClanModel, ClanId>(clanId);
 
         var result = await _sender.Send(command);
 
@@ -142,7 +145,7 @@ public class ClanController : ApiController
 
     // GET api/clans/{clanId:int}/players
     [HttpGet("{clanId:int}/players")]
-    public async Task<IActionResult> GetPlayers(int clanId)
+    public async Task<IActionResult> GetPlayers(Guid clanId)
     {
         var query = new GetAllPlayersQuery(clanId);
 
@@ -153,7 +156,7 @@ public class ClanController : ApiController
 
     // POST api/clans/{clanId:int}/players/{playerId:int}
     [HttpPost("{clanId:int}/players/{playerId:int}")]
-    public async Task<IActionResult> AddPlayer(int clanId, int playerId)
+    public async Task<IActionResult> AddPlayer(Guid clanId, Guid playerId)
     {
         var command = new AddPlayerClanCommand(clanId, playerId);
 
@@ -164,7 +167,7 @@ public class ClanController : ApiController
 
     // DELETE api/clans/{clanId:int}/players/{playerId:int}
     [HttpDelete("{clanId:int}/players/{playerId:int}")]
-    public async Task<IActionResult> RemovePlayer(int clanId, int playerId)
+    public async Task<IActionResult> RemovePlayer(Guid clanId, Guid playerId)
     {
         var command = new RemovePlayerClanCommand(clanId, playerId);
 
@@ -175,7 +178,7 @@ public class ClanController : ApiController
 
     // PATCH api/clans/{clanId:int}/players/{playerId}/rank/{rank:int}
     [HttpPatch("{clanId:int}/players/{playerId:int}/rank/{rank:int}")]
-    public async Task<IActionResult> UpdatePlayerRank(int clanId, int playerId, RankClan rank)
+    public async Task<IActionResult> UpdatePlayerRank(Guid clanId, Guid playerId, RankClan rank)
     {
         var command = new UpdatePlayerRankCommand(clanId, playerId, rank);
 

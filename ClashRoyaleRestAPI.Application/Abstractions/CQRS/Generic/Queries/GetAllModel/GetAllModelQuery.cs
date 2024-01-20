@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;

@@ -2,13 +2,13 @@
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayer
+namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayer;
+
+internal class AddPlayerCommandHandler : AddModelCommandHandler<PlayerModel, PlayerId>
 {
-    internal class AddPlayerCommandHandler : AddModelCommandHandler<PlayerModel, int>
+    public AddPlayerCommandHandler(IPlayerRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
     {
-        public AddPlayerCommandHandler(IPlayerRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
-        {
-        }
     }
 }

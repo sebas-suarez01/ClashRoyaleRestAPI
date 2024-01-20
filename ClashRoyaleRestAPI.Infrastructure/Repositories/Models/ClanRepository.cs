@@ -3,6 +3,7 @@ using ClashRoyaleRestAPI.Application.Specifications.Models.Clan;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Domain.Shared;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
@@ -13,7 +14,7 @@ using System.Linq.Expressions;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
-internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
+internal class ClanRepository : BaseRepository<ClanModel, ClanId>, IClanRepository
 {
     private readonly IPlayerRepository _playerRepository;
 
@@ -75,9 +76,9 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         return paginatedClans;
     }
 
-    public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(int clanId)
+    public async Task<IEnumerable<ClanPlayersModel>> GetPlayers(ClanId clanId)
     {
-        var clan = await GetSingleByIdAsync(clanId, new GetClanByIdAsNoTrackingSpecification());
+        var clan = await GetSingleByIdAsync(clanId, new GetClanByIdAsNoTrackingSpecification(clanId));
 
         await _context.Entry(clan).Collection(c => c.Players).LoadAsync();
 
@@ -98,7 +99,7 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     #region Commands
 
-    public async Task<int> Add(int playerId, ClanModel clan)
+    public async Task<ClanId> Add(PlayerId playerId, ClanModel clan)
     {
         await Add(clan);
 
@@ -109,10 +110,10 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         return clan.Id;
     }
 
-    public async Task AddPlayer(int clanId, int playerId, RankClan rank = RankClan.Member)
+    public async Task AddPlayer(ClanId clanId, PlayerId playerId, RankClan rank = RankClan.Member)
     {
         if (await ExistsClanPlayer(playerId, clanId))
-            throw new DuplicationIdException(playerId, clanId);
+            throw new DuplicationIdException<string>(playerId.ToString(), clanId.ToString());
 
         var clan = await GetSingleByIdAsync(clanId);
 
@@ -121,10 +122,10 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         clan.AddPlayer(player, rank);
     }
 
-    public async Task RemovePlayer(int clanId, int playerId)
+    public async Task RemovePlayer(ClanId clanId, PlayerId playerId)
     {
         if (!await ExistsClanPlayer(playerId, clanId))
-            throw new IdNotFoundException<int>(playerId, clanId);
+            throw new IdNotFoundException<string>(playerId.ToString(), clanId.ToString());
 
         var clanPlayer = await ApplySpecification(new GetClanPlayersByIdSpecification(playerId, clanId))
             .FirstAsync();
@@ -132,10 +133,10 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
         _context.Remove(clanPlayer);
     }
 
-    public async Task UpdatePlayerRank(int clanId, int playerId, RankClan rank)
+    public async Task UpdatePlayerRank(ClanId clanId, PlayerId playerId, RankClan rank)
     {
         var playerClan = await _context.ClanPlayers.FindAsync(playerId, clanId)
-            ?? throw new IdNotFoundException<int>(playerId, clanId);
+            ?? throw new IdNotFoundException<string>(playerId.ToString(), clanId.ToString());
 
         playerClan.UpdateRank(rank);
 
@@ -148,7 +149,7 @@ internal class ClanRepository : BaseRepository<ClanModel, int>, IClanRepository
 
     #region Extra Methods
 
-    private async Task<bool> ExistsClanPlayer(int playerId, int clanId)
+    private async Task<bool> ExistsClanPlayer(PlayerId playerId, ClanId clanId)
     {
         return await _context
             .ClanPlayers

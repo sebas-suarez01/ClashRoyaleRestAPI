@@ -1,11 +1,10 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class UserModel : IEntity<string>
+public class UserModel : BaseEntity<string>
 {
     private UserModel() { }
-    public string Id { get; private set; }
     public string? Name { get; set; }
     public string? PasswordHash { get; set; }
     public string? Role { get; set; }

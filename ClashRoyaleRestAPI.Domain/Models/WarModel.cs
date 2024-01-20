@@ -1,11 +1,14 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class WarModel : IEntity<int>
+public class WarModel : BaseEntity<WarId>
 {
-    private WarModel() { }
-    public int Id { get; private set; }
+    private WarModel() 
+    {
+        Id = WarId.CreateUnique();
+    }
     public DateTime StartDate { get; private set; }
 
     public static WarModel Create(DateTime start)

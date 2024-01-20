@@ -1,4 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.Relationships;
+﻿using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
+using ClashRoyaleRestAPI.Domain.Relationships;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,11 @@ public class CollectionConfiguration : IEntityTypeConfiguration<CollectionModel>
 {
     public void Configure(EntityTypeBuilder<CollectionModel> builder)
     {
-        builder.Property<int>("PlayerId");
+        builder.Property<PlayerId>("PlayerId")
+            .HasConversion(
+                id => id.Value,
+                value => PlayerId.Create(value));
+
         builder.Property<int>("CardId");
 
         builder.HasOne(c => c.Player)

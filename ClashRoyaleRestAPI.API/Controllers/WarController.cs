@@ -6,6 +6,7 @@ using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelB
 using ClashRoyaleRestAPI.Application.Models.War.Commands.AddClanWar;
 using ClashRoyaleRestAPI.Application.Models.War.Queries.GetUpCommingWars;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class WarController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetAll(string? sortOrder, int? page, int? pageSize)
     {
-        var query = new GetAllModelQuery<WarModel, int>(sortOrder,
+        var query = new GetAllModelQuery<WarModel, WarId>(sortOrder,
                                                         page.GetValueOrDefault(1),
                                                         pageSize.GetValueOrDefault(10));
 
@@ -33,9 +34,11 @@ public class WarController : ApiController
 
     // GET api/wars/{warId:int}
     [HttpGet("{warId:int}")]
-    public async Task<IActionResult> Get(int warId)
+    public async Task<IActionResult> Get(Guid id)
     {
-        var query = new GetModelByIdQuery<WarModel, int>(warId);
+        var warId = WarId.Create(id);
+
+        var query = new GetModelByIdQuery<WarModel, WarId>(warId);
 
         var result = await _sender.Send(query);
 
@@ -48,7 +51,7 @@ public class WarController : ApiController
     {
         var war = WarModel.Create(warRequest.StartDate);
 
-        var command = new AddModelCommand<WarModel, int>(war);
+        var command = new AddModelCommand<WarModel, WarId>(war);
 
         var result = await _sender.Send(command);
 
@@ -59,9 +62,11 @@ public class WarController : ApiController
 
     // DELETE api/wars/{warId:int}
     [HttpDelete("{warId:int}")]
-    public async Task<IActionResult> Delete(int warId)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var command = new DeleteModelCommand<WarModel, int>(warId);
+        var warId = WarId.Create(id);
+
+        var command = new DeleteModelCommand<WarModel, WarId>(warId);
 
         var result = await _sender.Send(command);
 
@@ -81,7 +86,7 @@ public class WarController : ApiController
 
     // POST api/wars/{warId:int}/{clanId:int}
     [HttpPost("{warId:int}/{clanId:int}")]
-    public async Task<IActionResult> AddClanToWar(int warId, int clanId, int prize)
+    public async Task<IActionResult> AddClanToWar(Guid warId, Guid clanId, int prize)
     {
         var command = new AddClanWarCommand(clanId, warId, prize);
 

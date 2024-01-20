@@ -1,5 +1,4 @@
 ﻿using ClashRoyaleRestAPI.Domain.Models;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;
 using ClashRoyaleRestAPI.Domain.Relationships;
@@ -44,7 +43,7 @@ public class ClashRoyaleDbContext : IdentityDbContext
         ApplyRelationshipsConfiguration(modelBuilder);
         RenameIdentityTables(modelBuilder);
 
-        modelBuilder.SeedRoles(_configuration["SuperAdmin:Password"]!);
+        //modelBuilder.SeedRoles(_configuration["SuperAdmin:Password"]!);
         modelBuilder.SeedCards();
 
     }

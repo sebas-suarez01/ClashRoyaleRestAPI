@@ -1,4 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.Relationships;
+﻿using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
+using ClashRoyaleRestAPI.Domain.Relationships;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,8 +9,16 @@ public class DonationConfiguration : IEntityTypeConfiguration<DonationModel>
 {
     public void Configure(EntityTypeBuilder<DonationModel> builder)
     {
-        builder.Property<int>("PlayerId");
-        builder.Property<int>("ClanId");
+        builder.Property<PlayerId>("PlayerId")
+            .HasConversion(
+                id => id.Value,
+                value => PlayerId.Create(value));
+
+        builder.Property<ClanId>("ClanId")
+            .HasConversion(
+                id => id.Value,
+                value => ClanId.Create(value));
+
         builder.Property<int>("CardId");
 
         builder.HasOne(d => d.Player)

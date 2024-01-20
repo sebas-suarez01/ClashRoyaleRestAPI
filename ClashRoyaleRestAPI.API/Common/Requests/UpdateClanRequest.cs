@@ -2,5 +2,5 @@
 
 public class UpdateClanRequest : AddClanRequest
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }

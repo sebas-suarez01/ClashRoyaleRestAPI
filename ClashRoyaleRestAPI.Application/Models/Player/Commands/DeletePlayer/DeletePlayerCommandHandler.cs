@@ -2,13 +2,13 @@
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.DeletePlayer
+namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.DeletePlayer;
+
+internal class DeletePlayerCommandHandler : DeleteModelCommandHandler<PlayerModel, PlayerId>
 {
-    internal class DeletePlayerCommandHandler : DeleteModelCommandHandler<PlayerModel, int>
+    public DeletePlayerCommandHandler(IPlayerRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
     {
-        public DeletePlayerCommandHandler(IPlayerRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
-        {
-        }
     }
 }

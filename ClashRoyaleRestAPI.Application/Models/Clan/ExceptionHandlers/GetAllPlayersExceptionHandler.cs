@@ -5,6 +5,6 @@ using ClashRoyaleRestAPI.Domain.Relationships;
 namespace ClashRoyaleRestAPI.Application.Models.Clan.ExceptionHandlers;
 
 internal class GetAllPlayersExceptionHandler
-    : RequestExceptionHandler<GetAllPlayersQuery, IEnumerable<ClanPlayersModel>, int>
+    : RequestExceptionHandler<GetAllPlayersQuery, IEnumerable<ClanPlayersModel>, string>
 {
 }

@@ -1,10 +1,11 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using FluentValidation;
 
 namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands.UpdateChallenge;
 
-internal class UpdateChallengeCommandValidator : AbstractValidator<UpdateModelCommand<ChallengeModel, int>>
+internal class UpdateChallengeCommandValidator : AbstractValidator<UpdateModelCommand<ChallengeModel, ChallengeId>>
 {
     public UpdateChallengeCommandValidator()
     {

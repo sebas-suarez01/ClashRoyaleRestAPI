@@ -1,4 +1,4 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Common.Interfaces;
+﻿namespace ClashRoyaleRestAPI.Domain.Primitives;
 
 public interface IEntity<TId>
 {

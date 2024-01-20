@@ -4,6 +4,6 @@ using ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChalleng
 namespace ClashRoyaleRestAPI.Application.Models.Player.ExceptionHandlers;
 
 internal class UpdateChallengeResultExceptionHandler
-    : RequestExceptionHandler<UpdateChallengeResultCommand, int>
+    : RequestExceptionHandler<UpdateChallengeResultCommand, string>
 {
 }

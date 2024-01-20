@@ -6,6 +6,7 @@ using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelB
 using ClashRoyaleRestAPI.Application.Models.Challenge.Queries.GetAllOpen;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +21,11 @@ public class ChallengeController : ApiController
 
     // GET api/challenges/{id:int}
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> Get(Guid id)
     {
-        var quey = new GetModelByIdQuery<ChallengeModel, int>(id);
+        var challengeId = ChallengeId.Create(id);
+
+        var quey = new GetModelByIdQuery<ChallengeModel, ChallengeId>(challengeId);
 
         var result = await _sender.Send(quey);
 
@@ -50,7 +53,7 @@ public class ChallengeController : ApiController
                                               challengeRequest.IsOpen, challengeRequest.MinLevel,
                                               challengeRequest.LossLimit);
 
-        var command = new AddModelCommand<ChallengeModel, int>(challenge);
+        var command = new AddModelCommand<ChallengeModel, ChallengeId>(challenge);
 
         var result = await _sender.Send(command);
 
@@ -61,7 +64,7 @@ public class ChallengeController : ApiController
 
     // PUT api/challenges/{id:int}
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> Put(int id, [FromBody] UpdateChallengeRequest challengeRequest)
+    public async Task<IActionResult> Put(Guid id, [FromBody] UpdateChallengeRequest challengeRequest)
     {
         if (id != challengeRequest.Id)
             return Problem(ErrorTypes.Models.IdsNotMatch());
@@ -72,7 +75,7 @@ public class ChallengeController : ApiController
                                               challengeRequest.DurationInHours, challengeRequest.IsOpen, 
                                               challengeRequest.MinLevel, challengeRequest.LossLimit);
 
-        var command = new UpdateModelCommand<ChallengeModel, int>(challenge);
+        var command = new UpdateModelCommand<ChallengeModel, ChallengeId>(challenge);
 
         var result = await _sender.Send(command);
 
@@ -81,9 +84,11 @@ public class ChallengeController : ApiController
 
     // DELETE api/challenges/{id:int}
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var command = new DeleteModelCommand<ChallengeModel, int>(id);
+        var challengeId = ChallengeId.Create(id);
+
+        var command = new DeleteModelCommand<ChallengeModel, ChallengeId>(challengeId);
 
         var result = await _sender.Send(command);
 

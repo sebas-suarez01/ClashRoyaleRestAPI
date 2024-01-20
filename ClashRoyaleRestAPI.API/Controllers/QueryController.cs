@@ -7,6 +7,7 @@ using ClashRoyaleRestAPI.Application.Predefined_Queries.SeventhQuery;
 using ClashRoyaleRestAPI.Application.Predefined_Queries.SixthQuery;
 using ClashRoyaleRestAPI.Application.Predefined_Queries.ThirdQuery;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -66,9 +67,11 @@ public class QueryController : ApiController
 
     // GET api/queries/fifthquery/{playerId:int}
     [HttpGet("fifthquery/{playerId:int}")]
-    public async Task<IActionResult> GetFifthQuery(int playerId)
+    public async Task<IActionResult> GetFifthQuery(Guid playerId)
     {
-        var queryPlayer = new GetModelByIdQuery<PlayerModel, int>(playerId);
+        var playerIdInstance = PlayerId.Create(playerId);
+
+        var queryPlayer = new GetModelByIdQuery<PlayerModel, PlayerId>(playerIdInstance);
 
         var resultPlayer = await _sender.Send(queryPlayer);
 

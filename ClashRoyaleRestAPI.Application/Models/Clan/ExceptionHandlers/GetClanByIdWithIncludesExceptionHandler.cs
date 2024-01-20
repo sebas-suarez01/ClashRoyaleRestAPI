@@ -5,6 +5,6 @@ using ClashRoyaleRestAPI.Domain.Models;
 namespace ClashRoyaleRestAPI.Application.Models.Clan.ExceptionHandlers;
 
 internal class GetClanByIdWithIncludesExceptionHandler
-    : RequestExceptionHandler<GetClanByIdWithIncludesQuery, ClanModel, int>
+    : RequestExceptionHandler<GetClanByIdWithIncludesQuery, ClanModel, string>
 {
 }

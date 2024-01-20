@@ -1,11 +1,12 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddClan;
 
-internal class AddClanCommandHandler : ICommandHandler<AddClanCommand, int>
+internal class AddClanCommandHandler : ICommandHandler<AddClanCommand, Guid>
 {
     private readonly IClanRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
@@ -16,12 +17,13 @@ internal class AddClanCommandHandler : ICommandHandler<AddClanCommand, int>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<int>> Handle(AddClanCommand request, CancellationToken cancellationToken = default)
+    public async Task<Result<Guid>> Handle(AddClanCommand request, CancellationToken cancellationToken = default)
     {
-        await _repository.Add(request.PlayerId, request.Clan);
+        var playerId = PlayerId.Create(request.PlayerId);
+        await _repository.Add(playerId, request.Clan);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return request.Clan.Id;
+        return request.Clan.Id.Value;
     }
 }

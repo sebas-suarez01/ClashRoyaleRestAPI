@@ -1,16 +1,16 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using FluentValidation;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayer
+namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayer;
+
+internal class AddPlayerCommandValidator : AbstractValidator<AddModelCommand<PlayerModel, PlayerId>>
 {
-    internal class AddPlayerCommandValidator : AbstractValidator<AddModelCommand<PlayerModel, int>>
+    public AddPlayerCommandValidator()
     {
-        public AddPlayerCommandValidator()
-        {
-            RuleFor(x => x.Model.Alias).NotNull().Length(3, 64);
-            RuleFor(x => x.Model.Elo).NotNull().InclusiveBetween(0, 9000);
-            RuleFor(x => x.Model.Level).NotNull().InclusiveBetween(1, 15);
-        }
+        RuleFor(x => x.Model.Alias).NotNull().Length(3, 64);
+        RuleFor(x => x.Model.Elo).NotNull().InclusiveBetween(0, 9000);
+        RuleFor(x => x.Model.Level).NotNull().InclusiveBetween(1, 15);
     }
 }

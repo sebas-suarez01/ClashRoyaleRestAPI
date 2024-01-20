@@ -1,5 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
-using ClashRoyaleRestAPI.Domain.Models.Battle;
+using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Battle.Queries.GetAllBattleInclude;

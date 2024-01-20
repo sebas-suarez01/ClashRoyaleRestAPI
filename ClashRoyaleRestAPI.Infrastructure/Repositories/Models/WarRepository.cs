@@ -2,6 +2,7 @@
 using ClashRoyaleRestAPI.Application.Specifications.Models.War;
 using ClashRoyaleRestAPI.Domain.Exceptions;
 using ClashRoyaleRestAPI.Domain.Models;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Common;
@@ -9,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
-internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
+internal class WarRepository : BaseRepository<WarModel, WarId>, IWarRepository
 {
     private readonly IClanRepository _clanRepository;
     public WarRepository(ClashRoyaleDbContext context, IClanRepository clanRepository) : base(context)
@@ -31,10 +32,10 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
 
     #region Commands
 
-    public async Task AddClanToWar(int warId, int clanId, int prize)
+    public async Task AddClanToWar(WarId warId, ClanId clanId, int prize)
     {
         if (await ExistsClanWar(clanId, warId))
-            throw new DuplicationIdException(clanId, warId);
+            throw new DuplicationIdException<string>(clanId.ToString(), warId.ToString());
 
         var war = await GetSingleByIdAsync(warId);
         var clan = await _clanRepository.GetSingleByIdAsync(clanId);
@@ -50,7 +51,7 @@ internal class WarRepository : BaseRepository<WarModel, int>, IWarRepository
 
     #region Extra Methods
 
-    private async Task<bool> ExistsClanWar(int clanId, int warId)
+    private async Task<bool> ExistsClanWar(ClanId clanId, WarId warId)
     {
         return await _context
             .ClanWars

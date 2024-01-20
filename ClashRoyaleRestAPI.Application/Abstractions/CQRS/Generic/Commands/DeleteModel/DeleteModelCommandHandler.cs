@@ -1,6 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Common.Interfaces;
+using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;

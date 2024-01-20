@@ -1,11 +1,10 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ClashRoyaleRestAPI.Domain.Enum;
+﻿using ClashRoyaleRestAPI.Domain.Enum;
+using ClashRoyaleRestAPI.Domain.Primitives;
 
 namespace ClashRoyaleRestAPI.Domain.Models.Card;
 
-public abstract class CardModel : IEntity<int>
+public abstract class CardModel : BaseEntity<int>
 {
-    public int Id { get; set; }
     public string? Name { get; set; }
     public TypeCardEnum Type { get; set; }
     public string? Description { get; set; }
@@ -17,5 +16,4 @@ public abstract class CardModel : IEntity<int>
     public int InitialLevel { get; set; }
     public string? ImageUrl { get; set; }
 
-    
 }

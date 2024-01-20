@@ -1,22 +1,19 @@
-﻿using ClashRoyaleRestAPI.Domain.Common.Interfaces;
-using ClashRoyaleRestAPI.Domain.Models.Battle.ValueObjects;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Domain.Models.Battle;
+namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class BattleModel : IEntity<BattleId>
+public class BattleModel : BaseEntity<BattleId>
 {
-    private BattleModel() 
+    private BattleModel()
     {
-        Id = CreateId();
+        Id = BattleId.CreateUnique();
     }
-    public BattleId Id { get; private set; }
     public int AmountTrophies { get; private set; }
     public PlayerModel? Winner { get; private set; }
     public PlayerModel? Loser { get; private set; }
     public int DurationInSeconds { get; private set; }
     public DateTime Date { get; private set; }
-
-    private static BattleId CreateId() => BattleId.CreateUnique();
 
     public static BattleModel Create(int amountTrophies,
                                      PlayerModel winner,
@@ -24,6 +21,7 @@ public class BattleModel : IEntity<BattleId>
                                      int durationInSeconds,
                                      DateTime date)
     {
+
         return new BattleModel
         {
             AmountTrophies = amountTrophies,
