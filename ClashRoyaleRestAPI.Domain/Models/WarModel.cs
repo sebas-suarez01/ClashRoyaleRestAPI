@@ -1,9 +1,10 @@
-﻿using ClashRoyaleRestAPI.Domain.Primitives;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class WarModel : BaseEntity<WarId>
+public class WarModel : Entity<WarId>
 {
     private WarModel() 
     {
@@ -13,9 +14,13 @@ public class WarModel : BaseEntity<WarId>
 
     public static WarModel Create(DateTime start)
     {
-        return new WarModel()
+        var war = new WarModel()
         {
             StartDate = start,
         };
+
+        war.RaiseDomainEvent(new WarCreatedDomainEvent(war.Id));
+
+        return war;
     }
 }

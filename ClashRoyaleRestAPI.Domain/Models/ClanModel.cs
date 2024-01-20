@@ -1,11 +1,12 @@
-﻿using ClashRoyaleRestAPI.Domain.Enum;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Relationships;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class ClanModel : BaseEntity<ClanId>
+public class ClanModel : Entity<ClanId>
 {
     private ClanModel() 
     {
@@ -25,7 +26,7 @@ public class ClanModel : BaseEntity<ClanId>
     public static ClanModel Create(string name, string description, string region, bool isOpen,
          int trophiesInWar, int minTrophies)
     {
-        return new ClanModel
+        var clan = new ClanModel
         {
             Name = name,
             Description = description,
@@ -34,6 +35,10 @@ public class ClanModel : BaseEntity<ClanId>
             TrophiesInWar = trophiesInWar,
             MinTrophies = minTrophies
         };
+
+        clan.RaiseDomainEvent(new ClanCreatedDomainEvent(clan.Id));
+
+        return clan;
     }
     public static ClanModel Create(Guid id, string name, string description, string region, bool isOpen,
          int trophiesInWar, int minTrophies)

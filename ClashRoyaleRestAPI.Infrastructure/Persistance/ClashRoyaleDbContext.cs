@@ -43,7 +43,7 @@ public class ClashRoyaleDbContext : IdentityDbContext
         ApplyRelationshipsConfiguration(modelBuilder);
         RenameIdentityTables(modelBuilder);
 
-        //modelBuilder.SeedRoles(_configuration["SuperAdmin:Password"]!);
+        modelBuilder.SeedRoles(_configuration["SuperAdmin:Password"]!);
         modelBuilder.SeedCards();
 
     }

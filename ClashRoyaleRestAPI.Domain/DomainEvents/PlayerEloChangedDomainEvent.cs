@@ -3,6 +3,6 @@ using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.DomainEvents;
 
-public record ChallengeCreatedDomainEvent(ChallengeId ChallengeId) : DomainEvent
+public record PlayerEloChangedDomainEvent(PlayerId PlayerId, int PlayerElo) : DomainEvent
 {
 }

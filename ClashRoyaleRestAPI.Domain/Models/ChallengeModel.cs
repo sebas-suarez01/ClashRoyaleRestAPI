@@ -1,9 +1,10 @@
-﻿using ClashRoyaleRestAPI.Domain.Primitives;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class ChallengeModel : BaseEntity<ChallengeId>
+public class ChallengeModel : Entity<ChallengeId>
 {
     private ChallengeModel()
     {
@@ -41,6 +42,8 @@ public class ChallengeModel : BaseEntity<ChallengeId>
             MinLevel = minLevel,
             LossLimit = lossLimit
         };
+
+        challenge.RaiseDomainEvent(new ChallengeCreatedDomainEvent(challenge.Id));
 
         return challenge;
     }

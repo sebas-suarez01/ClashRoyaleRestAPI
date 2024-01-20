@@ -3,7 +3,7 @@ using ClashRoyaleRestAPI.Domain.Primitives;
 
 namespace ClashRoyaleRestAPI.Domain.Models.Card;
 
-public abstract class CardModel : BaseEntity<int>
+public abstract class CardModel : Entity<int>
 {
     public string? Name { get; set; }
     public TypeCardEnum Type { get; set; }

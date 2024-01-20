@@ -1,11 +1,12 @@
-﻿using ClashRoyaleRestAPI.Domain.Models.Card;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Relationships;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class PlayerModel : BaseEntity<PlayerId>
+public class PlayerModel : Entity<PlayerId>
 {
     private PlayerModel() 
     {
@@ -24,12 +25,16 @@ public class PlayerModel : BaseEntity<PlayerId>
 
     public static PlayerModel Create(string alias, int elo, int level)
     {
-        return new PlayerModel
+        var player = new PlayerModel
         {
             Alias = alias,
             Elo = elo,
             Level = level,
         };
+
+        player.RaiseDomainEvent(new PlayerCreatedDomainEvent(player.Id));
+
+        return player;
     }
     public static PlayerModel Create(Guid id, string alias, int elo, int level)
     {
@@ -41,10 +46,25 @@ public class PlayerModel : BaseEntity<PlayerId>
             Level = level,
         };
     }
-    public void AddCard(CollectionModel collection) => _cards.Add(collection);
-    public void AddFavoriteCard(CardModel card) => FavoriteCard ??= card; 
+    public void AddCard(CollectionModel collection)
+    {
+        _cards.Add(collection);
+
+        RaiseDomainEvent(new CardAddedDomainEvent(Id, collection.Card!.Id));
+    }
+    public void AddFavoriteCard(CardModel card) 
+    { 
+        FavoriteCard ??= card;
+
+        RaiseDomainEvent(new FavoriteCardChangedDomainEvent(Id, card.Id));
+    }
     public bool HaveCard(int cardId) => Cards.Any(c => c.Card is not null && c.Card.Id == cardId);
-    public void ChangeAlias(string alias) => Alias = alias;
+    public void ChangeAlias(string alias) 
+    { 
+        Alias = alias;
+
+        RaiseDomainEvent(new PlayerNameChangedDomainEvent(Id, Alias));
+    }
     public void AddCardAmount() => CardAmount += 1;
     private void UpdateMaxElo(int maxElo) => MaxElo = maxElo;
     public void AddVictory() => Victories += 1;
@@ -60,6 +80,9 @@ public class PlayerModel : BaseEntity<PlayerId>
 
         if (Elo > MaxElo)
             UpdateMaxElo(Elo);
+        
+        RaiseDomainEvent(new PlayerEloChangedDomainEvent(Id, elo));
+    
     }
 
 }

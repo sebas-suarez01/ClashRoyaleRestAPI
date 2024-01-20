@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyaleRestAPI.Domain.Primitives;
 
-public abstract class BaseEntity<TId> : IEntity<TId>, IAuditableEntity
+public abstract class Entity<TId> : IEntity<TId>, IAuditableEntity
 {
     private readonly List<IDomainEvent> _domainEvents = new();
     public TId Id { get; protected set; }

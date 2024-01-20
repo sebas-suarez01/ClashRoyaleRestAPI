@@ -1,7 +1,8 @@
 ﻿using ClashRoyaleRestAPI.Domain.Primitives;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.DomainEvents;
 
-public record BattleCreatedDomainEvent(Guid id) : IDomainEvent
+public record BattleCreatedDomainEvent(BattleId BattleId, PlayerId WinnerId) : DomainEvent
 {
 }

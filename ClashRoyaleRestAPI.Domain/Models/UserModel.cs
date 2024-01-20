@@ -2,7 +2,7 @@
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class UserModel : BaseEntity<string>
+public class UserModel : Entity<string>
 {
     private UserModel() { }
     public string? Name { get; set; }

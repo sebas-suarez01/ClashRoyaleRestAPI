@@ -1,9 +1,10 @@
-﻿using ClashRoyaleRestAPI.Domain.Primitives;
+﻿using ClashRoyaleRestAPI.Domain.DomainEvents;
+using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.Models;
 
-public class BattleModel : BaseEntity<BattleId>
+public class BattleModel : Entity<BattleId>
 {
     private BattleModel()
     {
@@ -21,8 +22,7 @@ public class BattleModel : BaseEntity<BattleId>
                                      int durationInSeconds,
                                      DateTime date)
     {
-
-        return new BattleModel
+        var battle = new BattleModel
         {
             AmountTrophies = amountTrophies,
             Winner = winner,
@@ -30,5 +30,9 @@ public class BattleModel : BaseEntity<BattleId>
             DurationInSeconds = durationInSeconds,
             Date = date
         };
+
+        battle.RaiseDomainEvent(new BattleCreatedDomainEvent(battle.Id, battle.Winner.Id));
+
+        return battle;
     }
 }
