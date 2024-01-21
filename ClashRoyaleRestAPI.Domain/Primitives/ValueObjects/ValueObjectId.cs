@@ -1,6 +1,6 @@
 ﻿namespace ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-public class ValueObjectId : ValueObject
+public abstract class ValueObjectId : ValueObject
 {
     public Guid Value { get; protected set; }
 
@@ -8,16 +8,8 @@ public class ValueObjectId : ValueObject
     {
         Value = value;
     }
-    protected ValueObjectId() { }
-    public static T CreateUnique<T>() where T : ValueObjectId
-    {
-        return (T)new ValueObjectId(Guid.NewGuid());
-    }
+    public ValueObjectId() { }
     
-    public static T Create<T>(Guid value) where T : ValueObjectId
-    {
-        return (T)new ValueObjectId(value);
-    }
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value!;

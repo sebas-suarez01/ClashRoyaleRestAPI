@@ -23,7 +23,7 @@ public class ChallengeController : ApiController
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var challengeId = ValueObjectId.Create<ChallengeId>(id);
+        var challengeId = ChallengeId.Create(id);
 
         var quey = new GetModelByIdQuery<ChallengeModel, ChallengeId>(challengeId);
 
@@ -86,7 +86,7 @@ public class ChallengeController : ApiController
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var challengeId = ValueObjectId.Create<ChallengeId>(id);
+        var challengeId = ChallengeId.Create(id);
 
         var command = new DeleteModelCommand<ChallengeModel, ChallengeId>(challengeId);
 

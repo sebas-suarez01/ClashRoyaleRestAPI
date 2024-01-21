@@ -17,7 +17,7 @@ internal class GetAllCardOfPlayerQueryHandler : IQueryHandler<GetAllCardOfPlayer
 
     public async Task<Result<IEnumerable<CardModel>>> Handle(GetAllCardOfPlayerQuery request, CancellationToken cancellationToken)
     {
-        var playerId = ValueObjectId.Create<PlayerId>(request.Id);
+        var playerId = PlayerId.Create(request.Id);
 
         IEnumerable<CardModel> cards = await _repository.GetAllCardsOfPlayerAsync(playerId);
 

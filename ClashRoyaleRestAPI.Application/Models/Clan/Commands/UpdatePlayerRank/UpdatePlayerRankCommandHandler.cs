@@ -19,8 +19,8 @@ internal class UpdatePlayerRankCommandHandler : ICommandHandler<UpdatePlayerRank
 
     public async Task<Result> Handle(UpdatePlayerRankCommand request, CancellationToken cancellationToken = default)
     {
-        var clanId = ValueObjectId.Create<ClanId>(request.ClanId);
-        var playerId = ValueObjectId.Create<PlayerId>(request.PlayerId);
+        var clanId = ClanId.Create(request.ClanId);
+        var playerId = PlayerId.Create(request.PlayerId);
 
         await _repository.UpdatePlayerRank(clanId, playerId, request.Rank);
 

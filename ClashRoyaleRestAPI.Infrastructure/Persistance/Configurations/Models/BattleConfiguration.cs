@@ -14,20 +14,20 @@ public class BattleConfiguration : IEntityTypeConfiguration<BattleModel>
         builder.Property<PlayerId>("LoserId")
             .HasConversion(
                 id => id.Value,
-                value => ValueObjectId.Create<PlayerId>(value))
+                value => PlayerId.Create(value))
             .IsRequired();
 
         builder.Property<PlayerId>("WinnerId")
             .HasConversion(
                 id => id.Value,
-                value => ValueObjectId.Create<PlayerId>(value))
+                value => PlayerId.Create(value))
             .IsRequired();
 
         builder.Property(x => x.Id)
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
-                value => ValueObjectId.Create<BattleId>(value));
+                value => BattleId.Create(value));
 
         builder.HasOne(b => b.Loser)
             .WithMany()

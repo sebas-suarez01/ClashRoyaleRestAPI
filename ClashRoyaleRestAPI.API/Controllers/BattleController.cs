@@ -51,7 +51,11 @@ public class BattleController : ApiController
     {
         var battle = _mapper.Map<BattleModel>(battleRequest);
 
-        var command = new AddBattleCommand(battle, battleRequest.WinnerId, battleRequest.LoserId);
+        var command = new AddBattleCommand(battleRequest.WinnerId,
+                                           battleRequest.LoserId,
+                                           battleRequest.AmountTrophies,
+                                           battleRequest.DurationInSeconds,
+                                           battleRequest.Date);
 
         var result = await _sender.Send(command);
 

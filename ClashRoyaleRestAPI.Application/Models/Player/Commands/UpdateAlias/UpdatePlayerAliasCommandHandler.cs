@@ -19,7 +19,7 @@ internal class UpdatePlayerAliasCommandHandler : ICommandHandler<UpdatePlayerAli
 
     public async Task<Result> Handle(UpdatePlayerAliasCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = ValueObjectId.Create<PlayerId>(request.Id);
+        var playerId = PlayerId.Create(request.Id);
 
         await _repository.UpdateAlias(playerId, request.Alias);
 

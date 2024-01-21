@@ -11,7 +11,7 @@ public class CollectionModel : Entity<CollectionId>
 {
     private CollectionModel()
     {
-        Id = ValueObjectId.CreateUnique<CollectionId>();
+        Id = CollectionId.CreateUnique();
     }
     [JsonIgnore]
     public PlayerModel? Player { get; private set; }

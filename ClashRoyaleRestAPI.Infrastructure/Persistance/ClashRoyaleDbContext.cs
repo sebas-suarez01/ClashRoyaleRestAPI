@@ -2,8 +2,10 @@
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Models.Card.Implementation;
 using ClashRoyaleRestAPI.Domain.Relationships;
+using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Models;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Configurations.Relationships;
+using ClashRoyaleRestAPI.Infrastructure.Persistance.Outbox;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -34,6 +36,7 @@ public class ClashRoyaleDbContext : IdentityDbContext
     public DbSet<StructureModel> Structures => Set<StructureModel>();
     public DbSet<TroopModel> Troops => Set<TroopModel>();
     public DbSet<WarModel> Wars => Set<WarModel>();
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +70,8 @@ public class ClashRoyaleDbContext : IdentityDbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpellConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(StructureConfiguration).Assembly);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(WarConfiguration).Assembly);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OutboxMessageConfiguration).Assembly);
     }
 
     private static void RenameIdentityTables(ModelBuilder modelBuilder)

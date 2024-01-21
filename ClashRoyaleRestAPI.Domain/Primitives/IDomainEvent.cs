@@ -1,6 +1,8 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Primitives;
+﻿using MediatR;
 
-public interface IDomainEvent
+namespace ClashRoyaleRestAPI.Domain.Primitives;
+
+public interface IDomainEvent : INotification
 {
     public Guid Id { get; }
 }

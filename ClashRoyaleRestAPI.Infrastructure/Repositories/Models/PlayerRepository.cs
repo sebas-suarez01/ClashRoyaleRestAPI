@@ -128,8 +128,10 @@ internal class PlayerRepository : BaseRepository<PlayerModel, PlayerId>, IPlayer
         if (!await ExistsPlayerChallenge(playerId, challengeId))
             throw new IdNotFoundException<string>(playerId.ToString(), challengeId.ToString());
 
-        var playerChallenge = await _context.PlayerChallenges.FindAsync(playerId, challengeId);
-
+        var playerChallenge = await _context
+                .PlayerChallenges
+                .SingleAsync(pc=> pc.Player!.Id == playerId && pc.Challenge!.Id ==challengeId);
+        
         playerChallenge!.AddReward(reward);
         playerChallenge!.Completed();
 
@@ -196,8 +198,8 @@ internal class PlayerRepository : BaseRepository<PlayerModel, PlayerId>, IPlayer
     public async Task<bool> ExistsPlayerChallenge(PlayerId playerId, ChallengeId challengeId)
     {
         return await _context
-        .PlayerChallenges
-            .SingleOrDefaultAsync(cp => cp.Challenge.Id == challengeId && cp.Player.Id == playerId) is not null;
+            .PlayerChallenges
+            .SingleOrDefaultAsync(cp => cp.Challenge!.Id == challengeId && cp.Player!.Id == playerId) is not null;
     }
 
     private static Expression<Func<PlayerModel, object>> GetSortProperty(string? sortColumn)

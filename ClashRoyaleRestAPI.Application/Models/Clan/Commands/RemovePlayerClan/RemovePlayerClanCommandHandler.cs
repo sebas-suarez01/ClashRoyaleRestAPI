@@ -19,8 +19,8 @@ internal class RemovePlayerClanCommandHandler : ICommandHandler<RemovePlayerClan
 
     public async Task<Result> Handle(RemovePlayerClanCommand request, CancellationToken cancellationToken = default)
     {
-        var clanId = ValueObjectId.Create<ClanId>(request.ClanId);
-        var playerId = ValueObjectId.Create<PlayerId>(request.PlayerId);
+        var clanId = ClanId.Create(request.ClanId);
+        var playerId = PlayerId.Create(request.PlayerId);
 
         await _repository.RemovePlayer(clanId, playerId);
 

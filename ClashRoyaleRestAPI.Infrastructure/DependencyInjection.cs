@@ -1,6 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Infrastructure.BackgroundJobs;
 using ClashRoyaleRestAPI.Infrastructure.Common;
 using ClashRoyaleRestAPI.Infrastructure.Interceptors;
 using ClashRoyaleRestAPI.Infrastructure.OptionsSetup;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Quartz;
 using System.Text;
 
 namespace ClashRoyaleRestAPI.Infrastructure;
@@ -29,6 +31,25 @@ public static class DependencyInjection
         services.AddPersistance(configuration);
 
         services.AddScopeds();
+
+        services.AddQuartz(configure =>
+        {
+            var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
+
+            configure
+                .AddJob<ProcessOutboxMessagesJob>(jobKey)
+                .AddTrigger(
+                    trigger =>
+                        trigger.ForJob(jobKey)
+                                .WithSimpleSchedule(
+                                    schedule =>
+                                        schedule.WithIntervalInSeconds(30)
+                                            .RepeatForever()));
+
+        });
+
+
+        services.AddQuartzHostedService();
 
         return services;
     }
@@ -94,14 +115,16 @@ public static class DependencyInjection
         services.AddIdentity();
 
         services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+        services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
         services.AddDbContext<ClashRoyaleDbContext>(
             (sp, optionsBuilder)=>
         {
             var updateAuditableInterceptor = sp.GetService<UpdateAuditableEntitiesInterceptor>();
+            var convertDomainEventsInterceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
             optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName))
-                            .AddInterceptors(updateAuditableInterceptor);
+                            .AddInterceptors(updateAuditableInterceptor, convertDomainEventsInterceptor);
 
             optionsBuilder.UseTriggers(triggerOpt =>
             {

@@ -8,7 +8,7 @@ public class ChallengeModel : Entity<ChallengeId>
 {
     private ChallengeModel()
     {
-        Id = ValueObjectId.CreateUnique<ChallengeId>();
+        Id = ChallengeId.CreateUnique();
 
     }
     public string? Name { get; private set; }
@@ -62,7 +62,7 @@ public class ChallengeModel : Entity<ChallengeId>
     {
         return new ChallengeModel()
         {
-            Id = ValueObjectId.Create<ChallengeId>(id),
+            Id = ChallengeId.Create(id),
             Name = name,
             Description = description,
             Cost = cost,

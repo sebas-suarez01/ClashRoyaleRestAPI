@@ -9,7 +9,7 @@ public class ClanWarsModel : Entity<ClanWarsId>
 {
     private ClanWarsModel()
     {
-        Id = ValueObjectId.CreateUnique<ClanWarsId>();
+        Id = ClanWarsId.CreateUnique();
     }
     public ClanModel? Clan { get; private set; }
     public WarModel? War { get; private set; }

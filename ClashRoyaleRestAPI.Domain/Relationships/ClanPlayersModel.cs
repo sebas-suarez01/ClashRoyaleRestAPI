@@ -11,7 +11,7 @@ public class ClanPlayersModel : Entity<ClanPlayersId>
 {
     private ClanPlayersModel()
     {
-        Id = ValueObjectId.CreateUnique<ClanPlayersId>();
+        Id = ClanPlayersId.CreateUnique();
     }
 
     [JsonIgnore]

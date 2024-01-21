@@ -10,7 +10,7 @@ public class PlayerModel : Entity<PlayerId>
 {
     private PlayerModel()
     {
-        Id = ValueObjectId.CreateUnique<PlayerId>();
+        Id = PlayerId.CreateUnique();
     }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
@@ -40,7 +40,7 @@ public class PlayerModel : Entity<PlayerId>
     {
         return new PlayerModel
         {
-            Id = ValueObjectId.Create<PlayerId>(id),
+            Id = PlayerId.Create(id),
             Alias = alias,
             Elo = elo,
             Level = level,

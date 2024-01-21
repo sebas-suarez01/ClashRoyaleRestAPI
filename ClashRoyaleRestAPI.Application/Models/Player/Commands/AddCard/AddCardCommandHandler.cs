@@ -19,7 +19,7 @@ internal class AddCardCommandHandler : ICommandHandler<AddCardCommand>
 
     public async Task<Result> Handle(AddCardCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = ValueObjectId.Create<PlayerId>(request.PlayerId);
+        var playerId = PlayerId.Create(request.PlayerId);
 
         await _repository.AddCard(playerId, request.CardId);
 

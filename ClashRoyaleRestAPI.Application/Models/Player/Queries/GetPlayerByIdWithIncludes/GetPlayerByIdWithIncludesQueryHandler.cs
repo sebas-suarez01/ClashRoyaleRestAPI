@@ -18,7 +18,7 @@ internal class GetPlayerByIdWithIncludesQueryHandler : IQueryHandler<GetPlayerBy
 
     public async Task<Result<PlayerModel>> Handle(GetPlayerByIdWithIncludesQuery request, CancellationToken cancellationToken)
     {
-        var playerId = ValueObjectId.Create<PlayerId>(request.Id);
+        var playerId = PlayerId.Create(request.Id);
 
         PlayerModel player = await _repository.GetSingleByIdAsync(playerId,
                                                                   new GetPlayerByIdSpecification(playerId));

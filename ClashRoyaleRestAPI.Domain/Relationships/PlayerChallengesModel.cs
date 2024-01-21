@@ -10,7 +10,7 @@ public class PlayerChallengesModel : Entity<PlayerChallengesId>
 {
     private PlayerChallengesModel()
     {
-        Id = ValueObjectId.CreateUnique<PlayerChallengesId>();
+        Id = PlayerChallengesId.CreateUnique();
     }
     public PlayerModel? Player { get; private set; }
     public ChallengeModel? Challenge { get; private set; }

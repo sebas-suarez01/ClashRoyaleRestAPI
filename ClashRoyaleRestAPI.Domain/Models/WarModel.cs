@@ -8,7 +8,7 @@ public class WarModel : Entity<WarId>
 {
     private WarModel() 
     {
-        Id = ValueObjectId.CreateUnique<WarId>();
+        Id = WarId.CreateUnique();
     }
     public DateTime StartDate { get; private set; }
 

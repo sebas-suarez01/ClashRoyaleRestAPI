@@ -8,7 +8,7 @@ public class BattleModel : Entity<BattleId>
 {
     private BattleModel()
     {
-        Id = ValueObjectId.CreateUnique<BattleId>();
+        Id = BattleId.CreateUnique();
     }
     public int AmountTrophies { get; private set; }
     public PlayerModel? Winner { get; private set; }

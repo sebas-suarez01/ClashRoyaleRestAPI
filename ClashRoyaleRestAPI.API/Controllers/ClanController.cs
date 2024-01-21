@@ -112,7 +112,7 @@ public class ClanController : ApiController
     [HttpDelete("{clanId:int}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var clanId = ValueObjectId.Create<ClanId>(id);
+        var clanId = ClanId.Create(id);
 
         var command = new DeleteModelCommand<ClanModel, ClanId>(clanId);
 

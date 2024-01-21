@@ -10,7 +10,7 @@ public class ClanModel : Entity<ClanId>
 {
     private ClanModel()
     {
-        Id = ValueObjectId.CreateUnique<ClanId>();
+        Id = ClanId.CreateUnique();
     }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
@@ -45,7 +45,7 @@ public class ClanModel : Entity<ClanId>
     {
         return new ClanModel
         {
-            Id = ValueObjectId.Create<ClanId>(id),
+            Id = ClanId.Create(id),
             Name = name,
             Description = description,
             Region = region,

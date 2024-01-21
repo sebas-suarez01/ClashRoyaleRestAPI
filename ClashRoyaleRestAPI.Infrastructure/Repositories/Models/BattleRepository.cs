@@ -39,15 +39,19 @@ internal class BattleRepository : BaseRepository<BattleModel, BattleId>, IBattle
     #endregion
 
     #region Commands
-    public async Task<Guid> Add(BattleModel battle, PlayerId winnerId, PlayerId loserId)
+    public async Task<Guid> Add(PlayerId winnerId,
+                                PlayerId loserId,
+                                int amountTrophies,
+                                int durationInSeconds,
+                                DateTime date)
     {
-        if (await ExistsBattleIndex(winnerId, winnerId, battle.Date))
-            throw new DuplicationIndexException(string.Join(",", winnerId, loserId, battle.Date));
+        if (await ExistsBattleIndex(winnerId, winnerId, date))
+            throw new DuplicationIndexException(string.Join(",", winnerId, loserId, date));
 
         var winner = await _playerRepository.GetSingleByIdAsync(winnerId);
         var loser = await _playerRepository.GetSingleByIdAsync(loserId);
 
-        battle = BattleModel.Create(battle.AmountTrophies, winner!, loser!, battle.DurationInSeconds, battle.Date);
+        var battle = BattleModel.Create(amountTrophies, winner!, loser!, durationInSeconds, date);
 
         _context.Battles.Add(battle);
 

@@ -19,8 +19,8 @@ internal class AddDonationCommandHandler : ICommandHandler<AddDonationCommand>
 
     public async Task<Result> Handle(AddDonationCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = ValueObjectId.Create<PlayerId>(request.PlayerId);
-        var clanId = ValueObjectId.Create<ClanId>(request.ClanId);
+        var playerId = PlayerId.Create(request.PlayerId);
+        var clanId = ClanId.Create(request.ClanId);
 
         await _playerRepository.AddDonation(playerId,
                                             clanId,

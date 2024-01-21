@@ -10,7 +10,7 @@ public class DonationModel : Entity<DonationId>
 {
     private DonationModel()
     {
-        Id = ValueObjectId.CreateUnique<DonationId>();
+        Id = DonationId.CreateUnique();
     }
     public PlayerModel? Player { get; private set; }
     public ClanModel? Clan { get; private set; }

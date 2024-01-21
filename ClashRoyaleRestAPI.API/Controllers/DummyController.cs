@@ -2,6 +2,7 @@ using ClashRoyaleRestAPI.API.Common.Requests;
 using ClashRoyaleRestAPI.API.Controllers;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
 using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Models.Battle;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddClan;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
@@ -301,13 +302,11 @@ public class DummyController : ApiController
                 Date = date
             };
 
-            var battle = BattleModel.Create(battleRequest.AmountTrophies,
-                                            null!,
-                                            null!,
-                                            battleRequest.DurationInSeconds,
-                                            battleRequest.Date);
-
-            var command = new AddBattleCommand(battle, battleRequest.WinnerId, battleRequest.LoserId);
+            var command = new AddBattleCommand(battleRequest.WinnerId,
+                                                    battleRequest.LoserId,
+                                                    battleRequest.AmountTrophies,
+                                                    battleRequest.DurationInSeconds,
+                                                    battleRequest.Date);
 
             await _sender.Send(command);
         }

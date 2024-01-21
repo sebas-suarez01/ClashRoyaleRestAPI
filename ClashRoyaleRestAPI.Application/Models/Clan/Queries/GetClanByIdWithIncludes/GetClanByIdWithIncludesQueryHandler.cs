@@ -18,7 +18,7 @@ internal class GetClanByIdWithIncludesQueryHandler : IQueryHandler<GetClanByIdWi
 
     public async Task<Result<ClanModel>> Handle(GetClanByIdWithIncludesQuery request, CancellationToken cancellationToken)
     {
-        var clanId = ValueObjectId.Create<ClanId>(request.Id);
+        var clanId = ClanId.Create(request.Id);
 
         ClanModel clan = await _repository.GetSingleByIdAsync(clanId,
                                                               new GetClanByIdSpecification(clanId));

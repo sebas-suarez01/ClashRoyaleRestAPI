@@ -5,9 +5,9 @@ using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerById;
 
-internal class GetPlayerByIdHandler : GetModelByIdQueryHandler<PlayerModel, PlayerId>
+internal class GetPlayerByIdQueryHandler : GetModelByIdQueryHandler<PlayerModel, PlayerId>
 {
-    public GetPlayerByIdHandler(IPlayerRepository repository) : base(repository)
+    public GetPlayerByIdQueryHandler(IPlayerRepository repository) : base(repository)
     {
     }
 }
