@@ -14,17 +14,17 @@ public class PlayerChallengesConfiguration : IEntityTypeConfiguration<PlayerChal
         builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Value,
-                value => PlayerChallengesId.Create(value));
+                value => ValueObjectId.Create<PlayerChallengesId>(value));
 
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<ChallengeId>("ChallengeId")
             .HasConversion(
                 id => id.Value, 
-                value => ChallengeId.Create(value));
+                value => ValueObjectId.Create<ChallengeId>(value));
 
         builder.HasOne(d => d.Player)
             .WithMany()

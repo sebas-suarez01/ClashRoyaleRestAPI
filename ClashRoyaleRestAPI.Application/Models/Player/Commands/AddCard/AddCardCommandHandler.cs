@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard;
@@ -19,9 +18,7 @@ internal class AddCardCommandHandler : ICommandHandler<AddCardCommand>
 
     public async Task<Result> Handle(AddCardCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = PlayerId.Create(request.PlayerId);
-
-        await _repository.AddCard(playerId, request.CardId);
+        await _repository.AddCard(request.PlayerId, request.CardId);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

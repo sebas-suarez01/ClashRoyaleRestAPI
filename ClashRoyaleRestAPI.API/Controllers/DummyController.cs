@@ -113,7 +113,9 @@ public class DummyController : ApiController
 
             var challengeId = GetRandomFromArray(challengeIds);
 
-            var addChallenge = new AddPlayerChallengeCommand(playerId.Value, challengeId);
+            var challengeIdInstance = ValueObjectId.Create<ChallengeId>(challengeId);
+
+            var addChallenge = new AddPlayerChallengeCommand(playerId, challengeIdInstance);
             await _sender.Send(addChallenge);
 
             challengePlayerDict[challengeId].Add(playerId.Value);
@@ -154,7 +156,9 @@ public class DummyController : ApiController
                 playerIdForClanIndex = playerIds.IndexOf(playerIdForClan);
             }
 
-            var command = new AddClanCommand(playerIdForClan, clan);
+            var playerIdForClanInstance = ValueObjectId.Create<PlayerId>(playerIdForClan);
+
+            var command = new AddClanCommand(playerIdForClanInstance, clan);
             var result = await _sender.Send(command);
 
             if (result.IsFailure)
@@ -178,13 +182,17 @@ public class DummyController : ApiController
         for (int i = 0; i < playerIds.Count; i++)
         {
             Guid clanId = GetRandomFromArray(clanIds);
+            var clanIdInstance = ValueObjectId.Create<ClanId>(clanId);
+
             Guid playerId = playerIds[i];
+            var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
             int playerIndex = playerIds.IndexOf(playerId);
 
             if (playerIdsForClanBooleanMask[playerIndex])
                 continue;
 
-            var addPlayerClan = new AddPlayerClanCommand(clanId, playerId);
+            var addPlayerClan = new AddPlayerClanCommand(clanIdInstance, playerIdInstance);
             var result = await _sender.Send(addPlayerClan);
 
             if (result.IsFailure)
@@ -247,13 +255,18 @@ public class DummyController : ApiController
         for (int i = 0; i < 30; i++)
         {
             var challengeId = GetRandomFromArray(challengeIds);
+            var challengeIdInstance = ValueObjectId.Create<ChallengeId>(challengeId);
+
 
             if (challengePlayerDict[challengeId].Count == 0)
                 continue;
 
             var playerId = GetRandomFromArray(challengePlayerDict[challengeId]);
+            var playerIdInstance = ValueObjectId.Create<PlayerId>(challengeId);
 
-            var updatePlayerClan = new UpdateChallengeResultCommand(playerId, challengeId, random.Next(100));
+            var updatePlayerClan = new UpdateChallengeResultCommand(playerIdInstance,
+                                                                    challengeIdInstance,
+                                                                    random.Next(100));
             await _sender.Send(updatePlayerClan);
         }
 
@@ -270,7 +283,9 @@ public class DummyController : ApiController
             {
                 var cardId = random.Next(1, 110);
 
-                var addPlayerCard = new AddCardCommand(playerIds[i], cardId);
+                var playerIdInstance = ValueObjectId.Create<PlayerId>(playerIds[i]);
+
+                var addPlayerCard = new AddCardCommand(playerIdInstance, cardId);
                 var result = await _sender.Send(addPlayerCard);
 
                 if (result.IsSuccess)
@@ -302,11 +317,15 @@ public class DummyController : ApiController
                 Date = date
             };
 
-            var command = new AddBattleCommand(battleRequest.WinnerId,
-                                                    battleRequest.LoserId,
-                                                    battleRequest.AmountTrophies,
-                                                    battleRequest.DurationInSeconds,
-                                                    battleRequest.Date);
+            var winnerIdInstance = ValueObjectId.Create<PlayerId>(firstPlayer);
+            var loserIdInstance = ValueObjectId.Create<PlayerId>(secondPlayer);
+
+
+            var command = new AddBattleCommand(winnerIdInstance,
+                                               loserIdInstance,
+                                               battleRequest.AmountTrophies,
+                                               battleRequest.DurationInSeconds,
+                                               battleRequest.Date);
 
             await _sender.Send(command);
         }
@@ -330,6 +349,9 @@ public class DummyController : ApiController
             for (int j = 0; j < 3; j++)
             {
                 Guid clanIdForWar = GetRandomFromArray(clanIds);
+
+                var clanIdForWarInstance = ValueObjectId.Create<ClanId>(clanIdForWar);
+
                 int clanIdForWarIndex = playerIds.IndexOf(clanIdForWar);
 
                 while (clanWarBooleanMask[clanIdForWarIndex])
@@ -337,9 +359,9 @@ public class DummyController : ApiController
                     clanIdForWar = GetRandomFromArray(clanIds);
                     clanIdForWarIndex = playerIds.IndexOf(clanIdForWar);
                 }
+                
 
-
-                var addclanWar = new AddClanWarCommand(clanIdForWar, result.Value.Value, random.Next(10, 100));
+                var addclanWar = new AddClanWarCommand(clanIdForWarInstance, result.Value, random.Next(10, 100));
                 await _sender.Send(addclanWar);
 
                 if (result.IsSuccess)
@@ -359,6 +381,9 @@ public class DummyController : ApiController
             while (playerClanDict[clanId].Count < 1)
                 clanId = GetRandomFromArray(clanIds);
 
+            var clanIdInstance = ValueObjectId.Create<ClanId>(clanId);
+
+
             for (int j = 0; j < 30; j++)
             {
                 _context.ChangeTracker.Clear();
@@ -368,7 +393,10 @@ public class DummyController : ApiController
 
                 var date = new DateTime(2023, random.Next(1, 13), random.Next(1, 28));
 
-                var donation = new AddDonationCommand(playerId, clanId, cardId, random.Next(1, 8), date);
+                var playerIdInstance = ValueObjectId.Create<PlayerId>(clanId);
+
+
+                var donation = new AddDonationCommand(playerIdInstance, clanIdInstance, cardId, random.Next(1, 8), date);
 
                 await _sender.Send(donation);
             }

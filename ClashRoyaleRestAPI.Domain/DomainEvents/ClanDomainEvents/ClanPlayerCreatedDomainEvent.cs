@@ -1,9 +1,7 @@
-﻿using ClashRoyaleRestAPI.Domain.Enum;
-using ClashRoyaleRestAPI.Domain.Primitives;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
+﻿using ClashRoyaleRestAPI.Domain.Primitives;
 
 namespace ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
 
-public record ClanPlayerCreatedDomainEvent(ClanId ClanId, PlayerId PlayerId) : DomainEvent
+public record ClanPlayerCreatedDomainEvent(Guid Id, Guid ClanId, Guid PlayerId) : DomainEvent(Id)
 {
 }

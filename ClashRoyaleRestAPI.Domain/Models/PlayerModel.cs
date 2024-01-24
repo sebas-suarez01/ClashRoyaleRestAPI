@@ -10,7 +10,7 @@ public class PlayerModel : Entity<PlayerId>
 {
     private PlayerModel()
     {
-        Id = PlayerId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<PlayerId>();
     }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
@@ -32,7 +32,7 @@ public class PlayerModel : Entity<PlayerId>
             Level = level,
         };
 
-        player.RaiseDomainEvent(new PlayerCreatedDomainEvent(player.Id));
+        player.RaiseDomainEvent(new PlayerCreatedDomainEvent(Guid.NewGuid(), player.Id.Value));
 
         return player;
     }
@@ -40,7 +40,7 @@ public class PlayerModel : Entity<PlayerId>
     {
         return new PlayerModel
         {
-            Id = PlayerId.Create(id),
+            Id = ValueObjectId.Create<PlayerId>(id),
             Alias = alias,
             Elo = elo,
             Level = level,
@@ -50,20 +50,20 @@ public class PlayerModel : Entity<PlayerId>
     {
         _cards.Add(collection);
 
-        RaiseDomainEvent(new CardAddedDomainEvent(Id, collection.Card!.Id));
+        RaiseDomainEvent(new CardAddedDomainEvent(Guid.NewGuid(), Id.Value, collection.Card!.Id));
     }
     public void AddFavoriteCard(CardModel card)
     {
         FavoriteCard ??= card;
 
-        RaiseDomainEvent(new FavoriteCardChangedDomainEvent(Id, card.Id));
+        RaiseDomainEvent(new FavoriteCardChangedDomainEvent(Guid.NewGuid(), Id.Value, card.Id));
     }
     public bool HaveCard(int cardId) => Cards.Any(c => c.Card is not null && c.Card.Id == cardId);
     public void ChangeAlias(string alias)
     {
         Alias = alias;
 
-        RaiseDomainEvent(new PlayerNameChangedDomainEvent(Id, Alias));
+        RaiseDomainEvent(new PlayerNameChangedDomainEvent(Guid.NewGuid(), Id.Value, Alias));
     }
     public void AddCardAmount() => CardAmount += 1;
     private void UpdateMaxElo(int maxElo) => MaxElo = maxElo;
@@ -81,7 +81,7 @@ public class PlayerModel : Entity<PlayerId>
         if (Elo > MaxElo)
             UpdateMaxElo(Elo);
 
-        RaiseDomainEvent(new PlayerEloChangedDomainEvent(Id, elo));
+        RaiseDomainEvent(new PlayerEloChangedDomainEvent(Guid.NewGuid(), Id.Value, elo));
 
     }
 

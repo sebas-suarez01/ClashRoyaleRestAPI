@@ -1,8 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Primitives;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
 
-public record ClanMinTrophiesChangedDomainEvent(ClanId ClanId, int MinTrophies) : DomainEvent
+public record ClanMinTrophiesChangedDomainEvent(Guid Id, Guid ClanId, int MinTrophies) : DomainEvent(Id)
 {
 }

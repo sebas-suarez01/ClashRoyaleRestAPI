@@ -8,6 +8,7 @@ using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace ClashRoyaleRestAPI.API.Controllers;
 
 [Route("api/battles")]
@@ -32,10 +33,12 @@ public class BattleController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // GET api/battles/{battleId:Guid}
-    [HttpGet("{battleId:Guid}")]
-    public async Task<IActionResult> Get(Guid battleId)
+    // GET api/battles/{id:Guid}
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> Get(Guid id)
     {
+        var battleId = ValueObjectId.Create<BattleId>(id);
+
         var query = new GetBattleByIdWithIncludesQuery(battleId);
 
         var result = await _sender.Send(query);
@@ -49,10 +52,13 @@ public class BattleController : ApiController
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] AddBattleRequest battleRequest)
     {
-        var battle = _mapper.Map<BattleModel>(battleRequest);
 
-        var command = new AddBattleCommand(battleRequest.WinnerId,
-                                           battleRequest.LoserId,
+        var winnerId = ValueObjectId.Create<PlayerId>(battleRequest.WinnerId);
+        
+        var loserId = ValueObjectId.Create<PlayerId>(battleRequest.LoserId);
+
+        var command = new AddBattleCommand(winnerId,
+                                           loserId,
                                            battleRequest.AmountTrophies,
                                            battleRequest.DurationInSeconds,
                                            battleRequest.Date);

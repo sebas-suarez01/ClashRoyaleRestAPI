@@ -15,7 +15,7 @@ public class ClanConfiguration : IEntityTypeConfiguration<ClanModel>
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
-                value => ClanId.Create(value));
+                value => ValueObjectId.Create<ClanId>(value));
 
         builder.Property(c => c.Name)
             .HasMaxLength(64)

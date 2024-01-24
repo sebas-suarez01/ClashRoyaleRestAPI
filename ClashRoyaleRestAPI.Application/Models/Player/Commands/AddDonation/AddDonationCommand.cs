@@ -1,10 +1,10 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
-namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation
-{
-    public record AddDonationCommand(Guid PlayerId,
-                                     Guid ClanId,
-                                     int CardId,
-                                     int Amount,
-                                     DateTime Date) : ICommand;
-}
+namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;
+
+public record AddDonationCommand(PlayerId PlayerId,
+                                 ClanId ClanId,
+                                 int CardId,
+                                 int Amount,
+                                 DateTime Date) : ICommand;

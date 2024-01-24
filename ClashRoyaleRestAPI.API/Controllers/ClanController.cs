@@ -63,10 +63,12 @@ public class ClanController : ApiController
         return Ok(result.Value);
     }
 
-    // GET api/clans/{clanId:int}
-    [HttpGet("{clanId:int}")]
-    public async Task<IActionResult> Get(Guid clanId)
+    // GET api/clans/{id:Guid}
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> Get(Guid id)
     {
+        var clanId = ValueObjectId.Create<ClanId>(id);
+
         var query = new GetClanByIdWithIncludesQuery(clanId);
 
         var result = await _sender.Send(query);
@@ -74,14 +76,16 @@ public class ClanController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // POST api/clans/{playerId:int}
-    [HttpPost("{playerId:int}")]
+    // POST api/clans/{playerId:Guid}
+    [HttpPost("{playerId:Guid}")]
     public async Task<IActionResult> Post(Guid playerId, [FromBody] AddClanRequest clanRequest)
     {
         var clan = ClanModel.Create(clanRequest.Name!, clanRequest.Description!, clanRequest.Region!,
                                     clanRequest.TypeOpen, clanRequest.TrophiesInWar, clanRequest.MinTrophies);
 
-        var command = new AddClanCommand(playerId, clan);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var command = new AddClanCommand(playerIdInstance, clan);
 
         var result = await _sender.Send(command);
 
@@ -90,8 +94,8 @@ public class ClanController : ApiController
             : Problem(result.Errors);
     }
 
-    // PUT api/clans/{clanId:int}
-    [HttpPut("{clanId:int}")]
+    // PUT api/clans/{clanId:Guid}
+    [HttpPut("{clanId:Guid}")]
     public async Task<IActionResult> Put(Guid clanId, [FromBody] UpdateClanRequest clanRequest)
     {
         if (clanId != clanRequest.Id)
@@ -108,11 +112,11 @@ public class ClanController : ApiController
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // DELETE api/clans/{clanId:int}
-    [HttpDelete("{clanId:int}")]
+    // DELETE api/clans/{clanId:Guid}
+    [HttpDelete("{id:Guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var clanId = ClanId.Create(id);
+        var clanId = ValueObjectId.Create<ClanId>(id);
 
         var command = new DeleteModelCommand<ClanModel, ClanId>(clanId);
 
@@ -143,10 +147,12 @@ public class ClanController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // GET api/clans/{clanId:int}/players
-    [HttpGet("{clanId:int}/players")]
-    public async Task<IActionResult> GetPlayers(Guid clanId)
+    // GET api/clans/{id:int}/players
+    [HttpGet("{id:Guid}/players")]
+    public async Task<IActionResult> GetPlayers(Guid id)
     {
+        var clanId = ValueObjectId.Create<ClanId>(id);
+
         var query = new GetAllPlayersQuery(clanId);
 
         var result = await _sender.Send(query);
@@ -154,33 +160,45 @@ public class ClanController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // POST api/clans/{clanId:int}/players/{playerId:int}
-    [HttpPost("{clanId:int}/players/{playerId:int}")]
+    // POST api/clans/{clanId:Guid}/players/{playerId:Guid}
+    [HttpPost("{clanId:Guid}/players/{playerId:Guid}")]
     public async Task<IActionResult> AddPlayer(Guid clanId, Guid playerId)
     {
-        var command = new AddPlayerClanCommand(clanId, playerId);
+        var clanIdInstance = ValueObjectId.Create<ClanId>(clanId);
+
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var command = new AddPlayerClanCommand(clanIdInstance, playerIdInstance);
 
         var result = await _sender.Send(command);
 
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // DELETE api/clans/{clanId:int}/players/{playerId:int}
-    [HttpDelete("{clanId:int}/players/{playerId:int}")]
+    // DELETE api/clans/{clanId:Guid}/players/{playerId:Guid}
+    [HttpDelete("{clanId:Guid}/players/{playerId:Guid}")]
     public async Task<IActionResult> RemovePlayer(Guid clanId, Guid playerId)
     {
-        var command = new RemovePlayerClanCommand(clanId, playerId);
+        var clanIdInstance = ValueObjectId.Create<ClanId>(clanId);
+
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var command = new RemovePlayerClanCommand(clanIdInstance, playerIdInstance);
 
         var result = await _sender.Send(command);
 
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // PATCH api/clans/{clanId:int}/players/{playerId}/rank/{rank:int}
-    [HttpPatch("{clanId:int}/players/{playerId:int}/rank/{rank:int}")]
+    // PATCH api/clans/{clanId:Guid}/players/{playerId:Guid}/rank/{rank:int}
+    [HttpPatch("{clanId:Guid}/players/{playerId:Guid}/rank/{rank:int}")]
     public async Task<IActionResult> UpdatePlayerRank(Guid clanId, Guid playerId, RankClan rank)
     {
-        var command = new UpdatePlayerRankCommand(clanId, playerId, rank);
+        var clanIdInstance = ValueObjectId.Create<ClanId>(clanId);
+
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var command = new UpdatePlayerRankCommand(clanIdInstance, playerIdInstance, rank);
 
         var result = await _sender.Send(command);
 

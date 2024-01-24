@@ -8,8 +8,7 @@ public class ChallengeModel : Entity<ChallengeId>
 {
     private ChallengeModel()
     {
-        Id = ChallengeId.CreateUnique();
-
+        Id = ValueObjectId.CreateUnique<ChallengeId>();
     }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
@@ -44,7 +43,7 @@ public class ChallengeModel : Entity<ChallengeId>
             LossLimit = lossLimit
         };
 
-        challenge.RaiseDomainEvent(new ChallengeCreatedDomainEvent(challenge.Id));
+        challenge.RaiseDomainEvent(new ChallengeCreatedDomainEvent(Guid.NewGuid(), challenge.Id.Value));
 
         return challenge;
     }
@@ -62,7 +61,7 @@ public class ChallengeModel : Entity<ChallengeId>
     {
         return new ChallengeModel()
         {
-            Id = ChallengeId.Create(id),
+            Id = ValueObjectId.Create<ChallengeId>(id),
             Name = name,
             Description = description,
             Cost = cost,

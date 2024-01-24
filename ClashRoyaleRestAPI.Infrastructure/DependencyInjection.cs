@@ -43,11 +43,10 @@ public static class DependencyInjection
                         trigger.ForJob(jobKey)
                                 .WithSimpleSchedule(
                                     schedule =>
-                                        schedule.WithIntervalInSeconds(30)
+                                        schedule.WithIntervalInSeconds(10)
                                             .RepeatForever()));
 
         });
-
 
         services.AddQuartzHostedService();
 
@@ -128,7 +127,6 @@ public static class DependencyInjection
 
             optionsBuilder.UseTriggers(triggerOpt =>
             {
-                triggerOpt.AddTrigger<UpdateCardAmountTrigger>();
                 triggerOpt.AddTrigger<UpdateMaxEloInsertPlayerTrigger>();
                 triggerOpt.AddTrigger<UpdatePlayerStatsInsertBattleTrigger>();
                 triggerOpt.AddTrigger<UpdateAmountClanMembersTrigger>(); 

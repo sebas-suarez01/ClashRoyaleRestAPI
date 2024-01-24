@@ -14,12 +14,12 @@ public class CollectionConfiguration : IEntityTypeConfiguration<CollectionModel>
         builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Value,
-                value => CollectionId.Create(value));
+                value => ValueObjectId.Create<CollectionId>(value));
 
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<int>("CardId");
 

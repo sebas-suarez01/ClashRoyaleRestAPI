@@ -10,7 +10,7 @@ public class PlayerChallengesModel : Entity<PlayerChallengesId>
 {
     private PlayerChallengesModel()
     {
-        Id = PlayerChallengesId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<PlayerChallengesId>();
     }
     public PlayerModel? Player { get; private set; }
     public ChallengeModel? Challenge { get; private set; }
@@ -26,7 +26,9 @@ public class PlayerChallengesModel : Entity<PlayerChallengesId>
             PrizeAmount = prizeAmount
         };
 
-        playerChallenge.RaiseDomainEvent(new PlayerChallengeCreatedDomainEvent(player.Id, challenge.Id));
+        playerChallenge.RaiseDomainEvent(new PlayerChallengeCreatedDomainEvent(Guid.NewGuid(),
+                                                                               player.Id.Value,
+                                                                               challenge.Id.Value));
 
         return playerChallenge;
     }
@@ -36,7 +38,7 @@ public class PlayerChallengesModel : Entity<PlayerChallengesId>
         if (!IsCompleted)
             IsCompleted = true;
 
-        RaiseDomainEvent(new ChallengeCompletedDomainEvent(Player!.Id, Challenge!.Id));
+        RaiseDomainEvent(new ChallengeCompletedDomainEvent(Guid.NewGuid(), Player!.Id.Value, Challenge!.Id.Value));
     }
 
     public void AddReward(int amount)

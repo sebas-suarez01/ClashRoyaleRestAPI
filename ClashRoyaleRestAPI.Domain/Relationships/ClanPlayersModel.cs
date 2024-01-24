@@ -11,7 +11,7 @@ public class ClanPlayersModel : Entity<ClanPlayersId>
 {
     private ClanPlayersModel()
     {
-        Id = ClanPlayersId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<ClanPlayersId>();
     }
 
     [JsonIgnore]
@@ -28,7 +28,9 @@ public class ClanPlayersModel : Entity<ClanPlayersId>
             Rank = rank
         };
 
-        playerClan.RaiseDomainEvent(new ClanPlayerCreatedDomainEvent(clan.Id, player.Id));
+        playerClan.RaiseDomainEvent(new ClanPlayerCreatedDomainEvent(Guid.NewGuid(),
+                                                                     clan.Id.Value,
+                                                                     player.Id.Value));
 
         return playerClan;
     }
@@ -37,6 +39,6 @@ public class ClanPlayersModel : Entity<ClanPlayersId>
     {
         Rank = rank;
 
-        RaiseDomainEvent(new PlayerRankUpdatedDomainEvent(Clan!.Id, Player!.Id, rank));
+        RaiseDomainEvent(new PlayerRankUpdatedDomainEvent(Guid.NewGuid(), Clan!.Id.Value, Player!.Id.Value, rank));
     }
 }

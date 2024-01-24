@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdateAlias;
@@ -19,9 +18,7 @@ internal class UpdatePlayerAliasCommandHandler : ICommandHandler<UpdatePlayerAli
 
     public async Task<Result> Handle(UpdatePlayerAliasCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = PlayerId.Create(request.Id);
-
-        await _repository.UpdateAlias(playerId, request.Alias);
+        await _repository.UpdateAlias(request.Id, request.Alias);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

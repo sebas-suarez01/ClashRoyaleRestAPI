@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
 
-public record AddPlayerClanCommand(Guid ClanId, Guid PlayerId) : ICommand;
+public record AddPlayerClanCommand(ClanId ClanId, PlayerId PlayerId) : ICommand;

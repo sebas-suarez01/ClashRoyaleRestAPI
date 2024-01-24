@@ -2,7 +2,6 @@
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Application.Specifications.Models.Player;
 using ClashRoyaleRestAPI.Domain.Models;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Queries.GetPlayerByIdWithIncludes;
@@ -18,10 +17,8 @@ internal class GetPlayerByIdWithIncludesQueryHandler : IQueryHandler<GetPlayerBy
 
     public async Task<Result<PlayerModel>> Handle(GetPlayerByIdWithIncludesQuery request, CancellationToken cancellationToken)
     {
-        var playerId = PlayerId.Create(request.Id);
-
-        PlayerModel player = await _repository.GetSingleByIdAsync(playerId,
-                                                                  new GetPlayerByIdSpecification(playerId));
+        PlayerModel player = await _repository.GetSingleByIdAsync(request.Id,
+                                                                  new GetPlayerByIdSpecification(request.Id));
 
         return player;
     }

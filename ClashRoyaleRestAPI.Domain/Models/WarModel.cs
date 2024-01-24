@@ -8,7 +8,7 @@ public class WarModel : Entity<WarId>
 {
     private WarModel() 
     {
-        Id = WarId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<WarId>();
     }
     public DateTime StartDate { get; private set; }
 
@@ -19,7 +19,7 @@ public class WarModel : Entity<WarId>
             StartDate = start,
         };
 
-        war.RaiseDomainEvent(new WarCreatedDomainEvent(war.Id));
+        war.RaiseDomainEvent(new WarCreatedDomainEvent(Guid.NewGuid(), war.Id.Value));
 
         return war;
     }

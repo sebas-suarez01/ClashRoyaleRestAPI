@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.UpdatePlayerRank;
@@ -19,10 +18,7 @@ internal class UpdatePlayerRankCommandHandler : ICommandHandler<UpdatePlayerRank
 
     public async Task<Result> Handle(UpdatePlayerRankCommand request, CancellationToken cancellationToken = default)
     {
-        var clanId = ClanId.Create(request.ClanId);
-        var playerId = PlayerId.Create(request.PlayerId);
-
-        await _repository.UpdatePlayerRank(clanId, playerId, request.Rank);
+        await _repository.UpdatePlayerRank(request.ClanId, request.PlayerId, request.Rank);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

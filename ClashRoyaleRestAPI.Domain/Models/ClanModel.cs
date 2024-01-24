@@ -10,7 +10,7 @@ public class ClanModel : Entity<ClanId>
 {
     private ClanModel()
     {
-        Id = ClanId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<ClanId>();
     }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
@@ -36,7 +36,7 @@ public class ClanModel : Entity<ClanId>
             MinTrophies = minTrophies
         };
 
-        clan.RaiseDomainEvent(new ClanCreatedDomainEvent(clan.Id));
+        clan.RaiseDomainEvent(new ClanCreatedDomainEvent(Guid.NewGuid(), clan.Id.Value));
 
         return clan;
     }
@@ -45,7 +45,7 @@ public class ClanModel : Entity<ClanId>
     {
         return new ClanModel
         {
-            Id = ClanId.Create(id),
+            Id = ValueObjectId.Create<ClanId>(id),
             Name = name,
             Description = description,
             Region = region,
@@ -61,7 +61,7 @@ public class ClanModel : Entity<ClanId>
 
         _players.Add(playerClan);
 
-        RaiseDomainEvent(new PlayerAddedDomainEvent(Id, player.Id));
+        RaiseDomainEvent(new PlayerAddedDomainEvent(Guid.NewGuid(), Id.Value, player.Id.Value));
     }
     public void RemovePlayer(PlayerModel player, RankClan rank = RankClan.Member)
     {
@@ -69,7 +69,7 @@ public class ClanModel : Entity<ClanId>
 
         _players.Remove(playerClan);
 
-        RaiseDomainEvent(new PlayerRemovedDomainEvent(Id, player.Id));
+        RaiseDomainEvent(new PlayerRemovedDomainEvent(Guid.NewGuid(), Id.Value, player.Id.Value));
     }
 
     public void AddAmountMember()
@@ -84,13 +84,13 @@ public class ClanModel : Entity<ClanId>
     {
         TypeOpen = !TypeOpen;
 
-        RaiseDomainEvent(new ClanTypeChangedDomainEvent(Id));
+        RaiseDomainEvent(new ClanTypeChangedDomainEvent(Guid.NewGuid(), Id.Value));
     }
     public void AddMinTrophies(int minTrophies)
     {
         MinTrophies = minTrophies;
 
-        RaiseDomainEvent(new ClanMinTrophiesChangedDomainEvent(Id, minTrophies));
+        RaiseDomainEvent(new ClanMinTrophiesChangedDomainEvent(Guid.NewGuid(), Id.Value, minTrophies));
     }
 
 

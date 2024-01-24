@@ -1,8 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Primitives;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.DomainEvents.PlayerDomainEvents;
 
-public record PlayerNameChangedDomainEvent(PlayerId PlayerId, string PlayerName) : DomainEvent
+public record PlayerNameChangedDomainEvent(Guid Id, Guid PlayerId, string PlayerName) : DomainEvent(Id)
 {
 }

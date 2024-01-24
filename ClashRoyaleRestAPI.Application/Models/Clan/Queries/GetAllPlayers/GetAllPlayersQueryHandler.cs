@@ -1,6 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Relationships;
 using ClashRoyaleRestAPI.Domain.Shared;
 
@@ -17,9 +16,7 @@ internal class GetAllPlayersQueryHandler : IQueryHandler<GetAllPlayersQuery, IEn
 
     public async Task<Result<IEnumerable<ClanPlayersModel>>> Handle(GetAllPlayersQuery request, CancellationToken cancellationToken)
     {
-        var clanId = ClanId.Create(request.ClanId);
-
-        IEnumerable<ClanPlayersModel> players = await _repository.GetPlayers(clanId);
+        IEnumerable<ClanPlayersModel> players = await _repository.GetPlayers(request.ClanId);
 
         return Result.Create(players);
     }

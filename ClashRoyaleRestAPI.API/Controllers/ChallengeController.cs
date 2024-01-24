@@ -19,11 +19,11 @@ public class ChallengeController : ApiController
     {
     }
 
-    // GET api/challenges/{id:int}
-    [HttpGet("{id:int}")]
+    // GET api/challenges/{id:Guid}
+    [HttpGet("{id:Guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var challengeId = ChallengeId.Create(id);
+        var challengeId = ValueObjectId.Create<ChallengeId>(id);
 
         var quey = new GetModelByIdQuery<ChallengeModel, ChallengeId>(challengeId);
 
@@ -62,8 +62,8 @@ public class ChallengeController : ApiController
             Problem(result.Errors);
     }
 
-    // PUT api/challenges/{id:int}
-    [HttpPut("{id:int}")]
+    // PUT api/challenges/{id:Guid}
+    [HttpPut("{id:Guid}")]
     public async Task<IActionResult> Put(Guid id, [FromBody] UpdateChallengeRequest challengeRequest)
     {
         if (id != challengeRequest.Id)
@@ -82,11 +82,11 @@ public class ChallengeController : ApiController
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // DELETE api/challenges/{id:int}
-    [HttpDelete("{id:int}")]
+    // DELETE api/challenges/{id:Guid}
+    [HttpDelete("{id:Guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var challengeId = ChallengeId.Create(id);
+        var challengeId = ValueObjectId.Create<ChallengeId>(id);
 
         var command = new DeleteModelCommand<ChallengeModel, ChallengeId>(challengeId);
 

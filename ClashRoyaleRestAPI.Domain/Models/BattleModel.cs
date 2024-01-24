@@ -8,7 +8,7 @@ public class BattleModel : Entity<BattleId>
 {
     private BattleModel()
     {
-        Id = BattleId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<BattleId>();
     }
     public int AmountTrophies { get; private set; }
     public PlayerModel? Winner { get; private set; }
@@ -31,7 +31,7 @@ public class BattleModel : Entity<BattleId>
             Date = date
         };
 
-        battle.RaiseDomainEvent(new BattleCreatedDomainEvent(battle.Id, battle.Winner.Id));
+        battle.RaiseDomainEvent(new BattleCreatedDomainEvent(Guid.NewGuid(), battle.Id.Value, battle.Winner.Id.Value));
 
         return battle;
     }

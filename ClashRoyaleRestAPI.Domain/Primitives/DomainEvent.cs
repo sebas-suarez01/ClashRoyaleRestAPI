@@ -1,11 +1,7 @@
-﻿namespace ClashRoyaleRestAPI.Domain.Primitives;
+﻿using MediatR;
 
-public record DomainEvent : IDomainEvent
+namespace ClashRoyaleRestAPI.Domain.Primitives;
+
+public record DomainEvent(Guid Id) : INotification
 {
-    public Guid Id { get; protected set; }
-
-    public DomainEvent()
-    {
-        Id = Guid.NewGuid();
-    }
 }

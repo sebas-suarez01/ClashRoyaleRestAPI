@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;
@@ -19,11 +18,8 @@ internal class AddDonationCommandHandler : ICommandHandler<AddDonationCommand>
 
     public async Task<Result> Handle(AddDonationCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = PlayerId.Create(request.PlayerId);
-        var clanId = ClanId.Create(request.ClanId);
-
-        await _playerRepository.AddDonation(playerId,
-                                            clanId,
+        await _playerRepository.AddDonation(request.PlayerId,
+                                            request.ClanId,
                                             request.CardId,
                                             request.Amount,
                                             request.Date);

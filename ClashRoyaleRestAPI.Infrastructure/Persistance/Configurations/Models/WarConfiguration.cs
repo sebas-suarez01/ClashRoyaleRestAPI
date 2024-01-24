@@ -15,6 +15,6 @@ public class WarConfiguration : IEntityTypeConfiguration<WarModel>
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
-                value => WarId.Create(value));
+                value => ValueObjectId.Create<WarId>(value));
     }
 }

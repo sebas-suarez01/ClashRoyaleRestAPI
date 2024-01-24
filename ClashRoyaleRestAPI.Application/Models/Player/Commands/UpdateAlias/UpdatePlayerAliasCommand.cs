@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdateAlias;
 
-public record UpdatePlayerAliasCommand(Guid Id, string Alias) : ICommand;
+public record UpdatePlayerAliasCommand(PlayerId Id, string Alias) : ICommand;

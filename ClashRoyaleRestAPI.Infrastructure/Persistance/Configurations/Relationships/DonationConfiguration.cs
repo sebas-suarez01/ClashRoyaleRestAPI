@@ -14,17 +14,17 @@ public class DonationConfiguration : IEntityTypeConfiguration<DonationModel>
         builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Value,
-                value => DonationId.Create(value));
+                value => ValueObjectId.Create<DonationId>(value));
 
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<ClanId>("ClanId")
             .HasConversion(
                 id => id.Value,
-                value => ClanId.Create(value));
+                value => ValueObjectId.Create<ClanId>(value));
 
         builder.Property<int>("CardId");
 

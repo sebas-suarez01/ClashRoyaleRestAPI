@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.AddPlayerChallenge;
 
-public record AddPlayerChallengeCommand(Guid PlayerId, Guid ChallengeId) : ICommand;
+public record AddPlayerChallengeCommand(PlayerId PlayerId, ChallengeId ChallengeId) : ICommand;

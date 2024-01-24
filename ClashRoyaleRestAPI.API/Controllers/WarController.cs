@@ -32,11 +32,11 @@ public class WarController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // GET api/wars/{warId:int}
-    [HttpGet("{warId:int}")]
+    // GET api/wars/{warId:Guid}
+    [HttpGet("{warId:Guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var warId = WarId.Create(id);
+        var warId = ValueObjectId.Create<WarId>(id);
 
         var query = new GetModelByIdQuery<WarModel, WarId>(warId);
 
@@ -60,11 +60,11 @@ public class WarController : ApiController
             : Problem(result.Errors);
     }
 
-    // DELETE api/wars/{warId:int}
-    [HttpDelete("{warId:int}")]
+    // DELETE api/wars/{id:Guid}
+    [HttpDelete("{id:Guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var warId = WarId.Create(id);
+        var warId = ValueObjectId.Create<WarId>(id);
 
         var command = new DeleteModelCommand<WarModel, WarId>(warId);
 
@@ -84,11 +84,16 @@ public class WarController : ApiController
         return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
     }
 
-    // POST api/wars/{warId:int}/{clanId:int}
-    [HttpPost("{warId:int}/{clanId:int}")]
+    // POST api/wars/{warId:Guid}/{clanId:Guid}
+    [HttpPost("{warId:Guid}/{clanId:Guid}")]
     public async Task<IActionResult> AddClanToWar(Guid warId, Guid clanId, int prize)
     {
-        var command = new AddClanWarCommand(clanId, warId, prize);
+        var warIdInstance = ValueObjectId.Create<WarId>(warId);
+        
+        var clanIdInstance = ValueObjectId.Create<ClanId>(clanId);
+
+
+        var command = new AddClanWarCommand(clanIdInstance, warIdInstance, prize);
 
         var result = await _sender.Send(command);
 

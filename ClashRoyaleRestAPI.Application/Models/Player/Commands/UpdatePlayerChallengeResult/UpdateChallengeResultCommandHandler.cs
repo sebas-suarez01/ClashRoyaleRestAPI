@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Player.Commands.UpdatePlayerChallengeResult;
@@ -19,10 +18,9 @@ internal class UpdateChallengeResultCommandHandler : ICommandHandler<UpdateChall
 
     public async Task<Result> Handle(UpdateChallengeResultCommand request, CancellationToken cancellationToken = default)
     {
-        var playerId = PlayerId.Create(request.PlayerId);
-        var challengeId = ChallengeId.Create(request.ChallengeId);
-
-        await _playerRepository.AddPlayerChallengeResult(playerId, challengeId, request.Reward);
+        await _playerRepository.AddPlayerChallengeResult(request.PlayerId,
+                                                         request.ChallengeId,
+                                                         request.Reward);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

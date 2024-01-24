@@ -15,7 +15,7 @@ public class PlayerConfiguration : IEntityTypeConfiguration<PlayerModel>
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property(p => p.Alias)
             .HasMaxLength(64)

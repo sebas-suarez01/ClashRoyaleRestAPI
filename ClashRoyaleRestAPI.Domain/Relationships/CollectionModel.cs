@@ -11,7 +11,7 @@ public class CollectionModel : Entity<CollectionId>
 {
     private CollectionModel()
     {
-        Id = CollectionId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<CollectionId>();
     }
     [JsonIgnore]
     public PlayerModel? Player { get; private set; }
@@ -29,7 +29,7 @@ public class CollectionModel : Entity<CollectionId>
             Date = date
         };
 
-        collection.RaiseDomainEvent(new CollectionCreatedDomainEvent(player.Id, card.Id));
+        collection.RaiseDomainEvent(new CollectionCreatedDomainEvent(Guid.NewGuid(), player.Id.Value, card.Id));
 
         return collection;
     }

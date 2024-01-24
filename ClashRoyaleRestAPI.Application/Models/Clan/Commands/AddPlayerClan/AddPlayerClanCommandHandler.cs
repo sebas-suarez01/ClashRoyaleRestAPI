@@ -1,7 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
@@ -19,10 +18,7 @@ internal class AddPlayerClanCommandHandler : ICommandHandler<AddPlayerClanComman
 
     public async Task<Result> Handle(AddPlayerClanCommand request, CancellationToken cancellationToken = default)
     {
-        var clanId = ClanId.Create(request.ClanId);
-        var playerId = PlayerId.Create(request.PlayerId);
-
-        await _repository.AddPlayer(clanId, playerId);
+        await _repository.AddPlayer(request.ClanId, request.PlayerId);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

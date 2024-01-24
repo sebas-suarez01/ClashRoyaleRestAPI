@@ -58,11 +58,13 @@ public class PlayerController : ApiController
         return Ok(result.Value);
     }
 
-    // GET api/players/{id:int}
-    [HttpGet("{id:int}")]
+    // GET api/players/{id:Guid}
+    [HttpGet("{id:Guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var query = new GetPlayerByIdWithIncludesQuery(id);
+        var playerId = ValueObjectId.Create<PlayerId>(id);
+
+        var query = new GetPlayerByIdWithIncludesQuery(playerId);
 
         var result = await _sender.Send(query);
 
@@ -98,8 +100,8 @@ public class PlayerController : ApiController
 
     }
 
-    // PUT api/players/{id:int}
-    [HttpPut("{id:int}")]
+    // PUT api/players/{id:Guid}
+    [HttpPut("{id:Guid}")]
     public async Task<IActionResult> Put(Guid id, [FromBody] UpdatePlayerRequest playerRequest)
     {
         if (id != playerRequest.Id)
@@ -117,11 +119,11 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
-    // DELETE api/players/{id:int}
-    [HttpDelete("{id:int}")]
+    // DELETE api/players/{id:Guid}
+    [HttpDelete("{id:Guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var playerId = PlayerId.Create(id);
+        var playerId = ValueObjectId.Create<PlayerId>(id);
 
         var commandDelete = new DeleteModelCommand<PlayerModel, PlayerId>(playerId);
 
@@ -130,11 +132,13 @@ public class PlayerController : ApiController
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // GET api/players/{id:int}/cards
-    [HttpGet("{id:int}/cards")]
+    // GET api/players/{id:Guid}/cards
+    [HttpGet("{id:Guid}/cards")]
     public async Task<IActionResult> GetCards(Guid id)
     {
-        var query = new GetAllCardOfPlayerQuery(id);
+        var playerId = ValueObjectId.Create<PlayerId>(id);
+
+        var query = new GetAllCardOfPlayerQuery(playerId);
 
         var result = await _sender.Send(query);
 
@@ -143,11 +147,13 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
-    // POST api/players/{playerId:int}/cards/{cardId:int}
-    [HttpPost("{playerId:int}/cards/{cardId:int}")]
+    // POST api/players/{playerId:Guid}/cards/{cardId:int}
+    [HttpPost("{playerId:Guid}/cards/{cardId:int}")]
     public async Task<IActionResult> AddCard(Guid playerId, int cardId)
     {
-        var command = new AddCardCommand(playerId, cardId);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var command = new AddCardCommand(playerIdInstance, cardId);
 
         var result = await _sender.Send(command);
 
@@ -156,11 +162,13 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
-    // PATCH api/players/{playerId:int}/{alias}
-    [HttpPatch("{playerId:int}/{alias}")]
+    // PATCH api/players/{playerId:Guid}/{alias}
+    [HttpPatch("{playerId:Guid}/{alias}")]
     public async Task<IActionResult> UpdateAlias(Guid playerId, string alias)
     {
-        var query = new UpdatePlayerAliasCommand(playerId, alias);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var query = new UpdatePlayerAliasCommand(playerIdInstance, alias);
 
         var result = await _sender.Send(query);
 
@@ -169,38 +177,51 @@ public class PlayerController : ApiController
             : Problem(result.Errors);
     }
 
-    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
-    [HttpPut("{playerId:int}/challenge/{challengeId:int}")]
+    // PUT api/players/{playerId:Guid}/challenge/{challengeId:Guid}
+    [HttpPut("{playerId:Guid}/challenge/{challengeId:Guid}")]
     public async Task<IActionResult> UpdateChallengeResult(Guid playerId, Guid challengeId, [FromBody] AddChallengeResultRequest addChallengeResult)
     {
-        var command = new UpdateChallengeResultCommand(playerId, challengeId, addChallengeResult.Reward);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var challengeIdInstance = ValueObjectId.Create<ChallengeId>(challengeId);
+
+        var command = new UpdateChallengeResultCommand(playerIdInstance,
+                                                       challengeIdInstance,
+                                                       addChallengeResult.Reward);
 
         var result = await _sender.Send(command);
 
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // PUT api/players/{playerId:int}/challenge/{challengeId:int}
-    [HttpPost("{playerId:int}/challenge/{challengeId:int}")]
+    // PUT api/players/{playerId:Guid}/challenge/{challengeId:Guid}
+    [HttpPost("{playerId:Guid}/challenge/{challengeId:Guid}")]
     public async Task<IActionResult> PostPlayerChallenge(Guid playerId, Guid challengeId)
     {
-        var command = new AddPlayerChallengeCommand(playerId, challengeId);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var challengeIdInstance = ValueObjectId.Create<ChallengeId>(challengeId);
+
+        var command = new AddPlayerChallengeCommand(playerIdInstance, challengeIdInstance);
 
         var result = await _sender.Send(command);
 
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 
-    // POST api/players/{playerId:int}/donate
-    [HttpPost("{playerId:int}/donate")]
+    // POST api/players/{playerId:Guid}/donate
+    [HttpPost("{playerId:Guid}/donate")]
     public async Task<IActionResult> MakeDonation(Guid playerId, [FromBody] AddDonationRequest addDonationRequest)
     {
-        var command = new AddDonationCommand(
-            playerId,
-            addDonationRequest.ClanId,
-            addDonationRequest.CardId,
-            addDonationRequest.Amount,
-            DateTime.Now);
+        var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
+
+        var clanIdInstance = ValueObjectId.Create<ClanId>(addDonationRequest.ClanId);
+
+        var command = new AddDonationCommand(playerIdInstance,
+                                             clanIdInstance,
+                                             addDonationRequest.CardId,
+                                             addDonationRequest.Amount,
+                                             DateTime.Now);
 
         var result = await _sender.Send(command);
 

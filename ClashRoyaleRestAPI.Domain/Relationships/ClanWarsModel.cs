@@ -9,7 +9,7 @@ public class ClanWarsModel : Entity<ClanWarsId>
 {
     private ClanWarsModel()
     {
-        Id = ClanWarsId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<ClanWarsId>();
     }
     public ClanModel? Clan { get; private set; }
     public WarModel? War { get; private set; }
@@ -23,7 +23,7 @@ public class ClanWarsModel : Entity<ClanWarsId>
             Prize = prize
         };
 
-        clanWar.RaiseDomainEvent(new ClanWarCreatedDomainEvent(war.Id, clan.Id));
+        clanWar.RaiseDomainEvent(new ClanWarCreatedDomainEvent(Guid.NewGuid(), war.Id.Value, clan.Id.Value));
 
         return clanWar;
     }

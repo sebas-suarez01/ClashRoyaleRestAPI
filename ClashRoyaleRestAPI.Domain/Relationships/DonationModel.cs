@@ -10,7 +10,7 @@ public class DonationModel : Entity<DonationId>
 {
     private DonationModel()
     {
-        Id = DonationId.CreateUnique();
+        Id = ValueObjectId.CreateUnique<DonationId>();
     }
     public PlayerModel? Player { get; private set; }
     public ClanModel? Clan { get; private set; }
@@ -29,7 +29,10 @@ public class DonationModel : Entity<DonationId>
             Date = date
         };
 
-        donation.RaiseDomainEvent(new DonationCreatedDomainEvent(clan.Id, player.Id, card.Id));
+        donation.RaiseDomainEvent(new DonationCreatedDomainEvent(Guid.NewGuid(),
+                                                                 clan.Id.Value,
+                                                                 player.Id.Value,
+                                                                 card.Id));
 
         return donation;
     }

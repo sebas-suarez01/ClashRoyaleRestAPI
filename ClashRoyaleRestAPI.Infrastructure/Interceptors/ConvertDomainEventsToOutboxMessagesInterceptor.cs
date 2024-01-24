@@ -1,5 +1,4 @@
 ﻿using ClashRoyaleRestAPI.Domain.Primitives;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using ClashRoyaleRestAPI.Infrastructure.Persistance.Outbox;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -22,11 +21,9 @@ internal class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInter
             return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
 
-        var entities = context.ChangeTracker
-                .Entries<IAggregateRoot>()
+        var outboxMessages = context.ChangeTracker
+                .Entries<IDomainEventContainer>()
                 .Select(x => x.Entity)
-                .ToList();
-        var outboxMessages = entities
                 .SelectMany(x =>
                 {
                     var domainEvents = x.GetDomainEvents();

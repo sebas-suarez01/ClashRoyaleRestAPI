@@ -30,7 +30,7 @@ public class ProcessOutboxMessagesJob : IJob
         foreach (var message in outboxMessages)
         {
             var domainEvent = JsonConvert
-                .DeserializeObject<IDomainEvent>(
+                .DeserializeObject<DomainEvent>(
                     message.Content,
                     new JsonSerializerSettings
                     {

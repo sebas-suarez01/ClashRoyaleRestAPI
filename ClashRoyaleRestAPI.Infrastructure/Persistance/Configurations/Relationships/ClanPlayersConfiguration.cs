@@ -14,17 +14,17 @@ public class ClanPlayersConfiguration : IEntityTypeConfiguration<ClanPlayersMode
         builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Value,
-                value => ClanPlayersId.Create(value));
+                value => ValueObjectId.Create<ClanPlayersId>(value));
 
         builder.Property<PlayerId>("PlayerId")
             .HasConversion(
                 id => id.Value,
-                value => PlayerId.Create(value));
+                value => ValueObjectId.Create<PlayerId>(value));
 
         builder.Property<ClanId>("ClanId")
             .HasConversion(
                 id => id.Value, 
-                value => ClanId.Create(value));
+                value => ValueObjectId.Create<ClanId>(value));
 
         builder.HasIndex("PlayerId", "ClanId");
         

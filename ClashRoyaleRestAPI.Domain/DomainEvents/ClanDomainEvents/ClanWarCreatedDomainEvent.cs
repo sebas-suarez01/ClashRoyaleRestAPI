@@ -1,8 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Primitives;
-using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 
 namespace ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
 
-public record ClanWarCreatedDomainEvent(WarId WarId, ClanId ClanId) : DomainEvent
+public record ClanWarCreatedDomainEvent(Guid Id, Guid WarId, Guid ClanId) : DomainEvent(Id)
 {
 }
