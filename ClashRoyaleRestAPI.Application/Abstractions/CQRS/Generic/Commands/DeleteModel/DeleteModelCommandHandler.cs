@@ -9,11 +9,9 @@ public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteMode
     where TModel : class, IEntity<UId>
 {
     private readonly IBaseRepository<TModel, UId> _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    public DeleteModelCommandHandler(IBaseRepository<TModel, UId> repository, IUnitOfWork unitOfWork)
+    public DeleteModelCommandHandler(IBaseRepository<TModel, UId> repository)
     {
         _repository = repository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result> Handle(DeleteModelCommand<TModel, UId> request, CancellationToken cancellationToken = default)
@@ -21,8 +19,6 @@ public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteMode
         TModel model = await _repository.GetSingleByIdAsync(request.Id);
 
         await _repository.Delete(model);
-
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

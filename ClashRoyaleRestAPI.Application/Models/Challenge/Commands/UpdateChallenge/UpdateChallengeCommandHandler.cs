@@ -1,5 +1,4 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
@@ -8,7 +7,7 @@ namespace ClashRoyaleRestAPI.Application.Models.Challenge.Commands.UpdateChallen
 
 internal class UpdateChallengeCommandHandler : UpdateModelCommandHandler<ChallengeModel, ChallengeId>
 {
-    public UpdateChallengeCommandHandler(IChallengeRepository repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
+    public UpdateChallengeCommandHandler(IChallengeRepository repository) : base(repository)
     {
     }
 }

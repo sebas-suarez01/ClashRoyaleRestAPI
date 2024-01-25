@@ -9,18 +9,14 @@ public class AddModelCommandHandler<TModel, UId> : ICommandHandler<AddModelComma
     where TModel : class, IEntity<UId>
 {
     private readonly IBaseRepository<TModel, UId> _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    public AddModelCommandHandler(IBaseRepository<TModel, UId> repository, IUnitOfWork unitOfWork)
+    public AddModelCommandHandler(IBaseRepository<TModel, UId> repository)
     {
         _repository = repository;
-        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<UId>> Handle(AddModelCommand<TModel, UId> request, CancellationToken cancellationToken = default)
     {
         await _repository.Add(request.Model);
-
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return request.Model.Id;
     }
