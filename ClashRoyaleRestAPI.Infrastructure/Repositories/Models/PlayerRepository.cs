@@ -168,7 +168,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, PlayerId>, IPlayer
 
     #region Extra Methods
 
-    public async Task<bool> ExistsCollection(PlayerId playerId, int cardId)
+    private async Task<bool> ExistsCollection(PlayerId playerId, int cardId)
     {
         return await _context
             .Collection
@@ -176,7 +176,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, PlayerId>, IPlayer
             .SingleOrDefaultAsync(cp => cp.Card.Id == cardId && cp.Player.Id == playerId) is not null;
     }
 
-    public async Task<bool> ExistsClanPlayer(PlayerId playerId, ClanId clanId)
+    private async Task<bool> ExistsClanPlayer(PlayerId playerId, ClanId clanId)
     {
         return await _context
             .ClanPlayers
@@ -184,7 +184,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, PlayerId>, IPlayer
             .SingleOrDefaultAsync(cp => cp.Clan.Id == clanId && cp.Player.Id == playerId) is not null;
     }
 
-    public async Task<bool> ExistsDonation(PlayerId playerId, ClanId clanId, int cardId, DateTime date)
+    private async Task<bool> ExistsDonation(PlayerId playerId, ClanId clanId, int cardId, DateTime date)
     {
         return await _context
             .Donations
@@ -195,7 +195,7 @@ internal class PlayerRepository : BaseRepository<PlayerModel, PlayerId>, IPlayer
                                         cp.Date == date) is not null;
     }
 
-    public async Task<bool> ExistsPlayerChallenge(PlayerId playerId, ChallengeId challengeId)
+    private async Task<bool> ExistsPlayerChallenge(PlayerId playerId, ChallengeId challengeId)
     {
         return await _context
             .PlayerChallenges

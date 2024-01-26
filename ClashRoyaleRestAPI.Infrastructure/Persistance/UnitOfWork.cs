@@ -1,4 +1,6 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces;
+﻿using System.Data;
+using ClashRoyaleRestAPI.Application.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance;
 
@@ -12,5 +14,12 @@ internal sealed class UnitOfWork : IUnitOfWork
     public Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public IDbTransaction BeginTransaction()
+    {
+        var transaction = _context.Database.BeginTransaction();
+
+        return transaction.GetDbTransaction();
     }
 }

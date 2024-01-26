@@ -19,5 +19,9 @@ public static partial class ErrorTypes
                 HttpStatusCode.InternalServerError,
                 ErrorCode.Internal,
                 message);
+        public static Error Transaction(string message) => new(
+            HttpStatusCode.InternalServerError,
+            ErrorCode.Transaction,
+            message);
     }
 }

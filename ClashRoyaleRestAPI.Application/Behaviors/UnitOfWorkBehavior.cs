@@ -23,18 +23,15 @@ internal class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TRequ
             return await next();
         }
 
-        using (var transactionScope = new TransactionScope())
-        {
-            var response = await next();
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            transactionScope.Complete();
-
-            return response;
-        }
+        using var transaction = _unitOfWork.BeginTransaction();
         
+        var response = await next();
 
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        transaction.Commit();
+
+        return response;
     }
 
     private static bool IsNotCommand()

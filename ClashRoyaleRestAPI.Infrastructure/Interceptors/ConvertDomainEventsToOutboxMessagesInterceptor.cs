@@ -16,38 +16,40 @@ internal class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInter
 
         DbContext? context = eventData.Context;
 
-        if (context is null)
+        if (context is not null)
         {
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
+            InsertOutboxMessages(context);
         }
+        return base.SavingChangesAsync(eventData, result, cancellationToken);
+    }
 
+    private static void InsertOutboxMessages(DbContext context)
+    {
         var outboxMessages = context.ChangeTracker
-                .Entries<IDomainEventContainer>()
-                .Select(x => x.Entity)
-                .SelectMany(x =>
-                {
-                    var domainEvents = x.GetDomainEvents();
+            .Entries<IDomainEventContainer>()
+            .Select(x => x.Entity)
+            .SelectMany(x =>
+            {
+                var domainEvents = x.GetDomainEvents();
 
-                    x.ClearDomainEvents();
+                x.ClearDomainEvents();
 
-                    return domainEvents;
-                })
-                .Select(domainEvent => new OutboxMessage()
-                {
-                    Id = Guid.NewGuid(),
-                    Type = domainEvent.GetType().Name,
-                    OccurredOnUtc = DateTime.UtcNow,
-                    Content = JsonConvert.SerializeObject(
-                        domainEvent,
-                        new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.All,
-                        })
-                })
-                .ToList();
+                return domainEvents;
+            })
+            .Select(domainEvent => new OutboxMessage()
+            {
+                Id = Guid.NewGuid(),
+                Type = domainEvent.GetType().Name,
+                OccurredOnUtc = DateTime.UtcNow,
+                Content = JsonConvert.SerializeObject(
+                    domainEvent,
+                    new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                    })
+            })
+            .ToList();
 
         context.Set<OutboxMessage>().AddRange(outboxMessages);
-
-        return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 }

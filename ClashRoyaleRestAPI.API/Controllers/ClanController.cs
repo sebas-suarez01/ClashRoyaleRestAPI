@@ -81,7 +81,7 @@ public class ClanController : ApiController
     public async Task<IActionResult> Post(Guid playerId, [FromBody] AddClanRequest clanRequest)
     {
         var clan = ClanModel.Create(clanRequest.Name!, clanRequest.Description!, clanRequest.Region!,
-                                    clanRequest.TypeOpen, clanRequest.TrophiesInWar, clanRequest.MinTrophies);
+            clanRequest.TypeOpen, clanRequest.TrophiesInWar, clanRequest.MinTrophies);
 
         var playerIdInstance = ValueObjectId.Create<PlayerId>(playerId);
 
@@ -89,8 +89,8 @@ public class ClanController : ApiController
 
         var result = await _sender.Send(command);
 
-        return result.IsSuccess ?
-            Created($"api/clans/{result.Value}", result.Value)
+        return result.IsSuccess
+            ? Created($"api/clans/{result.Value}", result.Value)
             : Problem(result.Errors);
     }
 

@@ -16,10 +16,9 @@ public class ApiController : ControllerBase
 
     protected IActionResult Problem(Error[] errors)
     {
-        if (errors.Length > 1)
-            return BadRequest(string.Join("\n", errors.AsEnumerable()));
-
-        return Problem(errors[0]);
+        return errors.Length > 1 
+            ? BadRequest(string.Join("\n", errors.AsEnumerable())) 
+            : Problem(errors[0]);
     }
 
     protected IActionResult Problem(Error error)
