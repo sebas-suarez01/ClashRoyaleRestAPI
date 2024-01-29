@@ -19,6 +19,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
 using System.Text;
+using ClashRoyaleRestAPI.Infrastructure.Repositories.Cached;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ClashRoyaleRestAPI.Infrastructure;
 
@@ -30,6 +32,8 @@ public static class DependencyInjection
 
         services.AddPersistance(configuration);
 
+        services.AddMemoryCache();
+        
         services.AddScopeds();
 
         services.AddQuartz(configure =>
@@ -90,7 +94,13 @@ public static class DependencyInjection
     public static IServiceCollection AddScopeds(this IServiceCollection services)
     {
         services.AddScoped<ICardRepository, CardRepository>();
-        services.AddScoped<IPlayerRepository, PlayerRepository>();
+        services.AddScoped<PlayerRepository>();
+        services.AddScoped<IPlayerRepository>(provider =>
+        {
+            var playerRepository = provider.GetService<PlayerRepository>()!;
+
+            return new CachedPlayerRepository(playerRepository, provider.GetService<IMemoryCache>()!);
+        });
         services.AddScoped<IBattleRepository, BattleRepository>();
         services.AddScoped<IClanRepository, ClanRepository>();
         services.AddScoped<IWarRepository, WarRepository>();
