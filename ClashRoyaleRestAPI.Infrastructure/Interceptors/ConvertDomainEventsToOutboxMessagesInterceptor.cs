@@ -46,6 +46,7 @@ internal class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInter
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All,
+                        ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
                     })
             })
             .ToList();

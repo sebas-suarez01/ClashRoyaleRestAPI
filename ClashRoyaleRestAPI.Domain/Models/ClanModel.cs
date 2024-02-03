@@ -8,9 +8,12 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class ClanModel : Entity<ClanId>
 {
+    private ClanModel(Guid id)
+    {
+        Id = ValueObjectId.Create<ClanId>(id);
+    }
     private ClanModel()
     {
-        Id = ValueObjectId.CreateUnique<ClanId>();
     }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
@@ -26,7 +29,7 @@ public class ClanModel : Entity<ClanId>
     public static ClanModel Create(string name, string description, string region, bool isOpen,
          int trophiesInWar, int minTrophies)
     {
-        var clan = new ClanModel
+        var clan = new ClanModel(Guid.NewGuid())
         {
             Name = name,
             Description = description,

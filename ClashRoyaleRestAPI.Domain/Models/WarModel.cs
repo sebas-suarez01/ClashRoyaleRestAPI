@@ -6,15 +6,18 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class WarModel : Entity<WarId>
 {
+    private WarModel(Guid id)
+    {
+        Id = ValueObjectId.Create<WarId>(id);
+    }
     private WarModel() 
     {
-        Id = ValueObjectId.CreateUnique<WarId>();
     }
     public DateTime StartDate { get; private set; }
 
     public static WarModel Create(DateTime start)
     {
-        var war = new WarModel()
+        var war = new WarModel(Guid.NewGuid())
         {
             StartDate = start,
         };

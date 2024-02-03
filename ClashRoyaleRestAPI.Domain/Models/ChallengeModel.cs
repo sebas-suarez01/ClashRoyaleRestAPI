@@ -6,9 +6,12 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class ChallengeModel : Entity<ChallengeId>
 {
+    private ChallengeModel(Guid id)
+    {
+        Id = ValueObjectId.Create<ChallengeId>(id);
+    }
     private ChallengeModel()
     {
-        Id = ValueObjectId.CreateUnique<ChallengeId>();
     }
     public string? Name { get; private set; }
     public string? Description { get; private set; }
@@ -30,7 +33,7 @@ public class ChallengeModel : Entity<ChallengeId>
                                         int minLevel,
                                         int lossLimit)
     {
-        var challenge = new ChallengeModel()
+        var challenge = new ChallengeModel(Guid.NewGuid())
         {
             Name = name,
             Description = description,

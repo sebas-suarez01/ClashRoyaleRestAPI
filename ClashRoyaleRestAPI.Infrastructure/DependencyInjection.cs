@@ -57,13 +57,13 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
+    private static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var JwtSettings = new JwtSettings();
-        configuration.Bind(JwtSettings.SectionName, JwtSettings);
+        var jwtSettings = new JwtSettings();
+        configuration.Bind(JwtSettings.SectionName, jwtSettings);
 
 
-        services.AddSingleton(Options.Create(JwtSettings));
+        services.AddSingleton(Options.Create(jwtSettings));
 
         services.AddAuthentication(options =>
             {
@@ -82,16 +82,16 @@ public static class DependencyInjection
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = JwtSettings.Issuer,
-                    ValidAudience = JwtSettings.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.SecretKey))
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
                 };
             });
 
         return services;
     }
 
-    public static IServiceCollection AddScopeds(this IServiceCollection services)
+    private static IServiceCollection AddScopeds(this IServiceCollection services)
     {
         services.AddScoped<ICardRepository, CardRepository>();
         services.AddScoped<PlayerRepository>();
@@ -119,7 +119,7 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddPersistance(this IServiceCollection services, ConfigurationManager configuration)
+    private static IServiceCollection AddPersistance(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddIdentity();
 
@@ -133,7 +133,7 @@ public static class DependencyInjection
             var convertDomainEventsInterceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
             optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName))
-                            .AddInterceptors(updateAuditableInterceptor, convertDomainEventsInterceptor);
+                            .AddInterceptors(updateAuditableInterceptor!, convertDomainEventsInterceptor!);
 
             optionsBuilder.UseTriggers(triggerOpt =>
             {
@@ -147,7 +147,7 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddIdentity(this IServiceCollection services)
+    private static IServiceCollection AddIdentity(this IServiceCollection services)
     {
         services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ClashRoyaleDbContext>()

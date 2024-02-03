@@ -42,7 +42,7 @@ internal class CachedPlayerRepository : IPlayerRepository
             key,
             entry =>
             {
-                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
+                entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(10));
 
                 return  _decorated.GetSingleByIdAsync(id, specification);
             })!;

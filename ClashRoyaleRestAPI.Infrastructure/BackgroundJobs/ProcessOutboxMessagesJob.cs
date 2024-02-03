@@ -35,6 +35,7 @@ public class ProcessOutboxMessagesJob : IJob
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All,
+                        ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
                     });
 
             if (domainEvent is null)

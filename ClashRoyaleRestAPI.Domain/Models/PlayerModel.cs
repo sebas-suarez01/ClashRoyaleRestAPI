@@ -8,9 +8,12 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class PlayerModel : Entity<PlayerId>
 {
+    private PlayerModel(Guid id)
+    {
+        Id = ValueObjectId.Create<PlayerId>(id);
+    }
     private PlayerModel()
     {
-        Id = ValueObjectId.CreateUnique<PlayerId>();
     }
     public string? Alias { get; private set; }
     public int Elo { get; private set; }
@@ -25,7 +28,7 @@ public class PlayerModel : Entity<PlayerId>
 
     public static PlayerModel Create(string alias, int elo, int level)
     {
-        var player = new PlayerModel
+        var player = new PlayerModel(Guid.NewGuid())
         {
             Alias = alias,
             Elo = elo,

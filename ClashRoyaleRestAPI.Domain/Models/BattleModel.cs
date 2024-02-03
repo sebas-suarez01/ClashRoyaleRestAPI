@@ -6,9 +6,12 @@ namespace ClashRoyaleRestAPI.Domain.Models;
 
 public class BattleModel : Entity<BattleId>
 {
+    private BattleModel(Guid id)
+    {
+        Id = ValueObjectId.Create<BattleId>(id);
+    }
     private BattleModel()
     {
-        Id = ValueObjectId.CreateUnique<BattleId>();
     }
     public int AmountTrophies { get; private set; }
     public PlayerModel? Winner { get; private set; }
@@ -22,7 +25,7 @@ public class BattleModel : Entity<BattleId>
                                      int durationInSeconds,
                                      DateTime date)
     {
-        var battle = new BattleModel
+        var battle = new BattleModel(Guid.NewGuid())
         {
             AmountTrophies = amountTrophies,
             Winner = winner,
