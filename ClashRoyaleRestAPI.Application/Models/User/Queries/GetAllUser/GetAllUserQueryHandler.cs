@@ -1,6 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Shared;
 

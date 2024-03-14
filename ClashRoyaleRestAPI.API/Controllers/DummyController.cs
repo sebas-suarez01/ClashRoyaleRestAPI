@@ -1,8 +1,6 @@
 using ClashRoyaleRestAPI.API.Common.Requests;
-using ClashRoyaleRestAPI.API.Controllers;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Models.Battle;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.AddModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddClan;
 using ClashRoyaleRestAPI.Application.Models.Clan.Commands.AddPlayerClan;
@@ -17,7 +15,7 @@ using ClashRoyaleRestAPI.Infrastructure.Persistance;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClashRoyaleClanWarsAPI.API.Controllers;
+namespace ClashRoyaleRestAPI.API.Controllers;
 
 [Route("api/dummy")]
 public class DummyController : ApiController

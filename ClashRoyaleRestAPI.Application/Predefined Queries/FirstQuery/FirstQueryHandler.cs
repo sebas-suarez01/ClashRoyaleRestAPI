@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Predefined_Queries.FirstQuery;

@@ -1,8 +1,9 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetAllModel;
 
 public class GetAllModelQueryHandler<TModel, UId> : IQueryHandler<GetAllModelQuery<TModel, UId>, PageList<TModel>>
     where TModel : class, IEntity<UId>

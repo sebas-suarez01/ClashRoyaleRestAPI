@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.API.Common.Requests;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.AddModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Models.Challenge.Queries.GetAllOpen;
 using ClashRoyaleRestAPI.Domain.Errors;
 using ClashRoyaleRestAPI.Domain.Models;

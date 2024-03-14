@@ -1,6 +1,6 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Auth.Utils;
 using ClashRoyaleRestAPI.Application.Models.User.Commands.UpdateRole;
 using ClashRoyaleRestAPI.Application.Models.User.Queries.GetUserByName;

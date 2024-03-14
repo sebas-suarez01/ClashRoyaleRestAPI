@@ -1,9 +1,9 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces;
-using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
+namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.DeleteModel;
 
 public class DeleteModelCommandHandler<TModel, UId> : ICommandHandler<DeleteModelCommand<TModel, UId>>
     where TModel : class, IEntity<UId>

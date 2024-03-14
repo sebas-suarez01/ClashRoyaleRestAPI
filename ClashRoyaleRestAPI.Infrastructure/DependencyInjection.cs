@@ -19,6 +19,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Quartz;
 using System.Text;
+using ClashRoyaleRestAPI.Application.Abstractions.Caching;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Cached;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -47,7 +48,7 @@ public static class DependencyInjection
                         trigger.ForJob(jobKey)
                                 .WithSimpleSchedule(
                                     schedule =>
-                                        schedule.WithIntervalInSeconds(60)
+                                        schedule.WithIntervalInMinutes(5)
                                             .RepeatForever()));
 
         });
@@ -112,6 +113,8 @@ public static class DependencyInjection
 
         services.AddScoped<IPredefinedQueries, PredefinedQuery>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddSingleton<ICacheService, CacheService>();
 
         //Important circular reference
         services.AddTransient(typeof(Lazy<>), typeof(LazilyResolved<>));

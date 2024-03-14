@@ -1,6 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Auth.Response;
 using ClashRoyaleRestAPI.Application.Interfaces.Auth;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Shared;
 
 namespace ClashRoyaleRestAPI.Application.Auth.Account.Commands.RegisterUser

@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.UpdateModel;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;

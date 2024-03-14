@@ -6,7 +6,7 @@ using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 using MediatR.Pipeline;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
+namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.ExceptionHandlers;
 
 public class RequestExceptionHandler<TRequest, TResponse, UId> : IRequestExceptionHandler<TRequest, Result<TResponse>, Exception>
     where TRequest : IRequest<Result<TResponse>>

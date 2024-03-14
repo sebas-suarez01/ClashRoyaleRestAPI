@@ -1,9 +1,9 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces;
-using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
+namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.UpdateModel;
 
 public class UpdateModelCommandHandler<TModel, UId> : ICommandHandler<UpdateModelCommand<TModel, UId>>
     where TModel : class, IEntity<UId>

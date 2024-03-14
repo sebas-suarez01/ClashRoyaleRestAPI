@@ -1,5 +1,6 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Application.Specifications.Models.Battle;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;

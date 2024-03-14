@@ -1,7 +1,7 @@
 ﻿using ClashRoyaleRestAPI.Domain.Shared;
 using MediatR;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS
+namespace ClashRoyaleRestAPI.Application.Messaging
 {
     public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result>
         where TCommand : ICommand

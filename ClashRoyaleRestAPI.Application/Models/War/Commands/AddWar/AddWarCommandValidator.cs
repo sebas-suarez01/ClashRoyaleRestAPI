@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.AddModel;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 using FluentValidation;

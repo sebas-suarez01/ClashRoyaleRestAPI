@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.ExceptionHandlers;
 using ClashRoyaleRestAPI.Application.Models.Battle.Command.AddBattle;
 
 namespace ClashRoyaleRestAPI.Application.Models.Battle.ExceptionHandlers;

@@ -1,8 +1,8 @@
 ﻿using ClashRoyaleRestAPI.API.Common.Requests;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.DeleteModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.UpdateModel;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetAllModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.AddModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.DeleteModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.UpdateModel;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetAllModel;
 using ClashRoyaleRestAPI.Application.Abstractions.PageQuery;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddCard;
 using ClashRoyaleRestAPI.Application.Models.Player.Commands.AddDonation;

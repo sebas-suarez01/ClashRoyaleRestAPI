@@ -1,5 +1,5 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
-using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.ExceptionHandlers;
+using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetModelById;
 using ClashRoyaleRestAPI.Domain.Models;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 

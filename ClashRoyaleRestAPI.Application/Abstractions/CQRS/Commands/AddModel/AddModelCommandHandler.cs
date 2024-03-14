@@ -1,9 +1,9 @@
-﻿using ClashRoyaleRestAPI.Application.Interfaces;
-using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+﻿using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Shared;
 
-namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Commands.AddModel;
+namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.Commands.AddModel;
 
 public class AddModelCommandHandler<TModel, UId> : ICommandHandler<AddModelCommand<TModel, UId>, UId>
     where TModel : class, IEntity<UId>

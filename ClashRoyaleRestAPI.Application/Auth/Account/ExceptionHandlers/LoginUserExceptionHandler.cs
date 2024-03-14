@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.ExceptionHandlers;
 using ClashRoyaleRestAPI.Application.Auth.Account.Queries.LoginUser;
 using ClashRoyaleRestAPI.Application.Auth.Response;
 

@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.Queries.GetModelById;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Queries.GetModelById;
 using ClashRoyaleRestAPI.Application.Predefined_Queries.FifthQuery;
 using ClashRoyaleRestAPI.Application.Predefined_Queries.FirstQuery;
 using ClashRoyaleRestAPI.Application.Predefined_Queries.FourthQuery;

@@ -1,4 +1,5 @@
 ﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS;
+using ClashRoyaleRestAPI.Application.Messaging;
 using ClashRoyaleRestAPI.Domain.Models.Card;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;
 

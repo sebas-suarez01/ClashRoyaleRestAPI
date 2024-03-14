@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using ClashRoyaleRestAPI.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance;

@@ -1,4 +1,4 @@
-﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.Generic.ExceptionHandlers;
+﻿using ClashRoyaleRestAPI.Application.Abstractions.CQRS.ExceptionHandlers;
 using ClashRoyaleRestAPI.Application.Behaviors;
 using FluentValidation;
 using MediatR;
@@ -18,6 +18,8 @@ public static class DependencyInjection
         
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>)); 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(QueryCachingBehavior<,>));
+
         
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
         
