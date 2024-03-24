@@ -10,6 +10,6 @@ public record GetAllModelQuery<TModel, UId>(
     int PageSize = 10) : ICachedQuery<PageList<TModel>>
     where TModel : IEntity<UId>
 {
-    public string CacheKey => $"{typeof(TModel)}-all";
+    public string CacheKey => $"{typeof(TModel)}-all-{Page}-{PageSize}";
     public TimeSpan? Expiration => null;
 }
