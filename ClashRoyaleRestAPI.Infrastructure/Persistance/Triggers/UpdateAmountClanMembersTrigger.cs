@@ -1,16 +1,17 @@
 ﻿using ClashRoyaleRestAPI.Application.Interfaces;
 using ClashRoyaleRestAPI.Application.Interfaces.Repositories;
 using ClashRoyaleRestAPI.Domain.Relationships;
+using ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 using EntityFrameworkCore.Triggered;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Persistance.Triggers;
 
 public class UpdateAmountClanMembersTrigger : IAfterSaveTrigger<ClanPlayersModel>
 {
-    private readonly IClanRepository _clanRepository;
+    private readonly ClanRepository _clanRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateAmountClanMembersTrigger(IClanRepository clanRepository, IUnitOfWork unitOfWork)
+    public UpdateAmountClanMembersTrigger(ClanRepository clanRepository, IUnitOfWork unitOfWork)
     {
         _clanRepository = clanRepository;
         _unitOfWork = unitOfWork;

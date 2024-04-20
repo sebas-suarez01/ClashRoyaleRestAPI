@@ -1,4 +1,5 @@
-﻿using ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
+﻿using System.Text.Json.Serialization;
+using ClashRoyaleRestAPI.Domain.DomainEvents.ClanDomainEvents;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Primitives;
 using ClashRoyaleRestAPI.Domain.Primitives.ValueObjects;

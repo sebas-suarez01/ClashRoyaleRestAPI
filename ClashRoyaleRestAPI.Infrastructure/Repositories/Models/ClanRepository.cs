@@ -14,7 +14,7 @@ using System.Linq.Expressions;
 
 namespace ClashRoyaleRestAPI.Infrastructure.Repositories.Models;
 
-internal class ClanRepository : BaseRepository<ClanModel, ClanId>, IClanRepository
+public class ClanRepository : BaseRepository<ClanModel, ClanId>, IClanRepository
 {
     private readonly IPlayerRepository _playerRepository;
 

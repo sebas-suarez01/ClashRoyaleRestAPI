@@ -28,7 +28,7 @@ internal class CachedPlayerRepository : IPlayerRepository
             key,
             entry =>
             {
-                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
+                entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(3));
 
                 return  _decorated.GetSingleByIdAsync(id);
             })!;
@@ -56,7 +56,7 @@ internal class CachedPlayerRepository : IPlayerRepository
             key,
             entry =>
             {
-                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
+                entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
 
                 return  _decorated.GetAllAsync(sortOrder, page, pageSize);
             })!;

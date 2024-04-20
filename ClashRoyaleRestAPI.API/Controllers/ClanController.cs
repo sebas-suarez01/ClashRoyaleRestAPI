@@ -10,6 +10,7 @@ using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanByName;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllClanWithRequirements;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetAllPlayers;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanAvailables;
+using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanById;
 using ClashRoyaleRestAPI.Application.Models.Clan.Queries.GetClanByIdWithIncludes;
 using ClashRoyaleRestAPI.Domain.Enum;
 using ClashRoyaleRestAPI.Domain.Errors;
@@ -62,7 +63,20 @@ public class ClanController : ApiController
 
         return Ok(result.Value);
     }
+    
+    // GET api/clans/single/{id:Guid}
+    [HttpGet("single/{id:Guid}")]
+    public async Task<IActionResult> GetSingle(Guid id)
+    {
+        var clanId = ValueObjectId.Create<ClanId>(id);
 
+        var query = new GetClanByIdQuery(clanId);
+
+        var result = await _sender.Send(query);
+
+        return result.IsSuccess ? Ok(result.Value) : Problem(result.Errors);
+    }
+    
     // GET api/clans/{id:Guid}
     [HttpGet("{id:Guid}")]
     public async Task<IActionResult> Get(Guid id)

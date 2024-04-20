@@ -12,14 +12,14 @@ public class UpdateAuditableEntitiesInterceptor: SaveChangesInterceptor
         InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
-        DbContext context = eventData.Context;
+        var context = eventData.Context;
 
         if(context is null)
         {
             return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
 
-        IEnumerable<EntityEntry<IAuditableEntity>> entries = context
+        var entries = context
             .ChangeTracker
             .Entries<IAuditableEntity>();
 

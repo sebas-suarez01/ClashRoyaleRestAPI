@@ -2,6 +2,7 @@ using ClashRoyaleRestAPI.Application;
 using ClashRoyaleRestAPI.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 {

@@ -21,6 +21,7 @@ using Quartz;
 using System.Text;
 using ClashRoyaleRestAPI.Application.Abstractions.Caching;
 using ClashRoyaleRestAPI.Infrastructure.Repositories.Cached;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ClashRoyaleRestAPI.Infrastructure;
@@ -34,6 +35,13 @@ public static class DependencyInjection
         services.AddPersistance(configuration);
 
         services.AddMemoryCache();
+
+        services.AddStackExchangeRedisCache(redisOptions =>
+        {
+            string connection = configuration.GetConnectionString("Redis")!;
+
+            redisOptions.Configuration = connection;
+        });
         
         services.AddScopeds();
 
@@ -103,7 +111,13 @@ public static class DependencyInjection
             return new CachedPlayerRepository(playerRepository, provider.GetService<IMemoryCache>()!);
         });
         services.AddScoped<IBattleRepository, BattleRepository>();
-        services.AddScoped<IClanRepository, ClanRepository>();
+        services.AddScoped<ClanRepository>();
+        services.AddScoped<IClanRepository>(provider =>
+        {
+            var clanRepository = provider.GetService<ClanRepository>()!;
+
+            return new CachedClanRepository(clanRepository, provider.GetService<IDistributedCache>()!);
+        });
         services.AddScoped<IWarRepository, WarRepository>();
         services.AddScoped<IChallengeRepository, ChallengeRepository>();
 
