@@ -1,8 +1,9 @@
+using ClashRoyaleRestAPI.API.Extensions;
 using ClashRoyaleRestAPI.Application;
 using ClashRoyaleRestAPI.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Newtonsoft.Json;
+
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -44,6 +45,7 @@ var app = builder.Build();
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        app.ApplyMigrations();
     }
 
     app.UseCors("NewPolicy");

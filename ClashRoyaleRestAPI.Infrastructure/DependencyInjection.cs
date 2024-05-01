@@ -48,7 +48,7 @@ public static class DependencyInjection
         services.AddQuartz(configure =>
         {
             var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
-
+        
             configure
                 .AddJob<ProcessOutboxMessagesJob>(jobKey)
                 .AddTrigger(
@@ -58,9 +58,9 @@ public static class DependencyInjection
                                     schedule =>
                                         schedule.WithIntervalInMinutes(5)
                                             .RepeatForever()));
-
+        
         });
-
+        
         services.AddQuartzHostedService();
 
         return services;
@@ -151,7 +151,7 @@ public static class DependencyInjection
 
             optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName))
                             .AddInterceptors(updateAuditableInterceptor!, convertDomainEventsInterceptor!);
-
+            
             optionsBuilder.UseTriggers(triggerOpt =>
             {
                 triggerOpt.AddTrigger<UpdateMaxEloInsertPlayerTrigger>();

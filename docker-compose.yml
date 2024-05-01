@@ -1,0 +1,47 @@
+﻿version: '3.4'
+
+networks:
+  clashroyaleapp:
+
+services:
+  clashroyalerestapi:
+    image: clashroyalerestapi:latest
+    container_name: clashroyalerestapi
+    build:
+      context: .
+      dockerfile: ClashRoyaleRestAPI.API/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:8000
+      - ASPNETCORE_ENVIRONMENT= Development
+      - ASPNETCORE_HTTP_PORTS= 8000
+      - ASPNETCORE_HTTPS_PORTS= 5001
+    ports:
+      - "8000:80"
+      - "5001:443"
+    depends_on: 
+      - clashroyalerestapi.database
+      - clashroyalerestapi.cache
+    networks: 
+      - clashroyaleapp
+
+  clashroyalerestapi.database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: clashroyalerestapi.db
+    ports:
+      - "5000:1433"
+    environment:
+      SA_PASSWORD: "YourStrongPassword!01"
+      ACCEPT_EULA: "Y"
+    networks:
+      - clashroyaleapp
+    volumes:
+      - ./.containers/database:/var/opt/mssql
+  
+  clashroyalerestapi.cache:
+    image: redis:latest
+    container_name: clashroyalerestapi.cache
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - clashroyaleapp

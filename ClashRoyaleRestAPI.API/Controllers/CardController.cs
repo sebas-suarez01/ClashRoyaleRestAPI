@@ -24,7 +24,7 @@ public class CardController : ApiController
         _mapper = mapper;
     }
 
-    // GET api/cards/{id:int}
+    // GET api/cards/{id:int:min(1)}
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id)
     {
