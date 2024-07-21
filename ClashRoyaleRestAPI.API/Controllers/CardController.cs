@@ -25,7 +25,7 @@ public class CardController : ApiController
     }
 
     // GET api/cards/{id:int:min(1)}
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int:min(1)}")]
     public async Task<IActionResult> Get(int id)
     {
         var query = new GetModelByIdQuery<CardModel, int>(id);

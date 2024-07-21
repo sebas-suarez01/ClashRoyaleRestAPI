@@ -8,6 +8,7 @@ using MediatR.Pipeline;
 
 namespace ClashRoyaleRestAPI.Application.Abstractions.CQRS.ExceptionHandlers;
 
+
 public class RequestExceptionHandler<TRequest, TResponse, UId> : IRequestExceptionHandler<TRequest, Result<TResponse>, Exception>
     where TRequest : IRequest<Result<TResponse>>
 {
