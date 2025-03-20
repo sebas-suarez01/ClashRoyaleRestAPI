@@ -45,6 +45,13 @@ public static class DependencyInjection
         
         services.AddScopeds();
 
+        services.AddQuartzConfiguration();
+
+        return services;
+    }
+
+    private static IServiceCollection AddQuartzConfiguration(this IServiceCollection services)
+    {
         services.AddQuartz(configure =>
         {
             var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
@@ -54,15 +61,15 @@ public static class DependencyInjection
                 .AddTrigger(
                     trigger =>
                         trigger.ForJob(jobKey)
-                                .WithSimpleSchedule(
-                                    schedule =>
-                                        schedule.WithIntervalInMinutes(5)
-                                            .RepeatForever()));
+                            .WithSimpleSchedule(
+                                schedule =>
+                                    schedule.WithIntervalInMinutes(5)
+                                        .RepeatForever()));
         
         });
         
         services.AddQuartzHostedService();
-
+        
         return services;
     }
 
@@ -149,7 +156,7 @@ public static class DependencyInjection
             var updateAuditableInterceptor = sp.GetService<UpdateAuditableEntitiesInterceptor>();
             var convertDomainEventsInterceptor = sp.GetService<ConvertDomainEventsToOutboxMessagesInterceptor>();
 
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbSettings.ConnectionDbName))
+            optionsBuilder.UseNpgsql(configuration.GetConnectionString(DbSettings.ConnectionDbName))
                             .AddInterceptors(updateAuditableInterceptor!, convertDomainEventsInterceptor!);
             
             optionsBuilder.UseTriggers(triggerOpt =>

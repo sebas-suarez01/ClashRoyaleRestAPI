@@ -221,7 +221,7 @@ public class PlayerController : ApiController
                                              clanIdInstance,
                                              addDonationRequest.CardId,
                                              addDonationRequest.Amount,
-                                             DateTime.Now);
+                                             DateTime.UtcNow);
 
         var result = await _sender.Send(command);
 

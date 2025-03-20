@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -17,28 +18,28 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Cards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Elixir = table.Column<int>(type: "int", nullable: false),
-                    Quality = table.Column<int>(type: "int", nullable: false),
-                    Damage = table.Column<int>(type: "int", nullable: false),
-                    AreaDamage = table.Column<bool>(type: "bit", nullable: false),
-                    Target = table.Column<int>(type: "int", nullable: false),
-                    InitialLevel = table.Column<int>(type: "int", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Elixir = table.Column<int>(type: "integer", nullable: false),
+                    Quality = table.Column<int>(type: "integer", nullable: false),
+                    Damage = table.Column<int>(type: "integer", nullable: false),
+                    AreaDamage = table.Column<bool>(type: "boolean", nullable: false),
+                    Target = table.Column<int>(type: "integer", nullable: false),
+                    InitialLevel = table.Column<int>(type: "integer", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
                     Radius = table.Column<float>(type: "real", nullable: true),
-                    TowerDamage = table.Column<int>(type: "int", nullable: true),
-                    LifeTime = table.Column<int>(type: "int", nullable: true),
-                    HitPoints = table.Column<int>(type: "int", nullable: true),
+                    TowerDamage = table.Column<int>(type: "integer", nullable: true),
+                    LifeTime = table.Column<int>(type: "integer", nullable: true),
+                    HitPoints = table.Column<int>(type: "integer", nullable: true),
                     HitSpeed = table.Column<float>(type: "real", nullable: true),
                     Range = table.Column<float>(type: "real", nullable: true),
-                    Amount = table.Column<int>(type: "int", nullable: true),
-                    Speed = table.Column<int>(type: "int", nullable: true),
-                    Transport = table.Column<int>(type: "int", nullable: true),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Amount = table.Column<int>(type: "integer", nullable: true),
+                    Speed = table.Column<int>(type: "integer", nullable: true),
+                    Transport = table.Column<int>(type: "integer", nullable: true),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,18 +50,18 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Challenges",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cost = table.Column<int>(type: "int", nullable: false),
-                    AmountReward = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DurationInHours = table.Column<int>(type: "int", nullable: false),
-                    IsOpen = table.Column<bool>(type: "bit", nullable: false),
-                    MinLevel = table.Column<int>(type: "int", nullable: false),
-                    LossLimit = table.Column<int>(type: "int", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Cost = table.Column<int>(type: "integer", nullable: false),
+                    AmountReward = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DurationInHours = table.Column<int>(type: "integer", nullable: false),
+                    IsOpen = table.Column<bool>(type: "boolean", nullable: false),
+                    MinLevel = table.Column<int>(type: "integer", nullable: false),
+                    LossLimit = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,16 +72,16 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Clans",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Region = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    TypeOpen = table.Column<bool>(type: "bit", nullable: false),
-                    AmountMembers = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    TrophiesInWar = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    MinTrophies = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Region = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    TypeOpen = table.Column<bool>(type: "boolean", nullable: false),
+                    AmountMembers = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    TrophiesInWar = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    MinTrophies = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,13 +89,29 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OutboxMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    OccurredOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ProcessedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Error = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OutboxMessages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,21 +122,21 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,10 +147,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Wars",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,16 +161,16 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Players",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Alias = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Elo = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    Level = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
-                    Victories = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CardAmount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    MaxElo = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    FavoriteCardId = table.Column<int>(type: "int", nullable: true),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Alias = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    Elo = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    Level = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    Victories = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    CardAmount = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    MaxElo = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    FavoriteCardId = table.Column<int>(type: "integer", nullable: true),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -169,11 +186,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "RoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,11 +207,11 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "UserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,10 +228,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "UserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,8 +248,8 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -255,10 +272,10 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "UserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -275,12 +292,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "ClanWars",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    WarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Prize = table.Column<int>(type: "int", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClanId = table.Column<Guid>(type: "uuid", nullable: true),
+                    WarId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Prize = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -301,14 +318,14 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Battles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AmountTrophies = table.Column<int>(type: "int", nullable: false),
-                    WinnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LoserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DurationInSeconds = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AmountTrophies = table.Column<int>(type: "integer", nullable: false),
+                    WinnerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LoserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DurationInSeconds = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -330,12 +347,12 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "ClanPlayers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Rank = table.Column<int>(type: "int", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClanId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PlayerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Rank = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -358,13 +375,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Collection",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CardId = table.Column<int>(type: "int", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CardId = table.Column<int>(type: "integer", nullable: false),
+                    Level = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -386,14 +403,14 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "Donations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ClanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CardId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ClanId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CardId = table.Column<int>(type: "integer", nullable: false),
+                    Amount = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -421,13 +438,13 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "PlayerChallenges",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ChallengeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PrizeAmount = table.Column<int>(type: "int", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOnUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PlayerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ChallengeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PrizeAmount = table.Column<int>(type: "integer", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOnUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -575,6 +592,26 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                     { 109, false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "Building capable of burrowing underground and appearing anywhere in the Arena. Spawns Goblins one at a time until destroyed.", 4, 900, 0f, "https://api-assets.clashroyale.com/cards/300/eN2TKUYbih-26yBi0xy5LVFOA0zDftgDqxxnVfdIg1o.png", 6, 9, null, "Goblin Drill", 2, 2f, 0f, 4, 2 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "6c0323e9-817c-4d08-b0bc-90fbddf598ee", "5bff1bbe-f340-4c82-9586-2f0dcc1e73c0", "Admin", "ADMIN" },
+                    { "b82604fe-f635-478d-a1b9-07ee8a2ef13e", "bced0593-1c19-4305-8118-63fdd2f902fa", "SuperAdmin", "SUPERADMIN" },
+                    { "e58b0a8c-8656-463d-8e43-de571a5394ca", "7f8b6799-7075-4b2a-9f19-edb6c5c0610e", "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e", 0, "2138f6e3-9d68-4a9e-8f2e-986af2b353ea", null, false, false, null, null, "SUPERADMIN", "AQAAAAIAAYagAAAAELRzkALUVsyNHEmvEHBPEri/27RoeuFMYMhcUntX4QRx0exOQnZd9yAfZlPLGdz0+Q==", null, false, "af67f1dc-74f1-41bf-84c5-4f91596cc6aa", false, "superadmin" });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "b82604fe-f635-478d-a1b9-07ee8a2ef13e", "0e2abdea-6c7f-45f6-95f7-2a1bcb80762e" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Battles_LoserId",
                 table: "Battles",
@@ -655,8 +692,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "RoleNameIndex",
                 table: "Roles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -682,8 +718,7 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -703,6 +738,9 @@ namespace ClashRoyaleRestAPI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Donations");
+
+            migrationBuilder.DropTable(
+                name: "OutboxMessages");
 
             migrationBuilder.DropTable(
                 name: "PlayerChallenges");

@@ -23,19 +23,18 @@ services:
       - clashroyalerestapi.cache
     networks: 
       - clashroyaleapp
-
+  
   clashroyalerestapi.database:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgres:16
     container_name: clashroyalerestapi.db
-    ports:
-      - "5000:1433"
     environment:
-      SA_PASSWORD: "YourStrongPassword!01"
-      ACCEPT_EULA: "Y"
+      POSTGRES_USER: "clashroyalerestapi"
+      POSTGRES_PASSWORD: "clashroyalerestapi"
+      POSTGRES_DB: "clashroyalerestapi_db"
+    volumes:
+      - ./.containers/clashroyalerestapi-db:/var/lib/postgresql/data
     networks:
       - clashroyaleapp
-    volumes:
-      - ./.containers/database:/var/opt/mssql
   
   clashroyalerestapi.cache:
     image: redis:latest
