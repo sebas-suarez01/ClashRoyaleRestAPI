@@ -27,7 +27,7 @@ public class RequestExceptionHandler<TRequest, TResponse, UId> : IRequestExcepti
             state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.DuplicateUsername()));
 
         else if (exception as UserCreationException is not null)
-            state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.InvalidCredentials()));
+            state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.InvalidPasswordRegister(exception.Message)));
 
         else if (exception as UsernameNotFoundException is not null)
             state.SetHandled(Result.Failure<TResponse>(ErrorTypes.Auth.UsernameNotFound()));

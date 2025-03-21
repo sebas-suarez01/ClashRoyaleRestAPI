@@ -67,7 +67,7 @@ internal sealed class AccountRepository : IAccountRepository
         var result = await _userManager.CreateAsync(user, password);
 
         if (!result.Succeeded)
-            throw new UserCreationException();
+            throw new UserCreationException(string.Join(",", result.Errors.Select(e=> e.Description)));
 
         if (await _roleManager.RoleExistsAsync(role))
             await _userManager.AddToRoleAsync(user, role);

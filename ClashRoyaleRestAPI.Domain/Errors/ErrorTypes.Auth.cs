@@ -19,6 +19,10 @@ public static partial class ErrorTypes
                 HttpStatusCode.BadRequest,
                 ErrorCode.InvalidCredentials,
                 "InvalidCredentials");
+        public static Error InvalidPasswordRegister(string message) => new(
+                HttpStatusCode.BadRequest,
+                ErrorCode.InvalidPasswordRegister,
+                message);
         public static Error InvalidPassword() => new(
                 HttpStatusCode.BadRequest,
                 ErrorCode.InvalidPassword,

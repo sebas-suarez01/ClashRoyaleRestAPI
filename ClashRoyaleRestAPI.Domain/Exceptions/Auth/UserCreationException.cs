@@ -2,6 +2,6 @@
 
 public class UserCreationException : Exception
 {
-    public UserCreationException() : base("Something has occured")
+    public UserCreationException(string message) : base(message)
     { }
 }

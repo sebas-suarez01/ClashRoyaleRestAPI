@@ -45,7 +45,7 @@ public static class DependencyInjection
         
         services.AddScopeds();
 
-        services.AddQuartzConfiguration();
+        //services.AddQuartzConfiguration();
 
         return services;
     }
